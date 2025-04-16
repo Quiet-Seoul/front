@@ -1,7 +1,7 @@
 import React from "react";
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, TouchableOpacity } from "react-native";
 import type { PressableProps } from "react-native";
-import { Heading3 } from "../Text";
+import { Heading3 } from "../text/Text";
 import { Colors } from "@/constants/Colors";
 
 interface Props {

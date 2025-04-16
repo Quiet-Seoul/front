@@ -1,117 +1,239 @@
-import { View, Text, Button, StyleSheet } from "react-native";
-import { useRouter } from "expo-router";
-import {
-	Body1,
-	Body2,
-	Body3,
-	Body3C,
-	Body4,
-	Body5,
-	Caption1,
-	Caption2,
-	Caption3,
-	Heading1,
-	Heading2,
-	Heading3,
-	Heading4,
-} from "@/components/Text";
-import { PrimaryButton } from "@/components/buttons/PrimaryButton";
-import { SecondaryButton } from "@/components/buttons/SecondaryButton";
-import ChipButtonGroup, {
-	ChipButtonItem,
-} from "@/components/buttons/ChipButton";
-import { useCallback, useRef, useState } from "react";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { View, StyleSheet, Dimensions, Image, ScrollView } from "react-native";
+import HomeCarousel from "@/components/carousel/HomeCarousel";
+import React from "react";
+import CardL from "@/components/cards/CardL";
+import DoubleHighlightTitle from "@/components/title/DoubleHighlightTitle";
+import CardXL from "@/components/cards/CardXL";
+import Title from "@/components/title/Title";
+import { CardLItem, CardSItem, CardXLItem } from "@/types/card";
+import TypeChip from "@/components/chips/TypeChip";
+import CardS from "@/components/cards/CardS";
+import SingleHighlightTitle from "@/components/title/SingleHighlightTitle";
 
 export default function Landing() {
-	const router = useRouter();
-
-	const [selected, setSelected] = useState("gangnam");
-
-	// ref
-	const bottomSheetRef = useRef<BottomSheet>(null);
-
-	// callbacks
-	const handleSheetChanges = useCallback((index: number) => {
-		console.log("handleSheetChanges", index);
-	}, []);
-
 	return (
-		<View>
-			<Heading1>안녕하세요.</Heading1>
-			<Heading2>안녕하세요.</Heading2>
-			<Heading3>안녕하세요.</Heading3>
-			<Heading4>안녕하세요.</Heading4>
-			<Body1>안녕하세요.</Body1>
-			<Body2>안녕하세요.</Body2>
-			<Body3>안녕하세요.</Body3>
-			<Body3C>안녕하세요.</Body3C>
-			<Body4>안녕하세요.</Body4>
-			<Body5>안녕하세요.</Body5>
-			<Caption1>안녕하세요.</Caption1>
-			<Caption2>안녕하세요.</Caption2>
-			<Caption3>안녕하세요.</Caption3>
-			<View style={{ paddingVertical: 8, paddingHorizontal: 16 }}>
-				<PrimaryButton enabled onPress={() => alert("hello world!")}>
-					이동하기
-				</PrimaryButton>
-			</View>
-			<View style={{ paddingVertical: 8, paddingHorizontal: 16 }}>
-				<PrimaryButton
-					enabled={false}
-					onPress={() => alert("hello world!")}
+		<ScrollView style={{ width: "100%", height: "100%" }}>
+			<HomeCarousel items={carouselItems} />
+			<View
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					rowGap: 64,
+					paddingHorizontal: 16,
+					paddingVertical: 64,
+				}}
+			>
+				<View
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						rowGap: 16,
+					}}
 				>
-					이동하기
-				</PrimaryButton>
-			</View>
-			<View style={{ paddingVertical: 8, paddingHorizontal: 16 }}>
-				<SecondaryButton enabled onPress={() => alert("hello world!")}>
-					이동하기
-				</SecondaryButton>
-			</View>
-			<View style={{ paddingVertical: 8, paddingHorizontal: 16 }}>
-				<SecondaryButton
-					enabled={false}
-					onPress={() => alert("hello world!")}
+					<DoubleHighlightTitle
+						text1="교대역"
+						text2="카페"
+						subText="*현재 위치 기반"
+					/>
+					<View
+						style={{
+							display: "flex",
+							flexDirection: "row",
+							columnGap: 8,
+						}}
+					>
+						{cardLItems.map((item, idx) => (
+							<CardL
+								key={idx}
+								text={item.text}
+								image={item.image}
+								rep={item.rep}
+								reviews={item.reviews}
+							/>
+						))}
+					</View>
+				</View>
+				<View
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						rowGap: 16,
+					}}
 				>
-					이동하기
-				</SecondaryButton>
+					<Title text="현재 한적한 지역 추천" />
+					<View
+						style={{
+							display: "flex",
+							flexDirection: "row",
+							columnGap: 8,
+						}}
+					>
+						{cardXLItems.map((item, idx) => (
+							<CardXL
+								key={idx}
+								text={item.text}
+								image={item.image}
+								subText={item.subText}
+								status={0}
+							/>
+						))}
+					</View>
+				</View>
+				<View
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						rowGap: 16,
+					}}
+				>
+					<SingleHighlightTitle
+						text1="사용자"
+						text2="기반 추천"
+						highlight="제보"
+					/>
+					<View
+						style={{
+							display: "flex",
+							flexDirection: "row",
+							columnGap: 8,
+						}}
+					>
+						{cardSItems.map((item, idx) => (
+							<CardS
+								key={idx}
+								type={item.type}
+								text={item.text}
+								rep={item.rep}
+								reviews={item.reviews}
+								distance={item.distance}
+								isFromUser
+							/>
+						))}
+					</View>
+				</View>
+				<View
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						rowGap: 16,
+					}}
+				>
+					<SingleHighlightTitle
+						text1="사용자"
+						text2="기반 추천"
+						highlight="후기"
+					/>
+					<View
+						style={{
+							display: "flex",
+							flexDirection: "row",
+							columnGap: 8,
+						}}
+					>
+						{cardSItems.map((item, idx) => (
+							<CardS
+								key={idx}
+								type={item.type}
+								text={item.text}
+								rep={item.rep}
+								reviews={item.reviews}
+								distance={item.distance}
+								isFromUser
+							/>
+						))}
+					</View>
+				</View>
 			</View>
-			<View>
-				<ChipButtonGroup selected={selected} onSelected={setSelected}>
-					<ChipButtonItem value="gangnam">강남구</ChipButtonItem>
-					<ChipButtonItem value="gangseo">강서구</ChipButtonItem>
-					<ChipButtonItem value="gangbuk" enabled={false}>
-						강북구
-					</ChipButtonItem>
-				</ChipButtonGroup>
-			</View>
-			<BottomSheet ref={bottomSheetRef} onChange={handleSheetChanges}>
-				<BottomSheetView style={styles.contentContainer}>
-					<Text>Awesome 🎉</Text>
-				</BottomSheetView>
-			</BottomSheet>
-			<Button
-				title="Bottom Sheet"
-				onPress={() => bottomSheetRef.current?.expand}
-			/>
-			<Button
-				title="메인으로 이동"
-				onPress={() => router.push("/places")}
-			/>
-		</View>
+		</ScrollView>
 	);
 }
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: "grey",
+const carouselItems = [
+	{
+		id: 1,
+		image: "https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/07/10/MIwt/5pXvYOvGAg.jpg",
+		location: "뉴욕",
+		description: "뉴욕은 정말 멋있어",
 	},
-	contentContainer: {
-		flex: 1,
-		padding: 36,
-		alignItems: "center",
+	{
+		id: 1,
+		image: "https://ko.skyticket.com/guide/wp-content/uploads/2024/11/f3b05a7e-shutterstock_2148766635-1200x675.jpg",
+		location: "몰디브",
+		description: "에메랄드 빛깔의 해변을 지닌 몰디브",
 	},
-});
+	{
+		id: 1,
+		image: "https://content.skyscnr.com/m/41acfff761f8ea1a/original/GettyImages-519763361.jpg?resize=1800px:1800px&quality=100",
+		location: "하와이",
+		description: "매일같이 무지개를 감상할 수 있는 하와이",
+	},
+];
+
+const cardLItems: Array<CardLItem> = [
+	{
+		text: "스타벅스 교대점",
+		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
+		rep: "good",
+		reviews: 19,
+	},
+	{
+		text: "스타벅스 교대점",
+		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
+		rep: "good",
+		reviews: 19,
+	},
+	{
+		text: "스타벅스 교대점",
+		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
+		rep: "good",
+		reviews: 19,
+	},
+];
+
+const cardXLItems: Array<CardXLItem> = [
+	{
+		text: "용산역",
+		image: "https://mediahub.seoul.go.kr/uploads/mediahub/2021/02/6ec15c54a93144dcad71b7e4894bebf5.jpg",
+		subText: "현재 1.8만 ~ 2.0만",
+		status: 0,
+	},
+	{
+		text: "용산역",
+		image: "https://mediahub.seoul.go.kr/uploads/mediahub/2021/02/6ec15c54a93144dcad71b7e4894bebf5.jpg",
+		subText: "현재 1.8만 ~ 2.0만",
+		status: 0,
+	},
+	{
+		text: "용산역",
+		image: "https://mediahub.seoul.go.kr/uploads/mediahub/2021/02/6ec15c54a93144dcad71b7e4894bebf5.jpg",
+		subText: "현재 1.8만 ~ 2.0만",
+		status: 0,
+	},
+];
+
+const cardSItems: Array<CardSItem> = [
+	{
+		text: "동작충효길",
+		type: "카페",
+		rep: "good",
+		reviews: 0,
+		isFromUser: true,
+		distance: 1.2,
+	},
+	{
+		text: "동작충효길",
+		type: "카페",
+		rep: "good",
+		reviews: 0,
+		isFromUser: true,
+		distance: 1.2,
+	},
+	{
+		text: "동작충효길",
+		type: "카페",
+		rep: "good",
+		reviews: 0,
+		isFromUser: true,
+		distance: 1.2,
+	},
+];

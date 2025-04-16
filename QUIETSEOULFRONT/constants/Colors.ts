@@ -27,4 +27,10 @@ export const Colors = {
 		800: "#347c4a",
 		900: "#285c37",
 	},
+	status: {
+		positive: "#00e676",
+		neutral: "#fbc02d",
+		negative: "#f58016",
+		veryNegative: "#ef5350",
+	},
 };
