@@ -39,7 +39,7 @@ const TypeChip = ({ type }: Props) => {
 				<RenderIcon />
 			</View>
 			<View>
-				<Body3 style={{ color: Colors.main[300] }}>{type}</Body3>
+				<Body3 color={Colors.main[300]}>{type}</Body3>
 			</View>
 		</View>
 	);

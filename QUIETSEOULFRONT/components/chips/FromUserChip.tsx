@@ -15,7 +15,7 @@ const FromUserChip = () => {
 				padding: 4,
 			}}
 		>
-			<Caption1 style={{ color: Colors.gray[500] }}>사용자 제보</Caption1>
+			<Caption1 color={Colors.gray[500]}>사용자 제보</Caption1>
 		</View>
 	);
 };

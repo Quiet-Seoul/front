@@ -6,7 +6,7 @@ import { useFonts } from "expo-font";
 import { Stack, useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { View } from "react-native";
+import { Pressable } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 
@@ -31,7 +31,7 @@ export default function RootLayout() {
 	}
 
 	return (
-		<GestureHandlerRootView style={{ flex: 1 }}>
+		<GestureHandlerRootView>
 			<BottomSheetModalProvider>
 				<Stack
 					screenOptions={{
@@ -39,32 +39,71 @@ export default function RootLayout() {
 						headerStyle: {
 							backgroundColor: Colors.main[700],
 						},
+						contentStyle: {
+							backgroundColor: Colors.white,
+						},
 					}}
 				>
 					<Stack.Screen
 						name="index"
 						options={{
 							headerTitle: () => (
-								<Heading2 style={{ color: Colors.white }}>
+								<Heading2 color={Colors.white}>
 									한적서울
 								</Heading2>
 							),
 							headerRight: () => (
-								<View onTouchEnd={() => router.push("/inform")}>
-									<Heading2 style={{ color: Colors.white }}>
+								<Pressable
+									onTouchEnd={() => router.push("/inform")}
+								>
+									<Heading2 color={Colors.white}>
 										📢 제보하기
 									</Heading2>
-								</View>
+								</Pressable>
 							),
 						}}
 					/>
 					<Stack.Screen
-						name="inform/index"
+						name="inform"
 						options={{
-							headerLeft: () => <ChevronLeft24 />,
+							headerLeft: () => (
+								<Pressable onTouchEnd={() => router.back()}>
+									<ChevronLeft24 />
+								</Pressable>
+							),
 							headerTitle: () => (
-								<Heading2 style={{ color: Colors.white }}>
+								<Heading2 color={Colors.white}>
 									제보하기
+								</Heading2>
+							),
+						}}
+					/>
+					<Stack.Screen
+						name="quietplaces"
+						options={{
+							headerLeft: () => (
+								<Pressable onTouchEnd={() => router.back()}>
+									<ChevronLeft24 />
+								</Pressable>
+							),
+							headerTitle: () => (
+								<Heading2 color={Colors.white}>
+									한적한 장소
+								</Heading2>
+							),
+						}}
+					/>
+					<Stack.Screen
+						name="cities"
+						options={{
+							headerLeft: () => (
+								<Pressable onTouchEnd={() => router.back()}>
+									<ChevronLeft24 />
+								</Pressable>
+							),
+							headerTitle: () => (
+								<Heading2 color={Colors.white}>
+									한적한 지역
 								</Heading2>
 							),
 						}}

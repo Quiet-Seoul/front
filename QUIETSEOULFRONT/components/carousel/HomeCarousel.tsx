@@ -69,10 +69,10 @@ const HomeCarousel = ({ items }: Props) => {
 									rowGap: 8,
 								}}
 							>
-								<Heading1 style={{ color: Colors.white }}>
+								<Heading1 color={Colors.white}>
 									{item.location}
 								</Heading1>
-								<Body3 style={{ color: Colors.white }}>
+								<Body3 color={Colors.white}>
 									{item.description}
 								</Body3>
 							</View>

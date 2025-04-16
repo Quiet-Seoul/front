@@ -1,4 +1,4 @@
-import { View, StyleSheet, Dimensions, Image, ScrollView } from "react-native";
+import { View, ScrollView } from "react-native";
 import HomeCarousel from "@/components/carousel/HomeCarousel";
 import React from "react";
 import CardL from "@/components/cards/CardL";
@@ -6,13 +6,13 @@ import DoubleHighlightTitle from "@/components/title/DoubleHighlightTitle";
 import CardXL from "@/components/cards/CardXL";
 import Title from "@/components/title/Title";
 import { CardLItem, CardSItem, CardXLItem } from "@/types/card";
-import TypeChip from "@/components/chips/TypeChip";
 import CardS from "@/components/cards/CardS";
 import SingleHighlightTitle from "@/components/title/SingleHighlightTitle";
+import { router } from "expo-router";
 
 export default function Landing() {
 	return (
-		<ScrollView style={{ width: "100%", height: "100%" }}>
+		<ScrollView>
 			<HomeCarousel items={carouselItems} />
 			<View
 				style={{
@@ -34,6 +34,7 @@ export default function Landing() {
 						text1="교대역"
 						text2="카페"
 						subText="*현재 위치 기반"
+						onTouchEnd={() => router.push("/quietplaces")}
 					/>
 					<View
 						style={{
@@ -60,7 +61,10 @@ export default function Landing() {
 						rowGap: 16,
 					}}
 				>
-					<Title text="현재 한적한 지역 추천" />
+					<Title
+						text="현재 한적한 지역 추천"
+						onTouchEnd={() => router.push("/cities")}
+					/>
 					<View
 						style={{
 							display: "flex",

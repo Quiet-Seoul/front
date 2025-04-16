@@ -1,62 +1,63 @@
 import React from "react";
 import { Text, StyleSheet } from "react-native";
 import type { StyleProp, TextStyle } from "react-native";
+import { ColorKeysUnion, Colors } from "@/constants/Colors";
 
 interface Props {
-	style?: StyleProp<TextStyle>;
 	children: React.ReactNode;
+	color?: string;
 }
 
-export function Heading1({ children, style }: Props) {
-	return <Text style={[styles.h1, style]}>{children}</Text>;
+export function Heading1({ children, color = Colors.gray[900] }: Props) {
+	return <Text style={[styles.h1, { color: color }]}>{children}</Text>;
 }
 
-export function Heading2({ children, style }: Props) {
-	return <Text style={[styles.h2, style]}>{children}</Text>;
+export function Heading2({ children, color = Colors.gray[900] }: Props) {
+	return <Text style={[styles.h2, { color: color }]}>{children}</Text>;
 }
 
-export function Heading3({ children, style }: Props) {
-	return <Text style={[styles.h3, style]}>{children}</Text>;
+export function Heading3({ children, color = Colors.gray[900] }: Props) {
+	return <Text style={[styles.h3, { color: color }]}>{children}</Text>;
 }
 
-export function Heading4({ children, style }: Props) {
-	return <Text style={[styles.h4, style]}>{children}</Text>;
+export function Heading4({ children, color = Colors.gray[900] }: Props) {
+	return <Text style={[styles.h4, { color: color }]}>{children}</Text>;
 }
 
-export function Body1({ children, style }: Props) {
-	return <Text style={[styles.b1, style]}>{children}</Text>;
+export function Body1({ children, color = Colors.gray[900] }: Props) {
+	return <Text style={[styles.b1, { color: color }]}>{children}</Text>;
 }
 
-export function Body2({ children, style }: Props) {
-	return <Text style={[styles.b2, style]}>{children}</Text>;
+export function Body2({ children, color = Colors.gray[900] }: Props) {
+	return <Text style={[styles.b2, { color: color }]}>{children}</Text>;
 }
 
-export function Body3({ children, style }: Props) {
-	return <Text style={[styles.b3, style]}>{children}</Text>;
+export function Body3({ children, color = Colors.gray[900] }: Props) {
+	return <Text style={[styles.b3, { color: color }]}>{children}</Text>;
 }
 
-export function Body3C({ children, style }: Props) {
-	return <Text style={[styles.b3c, style]}>{children}</Text>;
+export function Body3C({ children, color = Colors.gray[900] }: Props) {
+	return <Text style={[styles.b3c, { color: color }]}>{children}</Text>;
 }
 
-export function Body4({ children, style }: Props) {
-	return <Text style={[styles.b4, style]}>{children}</Text>;
+export function Body4({ children, color = Colors.gray[900] }: Props) {
+	return <Text style={[styles.b4, { color: color }]}>{children}</Text>;
 }
 
-export function Body5({ children, style }: Props) {
-	return <Text style={[styles.b5, style]}>{children}</Text>;
+export function Body5({ children, color = Colors.gray[900] }: Props) {
+	return <Text style={[styles.b5, { color: color }]}>{children}</Text>;
 }
 
-export function Caption1({ children, style }: Props) {
-	return <Text style={[styles.c1, style]}>{children}</Text>;
+export function Caption1({ children, color = Colors.gray[900] }: Props) {
+	return <Text style={[styles.c1, { color: color }]}>{children}</Text>;
 }
 
-export function Caption2({ children, style }: Props) {
-	return <Text style={[styles.c2, style]}>{children}</Text>;
+export function Caption2({ children, color = Colors.gray[900] }: Props) {
+	return <Text style={[styles.c2, { color: color }]}>{children}</Text>;
 }
 
-export function Caption3({ children, style }: Props) {
-	return <Text style={[styles.c3, style]}>{children}</Text>;
+export function Caption3({ children, color = Colors.gray[900] }: Props) {
+	return <Text style={[styles.c3, { color: color }]}>{children}</Text>;
 }
 
 const styles = StyleSheet.create({

@@ -7,16 +7,18 @@ import { Colors } from "@/constants/Colors";
 type Props = {
 	text: string;
 	subText?: string;
+	onTouchEnd?: () => void;
 };
 
-const Title = ({ text, subText }: Props) => {
+const Title = ({ text, subText, onTouchEnd }: Props) => {
 	return (
-		<View style={{ display: "flex", flexDirection: "column", rowGap: 2 }}>
+		<View
+			style={{ display: "flex", flexDirection: "column", rowGap: 2 }}
+			onTouchEnd={onTouchEnd}
+		>
 			{subText && (
 				<View>
-					<Caption3 style={{ color: Colors.gray[400] }}>
-						{subText}
-					</Caption3>
+					<Caption3 color={Colors.gray[400]}>{subText}</Caption3>
 				</View>
 			)}
 			<View

@@ -45,9 +45,7 @@ const CardL = ({ text, image, rep, reviews }: CardLItem) => {
 					}}
 				>
 					<View>
-						<Heading4 style={{ color: Colors.white }}>
-							{text}
-						</Heading4>
+						<Heading4 color={Colors.white}>{text}</Heading4>
 					</View>
 					<View
 						style={{
@@ -56,12 +54,8 @@ const CardL = ({ text, image, rep, reviews }: CardLItem) => {
 							gap: 8,
 						}}
 					>
-						<Body5 style={{ color: Colors.white }}>
-							{emojis[rep]}
-						</Body5>
-						<Body5 style={{ color: Colors.white }}>
-							💬 {reviews} 건
-						</Body5>
+						<Body5 color={Colors.white}>{emojis[rep]}</Body5>
+						<Body5 color={Colors.white}>💬 {reviews} 건</Body5>
 					</View>
 				</View>
 			</LinearGradient>

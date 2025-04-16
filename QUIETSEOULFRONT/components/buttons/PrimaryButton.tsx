@@ -38,9 +38,7 @@ export function PrimaryButton({
 			onPress={onPress}
 			disabled={!enabled}
 		>
-			<Heading3 style={{ color: Colors.white, textAlign: "center" }}>
-				{children}
-			</Heading3>
+			<Heading3 color={Colors.white}>{children}</Heading3>
 		</Pressable>
 	);
 }

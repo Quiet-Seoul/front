@@ -49,14 +49,10 @@ const CardXL = ({ text, image, subText, status }: CardXLItem) => {
 						}}
 					>
 						<View>
-							<Heading2 style={{ color: Colors.white }}>
-								{text}
-							</Heading2>
+							<Heading2 color={Colors.white}>{text}</Heading2>
 						</View>
 						<View>
-							<Body3 style={{ color: Colors.white }}>
-								{subText}
-							</Body3>
+							<Body3 color={Colors.white}>{subText}</Body3>
 						</View>
 					</View>
 				</LinearGradient>

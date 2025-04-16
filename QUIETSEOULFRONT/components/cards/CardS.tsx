@@ -59,9 +59,7 @@ const CardS = ({
 					}}
 				>
 					<Heading4>{text}</Heading4>
-					<Body5 style={{ color: Colors.gray[700] }}>
-						거리 {distance} km
-					</Body5>
+					<Body5 color={Colors.gray[700]}>거리 {distance} km</Body5>
 				</View>
 				<View
 					style={{
@@ -70,12 +68,8 @@ const CardS = ({
 						gap: 8,
 					}}
 				>
-					<Body5 style={{ color: Colors.gray[700] }}>
-						{emojis[rep]}
-					</Body5>
-					<Body5 style={{ color: Colors.gray[700] }}>
-						💬 {reviews} 건
-					</Body5>
+					<Body5 color={Colors.gray[700]}>{emojis[rep]}</Body5>
+					<Body5 color={Colors.gray[700]}>💬 {reviews} 건</Body5>
 				</View>
 			</View>
 		</View>
