@@ -80,21 +80,22 @@ export function ChipButtonItem({
 				{
 					borderRadius: 4,
 					paddingVertical: 4,
+					paddingHorizontal: 8,
 					borderWidth: 1,
+					justifyContent: "center",
 				},
 			]}
 			onPress={triggerRadioButton}
 			disabled={!enabled}
 		>
 			<Heading3
-				style={{
-					color: enabled
+				color={
+					enabled
 						? isSelected()
 							? Colors.white
 							: Colors.main[700]
-						: Colors.gray[300],
-					textAlign: "center",
-				}}
+						: Colors.gray[300]
+				}
 			>
 				{children}
 			</Heading3>

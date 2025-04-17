@@ -9,11 +9,21 @@ type Props = {
 	text2: string;
 	highlight: string;
 	subText?: string;
+	onTouchEnd?: () => void;
 };
 
-const SingleHighlightTitle = ({ text1, text2, highlight, subText }: Props) => {
+const SingleHighlightTitle = ({
+	text1,
+	text2,
+	highlight,
+	subText,
+	onTouchEnd,
+}: Props) => {
 	return (
-		<View style={{ display: "flex", flexDirection: "column", rowGap: 2 }}>
+		<View
+			style={{ display: "flex", flexDirection: "column", rowGap: 2 }}
+			onTouchEnd={onTouchEnd}
+		>
 			{subText && (
 				<View>
 					<Caption3 color={Colors.gray[400]}>{subText}</Caption3>

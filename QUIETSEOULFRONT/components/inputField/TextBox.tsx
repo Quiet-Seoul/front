@@ -22,6 +22,8 @@ const TextBox = ({
 			readOnly={readonly}
 			value={value}
 			numberOfLines={8}
+			verticalAlign="top"
+			textAlignVertical="top"
 		/>
 	);
 };

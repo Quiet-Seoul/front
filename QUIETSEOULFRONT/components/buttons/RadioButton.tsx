@@ -4,21 +4,9 @@ import { Pressable, View, StyleSheet } from "react-native";
 import { Body2, Caption2 } from "../text/Text";
 
 interface RadioProps {
-	selected: string;
+	selected?: string;
 	setSelected: (value: string) => void;
 }
-
-const RadioContext = React.createContext<RadioProps | null>(null);
-
-export const RadioProvider = ({ children }: { children: ReactNode }) => {
-	const [selected, setSelected] = React.useState<string>("park");
-
-	return (
-		<RadioContext.Provider value={{ selected, setSelected }}>
-			{children}
-		</RadioContext.Provider>
-	);
-};
 
 export const useRadioContext = (): RadioProps => {
 	const context = React.useContext(RadioContext);
@@ -26,6 +14,28 @@ export const useRadioContext = (): RadioProps => {
 		throw new Error("useRadioContext must be used within a RadioProvider");
 	}
 	return context;
+};
+
+const RadioContext = React.createContext<RadioProps | null>(null);
+
+interface RadioProviderProps {
+	children: ReactNode;
+	defaultValue?: string;
+}
+
+export const RadioProvider = ({
+	children,
+	defaultValue,
+}: RadioProviderProps) => {
+	const [selected, setSelected] = React.useState<string | undefined>(
+		defaultValue
+	);
+
+	return (
+		<RadioContext.Provider value={{ selected, setSelected }}>
+			{children}
+		</RadioContext.Provider>
+	);
 };
 
 type Props = {
@@ -79,6 +89,6 @@ const styles = StyleSheet.create({
 		borderColor: Colors.main[100],
 		borderRadius: 4,
 		paddingVertical: 4,
-		paddingHorizontal: 12,
+		paddingHorizontal: 8,
 	},
 });

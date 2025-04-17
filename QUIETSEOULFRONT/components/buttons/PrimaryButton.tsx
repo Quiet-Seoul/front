@@ -31,6 +31,9 @@ export function PrimaryButton({
 				{
 					borderRadius: 8,
 					paddingVertical: 14,
+					display: "flex",
+					flexDirection: "row",
+					justifyContent: "center",
 				},
 			]}
 			onTouchStart={() => setIsActive(true)}

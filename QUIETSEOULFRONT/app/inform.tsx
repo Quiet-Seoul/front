@@ -3,77 +3,88 @@ import InputField from "@/components/inputField/InputField";
 import TextBox from "@/components/inputField/TextBox";
 import { Heading2, Heading4 } from "@/components/text/Text";
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import {
+	View,
+	StyleSheet,
+	TouchableWithoutFeedback,
+	Keyboard,
+} from "react-native";
 
 type Props = {};
 
 const Inform = (props: Props) => {
 	return (
-		<View
-			style={{
-				display: "flex",
-				flexDirection: "column",
-				rowGap: 16,
-				padding: 16,
-				height: "100%",
-			}}
-		>
-			<View style={styles.row}>
-				<View
-					style={{
-						width: 40,
-					}}
-				>
-					<Heading4>장소명</Heading4>
-				</View>
-				<View style={{ flex: 1 }}>
-					<InputField />
-				</View>
-			</View>
-			<View style={styles.row}>
-				<View
-					style={{
-						width: 40,
-					}}
-				>
-					<Heading4>종류</Heading4>
-				</View>
-				<View
-					style={{
-						flex: 1,
-						display: "flex",
-						flexDirection: "row",
-						alignItems: "center",
-						padding: 8,
-						columnGap: 8,
-					}}
-				>
-					<RadioProvider>
-						<RadioButton text="공원" value="park" />
-						<RadioButton text="카페" value="cafe" />
-						<RadioButton text="식당" value="restaurant" />
-					</RadioProvider>
-				</View>
-			</View>
-			<View style={styles.row}>
-				<View
-					style={{
-						width: 40,
-					}}
-				>
-					<Heading4>위치</Heading4>
-				</View>
-				<View style={{ flex: 1 }}>
-					<InputField readonly value="서울 강남구 강남대로 426" />
-				</View>
-			</View>
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 			<View
-				style={{ display: "flex", flexDirection: "column", rowGap: 16 }}
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					rowGap: 16,
+					padding: 16,
+					height: "100%",
+				}}
 			>
-				<Heading2>설명</Heading2>
-				<TextBox />
+				<View style={styles.row}>
+					<View
+						style={{
+							width: 40,
+						}}
+					>
+						<Heading4>장소명</Heading4>
+					</View>
+					<View style={{ flex: 1 }}>
+						<InputField />
+					</View>
+				</View>
+				<View style={styles.row}>
+					<View
+						style={{
+							width: 40,
+						}}
+					>
+						<Heading4>종류</Heading4>
+					</View>
+					<View
+						style={{
+							flex: 1,
+							display: "flex",
+							flexDirection: "row",
+							alignItems: "center",
+							padding: 8,
+							columnGap: 8,
+						}}
+					>
+						<RadioProvider>
+							<RadioButton text="공원" value="park" />
+							<RadioButton text="카페" value="cafe" />
+							<RadioButton text="식당" value="restaurant" />
+						</RadioProvider>
+					</View>
+				</View>
+				<View style={styles.row}>
+					<View
+						style={{
+							width: 40,
+						}}
+					>
+						<Heading4>위치</Heading4>
+					</View>
+					<View style={{ flex: 1 }}>
+						<InputField readonly value="서울 강남구 강남대로 426" />
+					</View>
+				</View>
+				<View
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						rowGap: 16,
+					}}
+				>
+					<Heading2>설명</Heading2>
+					<TextBox />
+				</View>
 			</View>
-		</View>
+		</TouchableWithoutFeedback>
 	);
 };
 

@@ -94,6 +94,7 @@ export default function Landing() {
 						text1="사용자"
 						text2="기반 추천"
 						highlight="제보"
+						onTouchEnd={() => router.push("/recommand")}
 					/>
 					<View
 						style={{
@@ -126,6 +127,7 @@ export default function Landing() {
 						text1="사용자"
 						text2="기반 추천"
 						highlight="후기"
+						onTouchEnd={() => router.push("/recommand")}
 					/>
 					<View
 						style={{

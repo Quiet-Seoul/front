@@ -1,24 +1,21 @@
-import { View, Text, StyleSheet, Button, Pressable } from "react-native";
-import { useRouter } from "expo-router";
-import { PrimaryButton } from "@/components/buttons/PrimaryButton";
-import { forwardRef, useCallback, useMemo, useRef } from "react";
-import BottomSheet, {
+import { Text, StyleSheet, View, SafeAreaView } from "react-native";
+import { forwardRef, useCallback } from "react";
+import {
 	BottomSheetBackdrop,
+	BottomSheetFooter,
 	BottomSheetModal,
 	BottomSheetModalProvider,
 	BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { Colors } from "@/constants/Colors";
+import { PrimaryButton } from "../buttons/PrimaryButton";
 
 interface FilterSheetProps {
-	filters?: Array<string>;
-	ref: React.Ref<BottomSheetModal>;
+	content: React.ReactNode;
 }
 
 const FilterSheet = forwardRef<BottomSheetModal, FilterSheetProps>(
-	({ filters }, ref) => {
-		const snapPoint = useMemo(() => ["25%", "50%", "70%", "100%"], []);
-
+	({ content }, ref) => {
 		const bottomSheetBackdrop = useCallback(
 			(props: any) => (
 				<BottomSheetBackdrop
@@ -26,6 +23,17 @@ const FilterSheet = forwardRef<BottomSheetModal, FilterSheetProps>(
 					disappearsOnIndex={-1}
 					{...props}
 				/>
+			),
+			[]
+		);
+
+		const renderFooter = useCallback(
+			(props: any) => (
+				<BottomSheetFooter {...props}>
+					<View style={styles.filterFooterContainer}>
+						<PrimaryButton>적용하기</PrimaryButton>
+					</View>
+				</BottomSheetFooter>
 			),
 			[]
 		);
@@ -39,16 +47,11 @@ const FilterSheet = forwardRef<BottomSheetModal, FilterSheetProps>(
 					backgroundStyle={{
 						backgroundColor: Colors.white,
 					}}
+					footerComponent={renderFooter}
+					handleIndicatorStyle={styles.indicator}
+					bottomInset={56}
 				>
-					<BottomSheetView style={styles.contentContainer}>
-						<Text>Awesome 🎉</Text>
-						<Text>Awesome 🎉</Text>
-						<Text>Awesome 🎉</Text>
-						<Text>Awesome 🎉</Text>
-						<Text>Awesome 🎉</Text>
-						<Text>Awesome 🎉</Text>
-						<Text>Awesome 🎉</Text>
-					</BottomSheetView>
+					<BottomSheetView>{content}</BottomSheetView>
 				</BottomSheetModal>
 			</BottomSheetModalProvider>
 		);
@@ -58,15 +61,14 @@ const FilterSheet = forwardRef<BottomSheetModal, FilterSheetProps>(
 export default FilterSheet;
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: "grey",
+	indicator: {
+		width: 40,
+		height: 4,
+		backgroundColor: Colors.gray[100],
 	},
-	contentContainer: {
-		flex: 1,
-		padding: 36,
-		alignItems: "center",
-		borderTopStartRadius: 24,
-		borderTopEndRadius: 24,
+	filterFooterContainer: {
+		backgroundColor: Colors.white,
+		paddingVertical: 8,
+		paddingHorizontal: 16,
 	},
 });
