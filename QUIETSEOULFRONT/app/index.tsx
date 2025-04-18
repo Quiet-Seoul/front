@@ -6,9 +6,9 @@ import DoubleHighlightTitle from "@/components/title/DoubleHighlightTitle";
 import CardXL from "@/components/cards/CardXL";
 import Title from "@/components/title/Title";
 import { CardLItem, CardSItem, CardXLItem } from "@/types/card";
-import CardS from "@/components/cards/CardS";
 import SingleHighlightTitle from "@/components/title/SingleHighlightTitle";
 import { router } from "expo-router";
+import CardList from "@/components/cards/CardList";
 
 export default function Landing() {
 	return (
@@ -19,7 +19,6 @@ export default function Landing() {
 					display: "flex",
 					flexDirection: "column",
 					rowGap: 64,
-					paddingHorizontal: 16,
 					paddingVertical: 64,
 				}}
 			>
@@ -28,13 +27,14 @@ export default function Landing() {
 						display: "flex",
 						flexDirection: "column",
 						rowGap: 16,
+						paddingHorizontal: 16,
 					}}
 				>
 					<DoubleHighlightTitle
 						text1="교대역"
 						text2="카페"
 						subText="*현재 위치 기반"
-						onTouchEnd={() => router.push("/quietplaces")}
+						onPress={() => router.push("/quietplaces")}
 					/>
 					<View
 						style={{
@@ -45,6 +45,7 @@ export default function Landing() {
 					>
 						{cardLItems.map((item, idx) => (
 							<CardL
+								id={item.id}
 								key={idx}
 								text={item.text}
 								image={item.image}
@@ -59,11 +60,12 @@ export default function Landing() {
 						display: "flex",
 						flexDirection: "column",
 						rowGap: 16,
+						paddingHorizontal: 16,
 					}}
 				>
 					<Title
 						text="현재 한적한 지역 추천"
-						onTouchEnd={() => router.push("/cities")}
+						onPress={() => router.push("/cities")}
 					/>
 					<View
 						style={{
@@ -83,72 +85,28 @@ export default function Landing() {
 						))}
 					</View>
 				</View>
-				<View
-					style={{
-						display: "flex",
-						flexDirection: "column",
-						rowGap: 16,
-					}}
-				>
-					<SingleHighlightTitle
-						text1="사용자"
-						text2="기반 추천"
-						highlight="제보"
-						onTouchEnd={() => router.push("/recommand")}
-					/>
-					<View
-						style={{
-							display: "flex",
-							flexDirection: "row",
-							columnGap: 8,
-						}}
-					>
-						{cardSItems.map((item, idx) => (
-							<CardS
-								key={idx}
-								type={item.type}
-								text={item.text}
-								rep={item.rep}
-								reviews={item.reviews}
-								distance={item.distance}
-								isFromUser
-							/>
-						))}
-					</View>
-				</View>
-				<View
-					style={{
-						display: "flex",
-						flexDirection: "column",
-						rowGap: 16,
-					}}
-				>
-					<SingleHighlightTitle
-						text1="사용자"
-						text2="기반 추천"
-						highlight="후기"
-						onTouchEnd={() => router.push("/recommand")}
-					/>
-					<View
-						style={{
-							display: "flex",
-							flexDirection: "row",
-							columnGap: 8,
-						}}
-					>
-						{cardSItems.map((item, idx) => (
-							<CardS
-								key={idx}
-								type={item.type}
-								text={item.text}
-								rep={item.rep}
-								reviews={item.reviews}
-								distance={item.distance}
-								isFromUser
-							/>
-						))}
-					</View>
-				</View>
+				<CardList
+					titleComponent={
+						<SingleHighlightTitle
+							text1="사용자"
+							text2="기반 추천"
+							highlight="제보"
+							onPress={() => router.push("/recommand")}
+						/>
+					}
+					items={cardSItems}
+				/>
+				<CardList
+					titleComponent={
+						<SingleHighlightTitle
+							text1="사용자"
+							text2="기반 추천"
+							highlight="후기"
+							onPress={() => router.push("/recommand")}
+						/>
+					}
+					items={cardSItems}
+				/>
 			</View>
 		</ScrollView>
 	);
@@ -177,18 +135,21 @@ const carouselItems = [
 
 const cardLItems: Array<CardLItem> = [
 	{
+		id: 0,
 		text: "스타벅스 교대점",
 		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
 		rep: "good",
 		reviews: 19,
 	},
 	{
+		id: 1,
 		text: "스타벅스 교대점",
 		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
 		rep: "good",
 		reviews: 19,
 	},
 	{
+		id: 2,
 		text: "스타벅스 교대점",
 		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
 		rep: "good",
@@ -219,6 +180,7 @@ const cardXLItems: Array<CardXLItem> = [
 
 const cardSItems: Array<CardSItem> = [
 	{
+		id: 0,
 		text: "동작충효길",
 		type: "카페",
 		rep: "good",
@@ -227,6 +189,7 @@ const cardSItems: Array<CardSItem> = [
 		distance: 1.2,
 	},
 	{
+		id: 1,
 		text: "동작충효길",
 		type: "카페",
 		rep: "good",
@@ -235,6 +198,7 @@ const cardSItems: Array<CardSItem> = [
 		distance: 1.2,
 	},
 	{
+		id: 2,
 		text: "동작충효길",
 		type: "카페",
 		rep: "good",

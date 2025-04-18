@@ -8,14 +8,14 @@ type Props = {
 	text1: string;
 	text2: string;
 	subText?: string;
-	onTouchEnd?: () => void;
+	onPress?: () => void;
 };
 
-const DoubleHighlightTitle = ({ text1, text2, subText, onTouchEnd }: Props) => {
+const DoubleHighlightTitle = ({ text1, text2, subText, onPress }: Props) => {
 	return (
-		<View
+		<Pressable
 			style={{ display: "flex", flexDirection: "column", rowGap: 2 }}
-			onTouchEnd={onTouchEnd}
+			onPress={onPress}
 		>
 			{subText && (
 				<View>
@@ -37,7 +37,7 @@ const DoubleHighlightTitle = ({ text1, text2, subText, onTouchEnd }: Props) => {
 				</View>
 				<ChevronRight />
 			</View>
-		</View>
+		</Pressable>
 	);
 };
 

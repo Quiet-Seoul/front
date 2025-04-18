@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import ChevronRight from "../icons/ChevronRight";
 import { Caption3, Heading2 } from "../text/Text";
 import { Colors } from "@/constants/Colors";
@@ -7,14 +7,14 @@ import { Colors } from "@/constants/Colors";
 type Props = {
 	text: string;
 	subText?: string;
-	onTouchEnd?: () => void;
+	onPress?: () => void;
 };
 
-const Title = ({ text, subText, onTouchEnd }: Props) => {
+const Title = ({ text, subText, onPress }: Props) => {
 	return (
-		<View
+		<Pressable
 			style={{ display: "flex", flexDirection: "column", rowGap: 2 }}
-			onTouchEnd={onTouchEnd}
+			onPress={onPress}
 		>
 			{subText && (
 				<View>
@@ -35,7 +35,7 @@ const Title = ({ text, subText, onTouchEnd }: Props) => {
 					<ChevronRight />
 				</View>
 			</View>
-		</View>
+		</Pressable>
 	);
 };
 

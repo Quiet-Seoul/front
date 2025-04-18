@@ -32,6 +32,9 @@ export function SecondaryButton({
 					borderRadius: 8,
 					paddingVertical: 11,
 					borderWidth: 1,
+					display: "flex",
+					flexDirection: "row",
+					justifyContent: "center",
 				},
 			]}
 			onTouchStart={() => setIsActive(true)}
@@ -39,12 +42,7 @@ export function SecondaryButton({
 			onPress={onPress}
 			disabled={!enabled}
 		>
-			<Heading3
-				style={{
-					color: enabled ? Colors.main[800] : Colors.gray[300],
-					textAlign: "center",
-				}}
-			>
+			<Heading3 color={enabled ? Colors.main[800] : Colors.gray[300]}>
 				{children}
 			</Heading3>
 		</Pressable>

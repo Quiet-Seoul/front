@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import ChevronRight from "../icons/ChevronRight";
 import { Caption3, Heading2 } from "../text/Text";
 import { Colors } from "@/constants/Colors";
@@ -9,7 +9,7 @@ type Props = {
 	text2: string;
 	highlight: string;
 	subText?: string;
-	onTouchEnd?: () => void;
+	onPress?: () => void;
 };
 
 const SingleHighlightTitle = ({
@@ -17,12 +17,12 @@ const SingleHighlightTitle = ({
 	text2,
 	highlight,
 	subText,
-	onTouchEnd,
+	onPress,
 }: Props) => {
 	return (
-		<View
+		<Pressable
 			style={{ display: "flex", flexDirection: "column", rowGap: 2 }}
-			onTouchEnd={onTouchEnd}
+			onPress={onPress}
 		>
 			{subText && (
 				<View>
@@ -45,7 +45,7 @@ const SingleHighlightTitle = ({
 					<ChevronRight />
 				</View>
 			</View>
-		</View>
+		</Pressable>
 	);
 };
 

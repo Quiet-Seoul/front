@@ -49,7 +49,7 @@ const FilterSheet = forwardRef<BottomSheetModal, FilterSheetProps>(
 					}}
 					footerComponent={renderFooter}
 					handleIndicatorStyle={styles.indicator}
-					bottomInset={56}
+					// bottomInset={56}
 				>
 					<BottomSheetView>{content}</BottomSheetView>
 				</BottomSheetModal>

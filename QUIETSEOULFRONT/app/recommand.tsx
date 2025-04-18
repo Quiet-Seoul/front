@@ -98,9 +98,9 @@ const recommand = () => {
 				name="recommand"
 				options={{
 					headerLeft: () => (
-						<Pressable onTouchEnd={() => router.back()}>
+						<View onTouchEnd={() => router.back()}>
 							<ChevronLeft24 />
-						</Pressable>
+						</View>
 					),
 					headerTitle: () => (
 						<Heading2 color={Colors.white}>
@@ -116,13 +116,13 @@ const recommand = () => {
 						<Heading2 color={Colors.main[700]}> 제보 </Heading2>
 						<Heading2 color={Colors.gray[900]}>기반 추천</Heading2>
 					</View>
-					<View
+					<Pressable
 						style={styles.filterButtonContainer}
-						onTouchEnd={() => bottomSheetRep.current?.present()}
+						onPress={() => bottomSheetRep.current?.present()}
 					>
 						<Filter />
 						<Heading3 color={Colors.gray[400]}>필터</Heading3>
-					</View>
+					</Pressable>
 				</View>
 				<FlatList
 					data={cardSItems}

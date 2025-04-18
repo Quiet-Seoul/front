@@ -1,4 +1,5 @@
 export interface CardLItem {
+	id?: number;
 	text: string;
 	image?: string;
 	rep: "good" | "normal" | "bad";

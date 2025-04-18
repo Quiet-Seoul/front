@@ -65,7 +65,7 @@ const RadioButton = ({ text, value }: Props) => {
 		);
 	} else {
 		return (
-			<Pressable onTouchEnd={() => setSelected(value)}>
+			<Pressable onPress={() => setSelected(value)}>
 				<View
 					style={[
 						styles.radioButton,

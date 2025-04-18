@@ -6,7 +6,7 @@ import { useFonts } from "expo-font";
 import { Stack, useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { Pressable } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 
@@ -53,13 +53,11 @@ export default function RootLayout() {
 								</Heading2>
 							),
 							headerRight: () => (
-								<Pressable
-									onTouchEnd={() => router.push("/inform")}
-								>
+								<View onTouchEnd={() => router.push("/inform")}>
 									<Heading2 color={Colors.white}>
 										📢 제보하기
 									</Heading2>
-								</Pressable>
+								</View>
 							),
 						}}
 					/>
@@ -67,9 +65,9 @@ export default function RootLayout() {
 						name="inform"
 						options={{
 							headerLeft: () => (
-								<Pressable onTouchEnd={() => router.back()}>
+								<View onTouchEnd={() => router.back()}>
 									<ChevronLeft24 />
-								</Pressable>
+								</View>
 							),
 							headerTitle: () => (
 								<Heading2 color={Colors.white}>
@@ -82,9 +80,9 @@ export default function RootLayout() {
 						name="quietplaces"
 						options={{
 							headerLeft: () => (
-								<Pressable onTouchEnd={() => router.back()}>
+								<View onTouchEnd={() => router.back()}>
 									<ChevronLeft24 />
-								</Pressable>
+								</View>
 							),
 							headerTitle: () => (
 								<Heading2 color={Colors.white}>
@@ -97,9 +95,9 @@ export default function RootLayout() {
 						name="cities"
 						options={{
 							headerLeft: () => (
-								<Pressable onTouchEnd={() => router.back()}>
+								<View onTouchEnd={() => router.back()}>
 									<ChevronLeft24 />
-								</Pressable>
+								</View>
 							),
 							headerTitle: () => (
 								<Heading2 color={Colors.white}>
