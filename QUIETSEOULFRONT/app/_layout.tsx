@@ -106,6 +106,36 @@ export default function RootLayout() {
 							),
 						}}
 					/>
+					<Stack.Screen
+						name="reviews"
+						options={{
+							headerLeft: () => (
+								<View onTouchEnd={() => router.back()}>
+									<ChevronLeft24 />
+								</View>
+							),
+							headerTitle: () => (
+								<Heading2 color={Colors.white}>
+									후기 전체 보기
+								</Heading2>
+							),
+						}}
+					/>
+					<Stack.Screen
+						name="review"
+						options={{
+							headerLeft: () => (
+								<View onTouchEnd={() => router.back()}>
+									<ChevronLeft24 />
+								</View>
+							),
+							headerTitle: () => (
+								<Heading2 color={Colors.white}>
+									후기 남기기
+								</Heading2>
+							),
+						}}
+					/>
 				</Stack>
 			</BottomSheetModalProvider>
 		</GestureHandlerRootView>

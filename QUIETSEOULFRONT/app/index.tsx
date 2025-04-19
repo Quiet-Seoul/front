@@ -8,7 +8,9 @@ import Title from "@/components/title/Title";
 import { CardLItem, CardSItem, CardXLItem } from "@/types/card";
 import SingleHighlightTitle from "@/components/title/SingleHighlightTitle";
 import { router } from "expo-router";
-import CardList from "@/components/cards/CardList";
+import CardSList from "@/components/cards/CardSList";
+import CardLList from "@/components/cards/CardLList";
+import CardXLList from "@/components/cards/CardXLList";
 
 export default function Landing() {
 	return (
@@ -22,70 +24,27 @@ export default function Landing() {
 					paddingVertical: 64,
 				}}
 			>
-				<View
-					style={{
-						display: "flex",
-						flexDirection: "column",
-						rowGap: 16,
-						paddingHorizontal: 16,
-					}}
-				>
-					<DoubleHighlightTitle
-						text1="교대역"
-						text2="카페"
-						subText="*현재 위치 기반"
-						onPress={() => router.push("/quietplaces")}
-					/>
-					<View
-						style={{
-							display: "flex",
-							flexDirection: "row",
-							columnGap: 8,
-						}}
-					>
-						{cardLItems.map((item, idx) => (
-							<CardL
-								id={item.id}
-								key={idx}
-								text={item.text}
-								image={item.image}
-								rep={item.rep}
-								reviews={item.reviews}
-							/>
-						))}
-					</View>
-				</View>
-				<View
-					style={{
-						display: "flex",
-						flexDirection: "column",
-						rowGap: 16,
-						paddingHorizontal: 16,
-					}}
-				>
-					<Title
-						text="현재 한적한 지역 추천"
-						onPress={() => router.push("/cities")}
-					/>
-					<View
-						style={{
-							display: "flex",
-							flexDirection: "row",
-							columnGap: 8,
-						}}
-					>
-						{cardXLItems.map((item, idx) => (
-							<CardXL
-								key={idx}
-								text={item.text}
-								image={item.image}
-								subText={item.subText}
-								status={0}
-							/>
-						))}
-					</View>
-				</View>
-				<CardList
+				<CardLList
+					titleComponent={
+						<DoubleHighlightTitle
+							text1="교대역"
+							text2="카페"
+							subText="*현재 위치 기반"
+							onPress={() => router.push("/quietplaces")}
+						/>
+					}
+					items={cardLItems}
+				/>
+				<CardXLList
+					titleComponent={
+						<Title
+							text="현재 한적한 지역 추천"
+							onPress={() => router.push("/cities")}
+						/>
+					}
+					items={cardXLItems}
+				/>
+				<CardSList
 					titleComponent={
 						<SingleHighlightTitle
 							text1="사용자"
@@ -96,7 +55,7 @@ export default function Landing() {
 					}
 					items={cardSItems}
 				/>
-				<CardList
+				<CardSList
 					titleComponent={
 						<SingleHighlightTitle
 							text1="사용자"

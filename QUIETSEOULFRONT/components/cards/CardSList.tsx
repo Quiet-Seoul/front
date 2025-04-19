@@ -9,7 +9,7 @@ type Props = {
 	isFromUser?: boolean;
 };
 
-const CardList = ({ titleComponent, items, isFromUser = false }: Props) => {
+const CardSList = ({ titleComponent, items, isFromUser = false }: Props) => {
 	const renderItems: ListRenderItem<CardSItem> = React.useCallback(
 		({ item, index }) => (
 			<CardS
@@ -43,7 +43,7 @@ const CardList = ({ titleComponent, items, isFromUser = false }: Props) => {
 	);
 };
 
-export default CardList;
+export default CardSList;
 
 const styles = StyleSheet.create({
 	cardTitleContainer: {

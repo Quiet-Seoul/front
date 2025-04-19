@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { Pressable, StyleSheet } from "react-native";
 import type { PressableProps } from "react-native";
-import { Heading3 } from "../text/Text";
+import { Heading3 } from "../components/text/Text";
 import { Colors } from "@/constants/Colors";
 
 import { View, ViewStyle } from "react-native";

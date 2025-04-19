@@ -9,16 +9,21 @@ type Props = {
 const Divider = ({ variant = "light" }: Props) => {
 	switch (variant) {
 		case "bold":
-			return <View style={[styles.divider, { height: 8 }]} />;
+			return <View style={[styles.bold, { height: 8 }]} />;
 		case "light":
-			return <View style={[styles.divider, { height: 1 }]} />;
+			return <View style={[styles.light, { height: 1 }]} />;
 	}
 };
 
 export default Divider;
 
 const styles = StyleSheet.create({
-	divider: {
+	bold: {
+		backgroundColor: Colors.gray[50],
+		height: 8,
+	},
+	light: {
 		backgroundColor: Colors.gray[100],
+		height: 1,
 	},
 });

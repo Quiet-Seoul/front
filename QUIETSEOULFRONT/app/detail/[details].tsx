@@ -29,7 +29,7 @@ import { SecondaryButton } from "@/components/buttons/SecondaryButton";
 import Title from "@/components/title/Title";
 import { router, Stack, useLocalSearchParams } from "expo-router";
 import { CardSItem } from "@/types/card";
-import CardList from "@/components/cards/CardList";
+import CardSList from "@/components/cards/CardSList";
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import BottomMargin from "@/components/others/BottomMargin";
 
@@ -170,10 +170,14 @@ const detail = (props: Props) => {
 									{idx !== reviews.length - 1 && <Divider />}
 								</View>
 							))}
-							<SecondaryButton>후기 전체보기</SecondaryButton>
+							<SecondaryButton
+								onPress={() => router.push("/reviews")}
+							>
+								후기 전체보기
+							</SecondaryButton>
 						</View>
 					</View>
-					<CardList
+					<CardSList
 						titleComponent={
 							<Title
 								text="유사한 장소 추천"
