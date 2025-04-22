@@ -44,5 +44,6 @@ const styles = StyleSheet.create({
 		lineHeight: 20,
 		fontWeight: 500,
 		fontFamily: "Pretendard",
+		color: Colors.gray[800],
 	},
 });

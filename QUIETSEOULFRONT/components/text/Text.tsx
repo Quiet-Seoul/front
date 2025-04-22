@@ -6,6 +6,7 @@ import { ColorKeysUnion, Colors } from "@/constants/Colors";
 interface Props {
 	children: React.ReactNode;
 	color?: string;
+	bold?: boolean;
 }
 
 export function Heading1({ children, color = Colors.gray[900] }: Props) {
@@ -32,8 +33,17 @@ export function Body2({ children, color = Colors.gray[900] }: Props) {
 	return <Text style={[styles.b2, { color: color }]}>{children}</Text>;
 }
 
-export function Body3({ children, color = Colors.gray[900] }: Props) {
-	return <Text style={[styles.b3, { color: color }]}>{children}</Text>;
+export function Body3({ children, color = Colors.gray[900], bold }: Props) {
+	return (
+		<Text
+			style={[
+				styles.b3,
+				{ color: color, fontWeight: bold ? "bold" : undefined },
+			]}
+		>
+			{children}
+		</Text>
+	);
 }
 
 export function Body3C({ children, color = Colors.gray[900] }: Props) {

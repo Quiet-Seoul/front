@@ -18,18 +18,7 @@ const width = Dimensions.get("window").width;
 
 const HomeCarousel = ({ items }: Props) => {
 	const ref = React.useRef<ICarouselInstance>(null);
-	const progress = useSharedValue<number>(0);
-
-	const onPressPagination = (index: number) => {
-		ref.current?.scrollTo({
-			/**
-			 * Calculate the difference between the current index and the target index
-			 * to ensure that the carousel scrolls to the nearest index
-			 */
-			count: index - progress.value,
-			animated: true,
-		});
-	};
+	const progress = useSharedValue(0);
 
 	return (
 		<View style={{ width: "100%" }}>
@@ -111,7 +100,6 @@ const HomeCarousel = ({ items }: Props) => {
 						flex: 1,
 						backgroundColor: "rgba(255, 255, 255, 0.4)",
 					}}
-					onPress={onPressPagination}
 				/>
 			</View>
 		</View>

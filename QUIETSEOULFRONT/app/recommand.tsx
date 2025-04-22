@@ -17,7 +17,6 @@ import BottomMargin from "@/components/others/BottomMargin";
 import FilterSheet from "@/components/bottomsheet/FilterSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import RadioButton, { RadioProvider } from "@/components/buttons/RadioButton";
-import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 
 const aligns = [
 	{ label: "전체", value: "all" },

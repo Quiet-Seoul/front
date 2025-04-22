@@ -1,4 +1,4 @@
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, StyleSheet, Pressable } from "react-native";
 import HomeCarousel from "@/components/carousel/HomeCarousel";
 import React from "react";
 import CardL from "@/components/cards/CardL";
@@ -7,69 +7,105 @@ import CardXL from "@/components/cards/CardXL";
 import Title from "@/components/title/Title";
 import { CardLItem, CardSItem, CardXLItem } from "@/types/card";
 import SingleHighlightTitle from "@/components/title/SingleHighlightTitle";
-import { router } from "expo-router";
+import { router, Stack } from "expo-router";
 import CardSList from "@/components/cards/CardSList";
 import CardLList from "@/components/cards/CardLList";
 import CardXLList from "@/components/cards/CardXLList";
+import { Body5, Heading2 } from "@/components/text/Text";
+import { Colors } from "@/constants/Colors";
+import ChevronLeft24 from "@/components/icons/ChevronLeft24";
 
 export default function Landing() {
 	return (
-		<ScrollView>
-			<HomeCarousel items={carouselItems} />
-			<View
-				style={{
-					display: "flex",
-					flexDirection: "column",
-					rowGap: 64,
-					paddingVertical: 64,
+		<>
+			<Stack.Screen
+				name="index"
+				options={{
+					headerLeft: undefined,
+					headerTitle: () => (
+						<Heading2 color={Colors.white}>한적서울</Heading2>
+					),
+					headerRight: () => (
+						<View onTouchEnd={() => router.push("/login")}>
+							<Heading2 color={Colors.white}>로그인</Heading2>
+						</View>
+					),
 				}}
-			>
-				<CardLList
-					titleComponent={
-						<DoubleHighlightTitle
-							text1="교대역"
-							text2="카페"
-							subText="*현재 위치 기반"
-							onPress={() => router.push("/quietplaces")}
-						/>
-					}
-					items={cardLItems}
-				/>
-				<CardXLList
-					titleComponent={
-						<Title
-							text="현재 한적한 지역 추천"
-							onPress={() => router.push("/cities")}
-						/>
-					}
-					items={cardXLItems}
-				/>
-				<CardSList
-					titleComponent={
-						<SingleHighlightTitle
-							text1="사용자"
-							text2="기반 추천"
-							highlight="제보"
-							onPress={() => router.push("/recommand")}
-						/>
-					}
-					items={cardSItems}
-				/>
-				<CardSList
-					titleComponent={
-						<SingleHighlightTitle
-							text1="사용자"
-							text2="기반 추천"
-							highlight="후기"
-							onPress={() => router.push("/recommand")}
-						/>
-					}
-					items={cardSItems}
-				/>
-			</View>
-		</ScrollView>
+			/>
+			<ScrollView>
+				<HomeCarousel items={carouselItems} />
+				<View
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						rowGap: 64,
+						paddingVertical: 64,
+					}}
+				>
+					<CardLList
+						titleComponent={
+							<DoubleHighlightTitle
+								text1="교대역"
+								text2="카페"
+								subText="*현재 위치 기반"
+								onPress={() => router.push("/quietplaces")}
+							/>
+						}
+						items={cardLItems}
+					/>
+					<CardXLList
+						titleComponent={
+							<Title
+								text="현재 한적한 지역 추천"
+								onPress={() => router.push("/cities")}
+							/>
+						}
+						items={cardXLItems}
+					/>
+					<CardSList
+						titleComponent={
+							<SingleHighlightTitle
+								text1="사용자"
+								text2="기반 추천"
+								highlight="제보"
+								onPress={() => router.push("/recommand")}
+							/>
+						}
+						items={cardSItems}
+					/>
+					<CardSList
+						titleComponent={
+							<SingleHighlightTitle
+								text1="사용자"
+								text2="기반 추천"
+								highlight="후기"
+								onPress={() => router.push("/recommand")}
+							/>
+						}
+						items={cardSItems}
+					/>
+				</View>
+				<Pressable
+					style={styles.footerContainer}
+					onPress={() => router.push("/inform")}
+				>
+					<Body5 color={Colors.gray[800]}>
+						📢 한적한 장소를 알고 계시다면 저희에게 제보해주세요! →
+					</Body5>
+				</Pressable>
+			</ScrollView>
+		</>
 	);
 }
+
+const styles = StyleSheet.create({
+	footerContainer: {
+		paddingVertical: 32,
+		display: "flex",
+		flexDirection: "row",
+		justifyContent: "center",
+	},
+});
 
 const carouselItems = [
 	{

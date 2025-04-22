@@ -1,15 +1,18 @@
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import Divider from "@/components/divider/Divider";
+import ChevronLeft24 from "@/components/icons/ChevronLeft24";
 import BottomMargin from "@/components/others/BottomMargin";
 import {
 	Body2,
 	Body3,
 	Body5,
+	Heading2,
 	Heading3,
 	Heading4,
 } from "@/components/text/Text";
 import { Colors } from "@/constants/Colors";
 import { getRepEmoticon, getRepText } from "@/lib/util";
+import { Stack, router } from "expo-router";
 import React from "react";
 import {
 	FlatList,
@@ -82,21 +85,36 @@ const reviews = (props: Props) => {
 	);
 
 	return (
-		<SafeAreaView>
-			<FlatList
-				data={reviewData}
-				renderItem={renderItems}
-				keyExtractor={(item, idx) => String(item.id) + idx}
-				ListHeaderComponent={renderHeader}
-				stickyHeaderIndices={[0]}
-				ItemSeparatorComponent={renderSeparator}
-				stickyHeaderHiddenOnScroll
-				ListFooterComponent={<BottomMargin height={128} />}
+		<>
+			<Stack.Screen
+				name="reviews"
+				options={{
+					headerLeft: () => (
+						<View onTouchEnd={() => router.back()}>
+							<ChevronLeft24 />
+						</View>
+					),
+					headerTitle: () => (
+						<Heading2 color={Colors.white}>후기 전체 보기</Heading2>
+					),
+				}}
 			/>
-			<View style={styles.bottomButtonContainer}>
-				<PrimaryButton>후기 남기기</PrimaryButton>
-			</View>
-		</SafeAreaView>
+			<SafeAreaView>
+				<FlatList
+					data={reviewData}
+					renderItem={renderItems}
+					keyExtractor={(item, idx) => String(item.id) + idx}
+					ListHeaderComponent={renderHeader}
+					stickyHeaderIndices={[0]}
+					ItemSeparatorComponent={renderSeparator}
+					stickyHeaderHiddenOnScroll
+					ListFooterComponent={<BottomMargin height={128} />}
+				/>
+				<View style={styles.bottomButtonContainer}>
+					<PrimaryButton>후기 남기기</PrimaryButton>
+				</View>
+			</SafeAreaView>
+		</>
 	);
 };
 

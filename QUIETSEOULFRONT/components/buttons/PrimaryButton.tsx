@@ -4,8 +4,7 @@ import type { PressableProps } from "react-native";
 import { Heading3 } from "../text/Text";
 import { Colors } from "@/constants/Colors";
 
-interface Props {
-	props?: PressableProps;
+interface Props extends PressableProps {
 	children: React.ReactNode;
 	enabled?: boolean;
 	onPress?: () => void;
@@ -13,31 +12,25 @@ interface Props {
 
 export function PrimaryButton({
 	children,
-	props,
 	enabled = true,
 	onPress,
+	...pressableProps
 }: Props) {
 	const [isActive, setIsActive] = React.useState(false);
 
 	return (
 		<Pressable
-			{...props}
+			{...pressableProps}
 			style={[
 				enabled
 					? isActive
 						? styles.active
 						: styles.default
 					: styles.disabled,
-				{
-					borderRadius: 8,
-					paddingVertical: 14,
-					display: "flex",
-					flexDirection: "row",
-					justifyContent: "center",
-				},
+				styles.base,
 			]}
-			onTouchStart={() => setIsActive(true)}
-			onTouchEnd={() => setIsActive(false)}
+			onPressIn={() => setIsActive(true)}
+			onPressOut={() => setIsActive(false)}
 			onPress={onPress}
 			disabled={!enabled}
 		>
@@ -55,5 +48,12 @@ const styles = StyleSheet.create({
 	},
 	disabled: {
 		backgroundColor: Colors.gray[200],
+	},
+	base: {
+		borderRadius: 8,
+		paddingVertical: 14,
+		display: "flex",
+		flexDirection: "row",
+		justifyContent: "center",
 	},
 });

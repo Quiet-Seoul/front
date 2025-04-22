@@ -18,6 +18,15 @@ export default function RootLayout() {
 
 	const [fontsLoaded] = useFonts({
 		Pretendard: require("../assets/fonts/PretendardVariable.ttf"),
+		"Pretendard-Light": require("../assets/fonts/Pretendard-Light.otf"),
+		"Pretendard-Black": require("../assets/fonts/Pretendard-Black.otf"),
+		"Pretendard-Bold": require("../assets/fonts/Pretendard-Bold.otf"),
+		"Pretendard-ExtraBold": require("../assets/fonts/Pretendard-ExtraBold.otf"),
+		"Pretendard-Thin": require("../assets/fonts/Pretendard-Thin.otf"),
+		"Pretendard-ExtraLight": require("../assets/fonts/Pretendard-ExtraLight.otf"),
+		"Pretendard-SemiBold": require("../assets/fonts/Pretendard-SemiBold.otf"),
+		"Pretendard-Regular": require("../assets/fonts/Pretendard-Regular.otf"),
+		"Pretendard-Medium": require("../assets/fonts/Pretendard-Medium.otf"),
 	});
 
 	useEffect(() => {
@@ -43,100 +52,7 @@ export default function RootLayout() {
 							backgroundColor: Colors.white,
 						},
 					}}
-				>
-					<Stack.Screen
-						name="index"
-						options={{
-							headerTitle: () => (
-								<Heading2 color={Colors.white}>
-									한적서울
-								</Heading2>
-							),
-							headerRight: () => (
-								<View onTouchEnd={() => router.push("/inform")}>
-									<Heading2 color={Colors.white}>
-										📢 제보하기
-									</Heading2>
-								</View>
-							),
-						}}
-					/>
-					<Stack.Screen
-						name="inform"
-						options={{
-							headerLeft: () => (
-								<View onTouchEnd={() => router.back()}>
-									<ChevronLeft24 />
-								</View>
-							),
-							headerTitle: () => (
-								<Heading2 color={Colors.white}>
-									제보하기
-								</Heading2>
-							),
-						}}
-					/>
-					<Stack.Screen
-						name="quietplaces"
-						options={{
-							headerLeft: () => (
-								<View onTouchEnd={() => router.back()}>
-									<ChevronLeft24 />
-								</View>
-							),
-							headerTitle: () => (
-								<Heading2 color={Colors.white}>
-									한적한 장소
-								</Heading2>
-							),
-						}}
-					/>
-					<Stack.Screen
-						name="cities"
-						options={{
-							headerLeft: () => (
-								<View onTouchEnd={() => router.back()}>
-									<ChevronLeft24 />
-								</View>
-							),
-							headerTitle: () => (
-								<Heading2 color={Colors.white}>
-									한적한 지역
-								</Heading2>
-							),
-						}}
-					/>
-					<Stack.Screen
-						name="reviews"
-						options={{
-							headerLeft: () => (
-								<View onTouchEnd={() => router.back()}>
-									<ChevronLeft24 />
-								</View>
-							),
-							headerTitle: () => (
-								<Heading2 color={Colors.white}>
-									후기 전체 보기
-								</Heading2>
-							),
-						}}
-					/>
-					<Stack.Screen
-						name="review"
-						options={{
-							headerLeft: () => (
-								<View onTouchEnd={() => router.back()}>
-									<ChevronLeft24 />
-								</View>
-							),
-							headerTitle: () => (
-								<Heading2 color={Colors.white}>
-									후기 남기기
-								</Heading2>
-							),
-						}}
-					/>
-				</Stack>
+				/>
 			</BottomSheetModalProvider>
 		</GestureHandlerRootView>
 	);
