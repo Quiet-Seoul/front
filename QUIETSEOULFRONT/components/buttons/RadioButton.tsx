@@ -41,16 +41,22 @@ export const RadioProvider = ({
 type Props = {
 	text: string;
 	value: string;
+	onSelect?: (value: string) => void;
 };
 
-const RadioButton = ({ text, value }: Props) => {
+const RadioButton = ({ text, value, onSelect }: Props) => {
 	const { selected, setSelected } = useRadioContext();
 
 	const isSelected = selected === value;
 
 	if (isSelected) {
 		return (
-			<Pressable onPress={() => setSelected(value)}>
+			<Pressable
+				onPress={() => {
+					setSelected(value);
+					onSelect?.(value);
+				}}
+			>
 				<View
 					style={[
 						styles.radioButton,
@@ -65,7 +71,12 @@ const RadioButton = ({ text, value }: Props) => {
 		);
 	} else {
 		return (
-			<Pressable onPress={() => setSelected(value)}>
+			<Pressable
+				onPress={() => {
+					setSelected(value);
+					onSelect?.(value);
+				}}
+			>
 				<View
 					style={[
 						styles.radioButton,

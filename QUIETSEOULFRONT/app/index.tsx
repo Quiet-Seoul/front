@@ -1,9 +1,7 @@
 import { View, ScrollView, StyleSheet, Pressable } from "react-native";
 import HomeCarousel from "@/components/carousel/HomeCarousel";
 import React from "react";
-import CardL from "@/components/cards/CardL";
 import DoubleHighlightTitle from "@/components/title/DoubleHighlightTitle";
-import CardXL from "@/components/cards/CardXL";
 import Title from "@/components/title/Title";
 import { CardLItem, CardSItem, CardXLItem } from "@/types/card";
 import SingleHighlightTitle from "@/components/title/SingleHighlightTitle";
@@ -13,23 +11,60 @@ import CardLList from "@/components/cards/CardLList";
 import CardXLList from "@/components/cards/CardXLList";
 import { Body5, Heading2 } from "@/components/text/Text";
 import { Colors } from "@/constants/Colors";
-import ChevronLeft24 from "@/components/icons/ChevronLeft24";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { UserData } from "@/types/user";
+import UserChip from "@/components/chips/UserChip";
+import { fetchUserData } from "@/data/user";
 
 export default function Landing() {
+	const [userData, setUserData] = React.useState<UserData | null>(null);
+
+	const getLoginInfo = async () => {
+		const jwt = await AsyncStorage.getItem("jwt");
+
+		if (jwt) {
+			await fetchUserData(jwt).then(async (res) => {
+				if (res) {
+					await AsyncStorage.setItem("user", JSON.stringify(res));
+					setUserData(res);
+				}
+			});
+		}
+	};
+
+	const handleDeleteUserData = async () => {
+		await AsyncStorage.removeItem("user");
+		setUserData(null);
+	};
+
+	React.useEffect(() => {
+		getLoginInfo();
+	}, []);
+
 	return (
 		<>
 			<Stack.Screen
 				name="index"
 				options={{
-					headerLeft: undefined,
+					headerBackVisible: false,
 					headerTitle: () => (
 						<Heading2 color={Colors.white}>한적서울</Heading2>
 					),
-					headerRight: () => (
-						<View onTouchEnd={() => router.push("/login")}>
-							<Heading2 color={Colors.white}>로그인</Heading2>
-						</View>
-					),
+					headerRight: () => {
+						if (userData) {
+							return (
+								<UserChip
+									userName={userData.name}
+									onPress={handleDeleteUserData}
+								/>
+							);
+						}
+						return (
+							<View onTouchEnd={() => router.push("/login")}>
+								<Heading2 color={Colors.white}>로그인</Heading2>
+							</View>
+						);
+					},
 				}}
 			/>
 			<ScrollView>

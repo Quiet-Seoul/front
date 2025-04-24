@@ -1,3 +1,5 @@
+import { LoginData, SignUpValidationData } from "@/types/user";
+
 export const getRepText = (rep: number) => {
 	return rep === 0
 		? "한적해요"
@@ -41,4 +43,70 @@ export const getWeekdayKR = (weekday: number) => {
 		default:
 			return "?";
 	}
+};
+
+export const isSignUpDataValid = (data: SignUpValidationData) => {
+	let checkUsername = false;
+	let checkPassword = false;
+	let checkPhone = false;
+	let checkName = false;
+	let checkBirth = false;
+	let checkGender = false;
+
+	if (data.username.length > 0) {
+		checkUsername = true;
+	}
+
+	if (data.password.length > 0 && data.password === data.checkPassword) {
+		checkPassword = true;
+	}
+
+	if (data.phone.length === 13) {
+		checkPhone = true;
+	}
+
+	if (data.name.length > 0) {
+		checkName = true;
+	}
+
+	if (data.birthdate.length > 0) {
+		checkBirth = true;
+	}
+
+	if (data.gender === "male" || data.gender === "female") {
+		checkGender = true;
+	}
+
+	console.log(
+		checkUsername,
+		checkPassword,
+		checkPhone,
+		checkName,
+		checkBirth,
+		checkGender
+	);
+
+	return (
+		checkUsername &&
+		checkPassword &&
+		checkPhone &&
+		checkName &&
+		checkBirth &&
+		checkGender
+	);
+};
+
+export const isLoginDataValid = (data: LoginData) => {
+	let checkUsername = false;
+	let checkPassword = false;
+
+	if (data.username.length > 0) {
+		checkUsername = true;
+	}
+
+	if (data.password.length > 0) {
+		checkPassword = true;
+	}
+
+	return checkUsername && checkPassword;
 };

@@ -7,12 +7,14 @@ import CalendarIcon from "../icons/Calendar";
 import CalendarSheet from "../bottomsheet/CalendarSheet";
 import { DateProps } from "@/types/date";
 
-type Props = {};
+type Props = {
+	setBirthday?: (date: DateProps) => void;
+};
 
-const LabeledDateInputField = ({}: Props) => {
+const LabeledDateInputField = ({ setBirthday }: Props) => {
 	const bottomSheetRep = React.useRef<BottomSheetModal | null>(null);
 
-	const today = new Date(Date.now());
+	const today = new Date("2000-01-01");
 	const todayYear = today.getFullYear();
 	const todayMonth = today.getMonth() + 1;
 	const todayDay = today.getDate();
@@ -27,7 +29,7 @@ const LabeledDateInputField = ({}: Props) => {
 
 	const handleDateChange = (date: DateProps) => {
 		setDateData(date);
-		console.log(dateData);
+		setBirthday?.(date);
 	};
 
 	return (

@@ -6,11 +6,12 @@ import { Colors } from "@/constants/Colors";
 
 type Props = {
 	userName: string;
+	onPress?: () => void;
 };
 
-const UserChip = ({ userName }: Props) => {
+const UserChip = ({ userName, onPress }: Props) => {
 	return (
-		<Pressable style={styles.container}>
+		<Pressable style={styles.container} onPress={onPress}>
 			<User />
 			<Body5 color={Colors.white}>{userName}</Body5>
 		</Pressable>
@@ -27,5 +28,6 @@ const styles = StyleSheet.create({
 		display: "flex",
 		flexDirection: "row",
 		columnGap: 4,
+		alignItems: "center",
 	},
 });
