@@ -7,6 +7,7 @@ export interface CardLItem {
 }
 
 export interface CardXLItem {
+	id?: number;
 	text: string;
 	image?: string;
 	subText: string;

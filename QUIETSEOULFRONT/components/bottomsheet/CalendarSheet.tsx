@@ -57,7 +57,6 @@ const CalendarSheet = forwardRef<BottomSheetModal, FilterSheetProps>(
 		);
 
 		const handleOnDateSelect = (date: DateProps) => {
-			console.log(date);
 			onDateSelect?.(date);
 			setDateString(date.dateString);
 		};
@@ -95,9 +94,13 @@ const CalendarSheet = forwardRef<BottomSheetModal, FilterSheetProps>(
 									return <CalendarArrowRight />;
 								}
 							}}
-							renderHeader={(date) => (
-								<Heading2>{`${date?.getFullYear()}년 ${date?.getMonth()}월`}</Heading2>
-							)}
+							renderHeader={(date) =>
+								date && (
+									<Heading2>{`${date.getFullYear()}년 ${
+										date.getMonth() + 1
+									}월`}</Heading2>
+								)
+							}
 							dayComponent={({ date, state, marking }) => {
 								const itemDate = date
 									? new Date(date.dateString)

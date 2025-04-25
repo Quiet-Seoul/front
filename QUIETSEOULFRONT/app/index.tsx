@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { UserData } from "@/types/user";
 import UserChip from "@/components/chips/UserChip";
 import { fetchUserData } from "@/data/user";
+import SquareCarousel from "@/components/carousel/SquareCarousel";
 
 export default function Landing() {
 	const [userData, setUserData] = React.useState<UserData | null>(null);
@@ -34,6 +35,7 @@ export default function Landing() {
 
 	const handleDeleteUserData = async () => {
 		await AsyncStorage.removeItem("user");
+		await AsyncStorage.removeItem("jwt");
 		setUserData(null);
 	};
 
@@ -97,16 +99,25 @@ export default function Landing() {
 						}
 						items={cardXLItems}
 					/>
+					<View>
+						<SquareCarousel items={carouselItems} />
+					</View>
 					<CardSList
 						titleComponent={
 							<SingleHighlightTitle
 								text1="사용자"
 								text2="기반 추천"
 								highlight="제보"
-								onPress={() => router.push("/recommand")}
+								onPress={() =>
+									router.push({
+										pathname: "/recommand",
+										params: { type: "suggestion" },
+									})
+								}
 							/>
 						}
 						items={cardSItems}
+						isFromUser
 					/>
 					<CardSList
 						titleComponent={
@@ -114,7 +125,12 @@ export default function Landing() {
 								text1="사용자"
 								text2="기반 추천"
 								highlight="후기"
-								onPress={() => router.push("/recommand")}
+								onPress={() =>
+									router.push({
+										pathname: "/recommand",
+										params: { type: "review" },
+									})
+								}
 							/>
 						}
 						items={cardSItems}
@@ -139,6 +155,9 @@ const styles = StyleSheet.create({
 		display: "flex",
 		flexDirection: "row",
 		justifyContent: "center",
+	},
+	squareCarouselContainer: {
+		paddingHorizontal: 16,
 	},
 });
 

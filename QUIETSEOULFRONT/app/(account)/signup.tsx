@@ -1,23 +1,32 @@
+import CalendarSheet from "@/components/bottomsheet/CalendarSheet";
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import RadioButton, { RadioProvider } from "@/components/buttons/RadioButton";
 import ChevronLeft24 from "@/components/icons/ChevronLeft24";
-import LabeledDateInputField from "@/components/inputField/LabeledDateInputField";
 import LabeledInputField from "@/components/inputField/LabeledInputField";
 import LabeledPhoneInputField from "@/components/inputField/LabeledPhoneInputField";
-import { Caption1, Heading1, Heading2 } from "@/components/text/Text";
+import {
+	Body3,
+	Caption1,
+	Caption3,
+	Heading1,
+	Heading2,
+} from "@/components/text/Text";
 import { Colors } from "@/constants/Colors";
 import { fetchCreateUser } from "@/data/user";
 import { isSignUpDataValid } from "@/lib/util";
+import { DateProps } from "@/types/date";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Stack, router } from "expo-router";
 import React from "react";
 import {
 	Keyboard,
+	Pressable,
 	StyleSheet,
 	TouchableWithoutFeedback,
 	View,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import CalendarIcon from "@/components/icons/Calendar";
 
 type Props = {};
 
@@ -27,8 +36,27 @@ const signup = (props: Props) => {
 	const checkPassword = React.useRef<string>("");
 	const name = React.useRef<string>("");
 	const phone = React.useRef<string>("");
-	const birthdate = React.useRef<string>("2000-01-01");
+	// const birthdate = React.useRef<string>("2000-01-01");
 	const gender = React.useRef<string>("");
+
+	const bottomSheetRep = React.useRef<BottomSheetModal | null>(null);
+
+	const today = new Date("2000-01-01");
+	const todayYear = today.getFullYear();
+	const todayMonth = today.getMonth() + 1;
+	const todayDay = today.getDate();
+
+	const [dateData, setDateData] = React.useState<DateProps>({
+		dateString: `${todayYear}-${todayMonth}-${todayDay}`,
+		year: todayYear,
+		month: todayMonth,
+		day: todayDay,
+		timestamp: Date.now(),
+	});
+
+	const handleDateChange = (date: DateProps) => {
+		setDateData(date);
+	};
 
 	const handleSignup = async () => {
 		const isValid = isSignUpDataValid({
@@ -37,7 +65,7 @@ const signup = (props: Props) => {
 			checkPassword: checkPassword.current,
 			name: name.current,
 			phone: phone.current,
-			birthdate: birthdate.current,
+			birthdate: dateData.dateString,
 			gender: gender.current,
 		});
 
@@ -50,7 +78,7 @@ const signup = (props: Props) => {
 				password: password.current,
 				name: name.current,
 				phone: phone.current,
-				birthdate: birthdate.current,
+				birthdate: dateData.dateString,
 				gender: gender.current,
 			})
 				.then(() => {
@@ -114,6 +142,18 @@ const signup = (props: Props) => {
 						placeholder="Phone number"
 						onChangeText={(value) => (phone.current = value)}
 					/>
+					<View style={styles.dateContainer}>
+						<Caption1 color={Colors.gray[900]}>생년월일</Caption1>
+						<Pressable
+							style={styles.inputField}
+							onPress={() => bottomSheetRep.current?.present()}
+						>
+							<CalendarIcon />
+							<Body3
+								color={Colors.gray[900]}
+							>{`${dateData.year}년 ${dateData.month}월 ${dateData.day}일`}</Body3>
+						</Pressable>
+					</View>
 					<View style={styles.row}>
 						<View>
 							<Caption1>성별</Caption1>
@@ -122,14 +162,14 @@ const signup = (props: Props) => {
 							<RadioProvider>
 								<RadioButton
 									text="남자"
-									value="male"
+									value="M"
 									onSelect={(value) =>
 										(gender.current = value)
 									}
 								/>
 								<RadioButton
 									text="여자"
-									value="female"
+									value="F"
 									onSelect={(value) =>
 										(gender.current = value)
 									}
@@ -142,10 +182,19 @@ const signup = (props: Props) => {
 							등록하기
 						</PrimaryButton>
 					</View>
-					<LabeledDateInputField
-						setBirthday={(date) =>
-							(birthdate.current = date.dateString)
-						}
+					<View style={styles.termofuseContainer}>
+						<Pressable onPress={() => router.push("/termsofuse")}>
+							<Caption3>한적서울 서비스 이용약관</Caption3>
+						</Pressable>
+						<Caption3>
+							회원가입을 진행하실 경우 위 서비스 이용약관에
+							동의하는 것으로 간주됩니다.
+						</Caption3>
+					</View>
+					<CalendarSheet
+						ref={bottomSheetRep}
+						date={dateData}
+						onDateSelect={handleDateChange}
 					/>
 				</KeyboardAwareScrollView>
 			</TouchableWithoutFeedback>
@@ -192,6 +241,27 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		padding: 8,
+		columnGap: 8,
+	},
+	termofuseContainer: {
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "center",
+		rowGap: 8,
+	},
+	dateContainer: {
+		display: "flex",
+		flexDirection: "column",
+		rowGap: 4,
+	},
+	inputField: {
+		width: 240,
+		padding: 8,
+		borderRadius: 4,
+		borderWidth: 1,
+		borderColor: Colors.gray[200],
+		display: "flex",
+		flexDirection: "row",
 		columnGap: 8,
 	},
 });

@@ -1,5 +1,5 @@
 import React from "react";
-import { router, Stack } from "expo-router";
+import { router, Stack, useLocalSearchParams } from "expo-router";
 import {
 	View,
 	StyleSheet,
@@ -17,6 +17,7 @@ import BottomMargin from "@/components/others/BottomMargin";
 import FilterSheet from "@/components/bottomsheet/FilterSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import RadioButton, { RadioProvider } from "@/components/buttons/RadioButton";
+import CardStatusFlexible from "@/components/cards/CardStatusFlexible";
 
 const aligns = [
 	{ label: "전체", value: "all" },
@@ -72,20 +73,39 @@ const BottomSheetFilters = () => {
 	);
 };
 
+type Props = {
+	type: string;
+};
+
 const recommand = () => {
 	const bottomSheetRep = React.useRef<BottomSheetModal | null>(null);
 
+	const { type } = useLocalSearchParams();
+
 	const renderItems: ListRenderItem<CardSItem> = React.useCallback(
-		({ item }) => (
-			<CardFlexible
-				type={item.type}
-				text={item.text}
-				rep={item.rep}
-				reviews={item.reviews}
-				distance={item.distance}
-				isFromUser
-			/>
-		),
+		({ item }) => {
+			if (type === "predict") {
+				return (
+					<CardStatusFlexible
+						id={item.id}
+						text={item.text}
+						subText={"asdfasdf"}
+						status={0}
+					/>
+				);
+			} else {
+				return (
+					<CardFlexible
+						type={item.type}
+						text={item.text}
+						rep={item.rep}
+						reviews={item.reviews}
+						distance={item.distance}
+						isFromUser
+					/>
+				);
+			}
+		},
 		[]
 	);
 
@@ -213,6 +233,7 @@ const styles = StyleSheet.create({
 
 const cardSItems: Array<CardSItem> = [
 	{
+		id: 1,
 		text: "동작충효길",
 		type: "카페",
 		rep: "good",
@@ -221,6 +242,7 @@ const cardSItems: Array<CardSItem> = [
 		distance: 1.2,
 	},
 	{
+		id: 1,
 		text: "동작충효길",
 		type: "카페",
 		rep: "good",
@@ -229,6 +251,7 @@ const cardSItems: Array<CardSItem> = [
 		distance: 1.2,
 	},
 	{
+		id: 1,
 		text: "동작충효길",
 		type: "카페",
 		rep: "good",
@@ -237,6 +260,7 @@ const cardSItems: Array<CardSItem> = [
 		distance: 1.2,
 	},
 	{
+		id: 1,
 		text: "동작충효길",
 		type: "카페",
 		rep: "good",
@@ -245,6 +269,7 @@ const cardSItems: Array<CardSItem> = [
 		distance: 1.2,
 	},
 	{
+		id: 1,
 		text: "동작충효길",
 		type: "카페",
 		rep: "good",
@@ -253,6 +278,7 @@ const cardSItems: Array<CardSItem> = [
 		distance: 1.2,
 	},
 	{
+		id: 1,
 		text: "동작충효길",
 		type: "카페",
 		rep: "good",
@@ -261,6 +287,7 @@ const cardSItems: Array<CardSItem> = [
 		distance: 1.2,
 	},
 	{
+		id: 1,
 		text: "동작충효길",
 		type: "카페",
 		rep: "good",

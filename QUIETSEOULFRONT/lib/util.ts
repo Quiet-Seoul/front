@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/Colors";
 import { LoginData, SignUpValidationData } from "@/types/user";
 
 export const getRepText = (rep: number) => {
@@ -21,6 +22,18 @@ export const getRepEmoticon = (rep: number) => {
 		? "🙁"
 		: rep === 3
 		? "😔"
+		: "";
+};
+
+export const getStatusColor = (status: 0 | 1 | 2 | 3) => {
+	return status === 0
+		? Colors.status.positive
+		: status === 1
+		? Colors.status.neutral
+		: status === 2
+		? Colors.status.negative
+		: status === 3
+		? Colors.status.veryNegative
 		: "";
 };
 
@@ -73,7 +86,7 @@ export const isSignUpDataValid = (data: SignUpValidationData) => {
 		checkBirth = true;
 	}
 
-	if (data.gender === "male" || data.gender === "female") {
+	if (data.gender === "M" || data.gender === "F") {
 		checkGender = true;
 	}
 
@@ -109,4 +122,17 @@ export const isLoginDataValid = (data: LoginData) => {
 	}
 
 	return checkUsername && checkPassword;
+};
+
+type Days = "일" | "월" | "화" | "수" | "목" | "금" | "토";
+
+export const getAlignedDaysFromTheDay = (day: string) => {
+	const days: string[] = ["일", "월", "화", "수", "목", "금", "토"];
+	const index = days.indexOf(day);
+
+	if (index === -1) return undefined;
+
+	const alignedDays = days.slice(index).concat(days.slice(0, index));
+
+	return alignedDays;
 };

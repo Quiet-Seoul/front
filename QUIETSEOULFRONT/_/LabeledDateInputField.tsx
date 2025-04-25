@@ -1,10 +1,10 @@
 import { Colors } from "@/constants/Colors";
 import React from "react";
 import { Pressable, StyleSheet, TextInput, View } from "react-native";
-import { Body3, Caption1 } from "../text/Text";
+import { Body3, Caption1 } from "../components/text/Text";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import CalendarIcon from "../icons/Calendar";
-import CalendarSheet from "../bottomsheet/CalendarSheet";
+import CalendarIcon from "../components/icons/Calendar";
+import CalendarSheet from "../components/bottomsheet/CalendarSheet";
 import { DateProps } from "@/types/date";
 
 type Props = {
