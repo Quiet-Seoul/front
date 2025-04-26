@@ -1,12 +1,9 @@
-import ChevronLeft24 from "@/components/icons/ChevronLeft24";
-import { Heading2 } from "@/components/text/Text";
 import { Colors } from "@/constants/Colors";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { useFonts } from "expo-font";
 import { Stack, useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { TouchableOpacity, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 

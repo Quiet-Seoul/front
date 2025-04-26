@@ -16,6 +16,8 @@ import { UserData } from "@/types/user";
 import UserChip from "@/components/chips/UserChip";
 import { fetchUserData } from "@/data/user";
 import SquareCarousel from "@/components/carousel/SquareCarousel";
+import * as Location from "expo-location";
+import { PermissionsAndroid, Platform, TouchableOpacity } from "react-native";
 
 export default function Landing() {
 	const [userData, setUserData] = React.useState<UserData | null>(null);
@@ -39,9 +41,76 @@ export default function Landing() {
 		setUserData(null);
 	};
 
+	// const requestLocationPermission = async () => {
+	// 	if (Platform.OS === "android") {
+	// 		const granted = await PermissionsAndroid.request(
+	// 			PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+	// 		);
+
+	// 		if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+	// 			return true;
+	// 		} else {
+	// 			return false;
+	// 		}
+	// 		return false;
+	// 	}
+	// };
+
+	// const [currentLocation, setCurrentLocation] =
+	// 	React.useState<GeoPosition | null>(null);
+
+	// React.useEffect(() => {
+	// 	getLoginInfo();
+
+	// 	const getCurruntLocation = async () => {
+	// 		const isAuthorized = await requestLocationPermission();
+
+	// 		if (isAuthorized) {
+	// 			Geolocation.getCurrentPosition(
+	// 				(position) => {
+	// 					setCurrentLocation(position);
+	// 					console.log("==================");
+	// 				},
+	// 				(error) => {
+	// 					console.log(error.code, error.message);
+	// 				},
+	// 				{
+	// 					enableHighAccuracy: true,
+	// 					timeout: 15000,
+	// 					maximumAge: 10000,
+	// 				}
+	// 			);
+
+	// 			console.log(currentLocation);
+	// 		}
+	// 		console.log(currentLocation);
+	// 	};
+	// 	console.log(currentLocation);
+
+	// 	getCurruntLocation();
+	// }, []);
+	// console.log(currentLocation);
+	const [location, setLocation] =
+		React.useState<Location.LocationObject | null>(null);
+	const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
+
 	React.useEffect(() => {
+		async function getCurrentLocation() {
+			let { status } = await Location.requestForegroundPermissionsAsync();
+			if (status !== "granted") {
+				setErrorMsg("Permission to access location was denied");
+				return;
+			}
+
+			let location = await Location.getCurrentPositionAsync({});
+			setLocation(location);
+		}
+
 		getLoginInfo();
+		getCurrentLocation();
 	}, []);
+
+	console.log(location);
 
 	return (
 		<>
