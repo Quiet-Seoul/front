@@ -32,21 +32,40 @@ import { CardSItem } from "@/types/card";
 import CardSList from "@/components/cards/CardSList";
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import BottomMargin from "@/components/others/BottomMargin";
+import { fetchPlaceDetail } from "@/data/places";
+import { PlaceDetailData } from "@/types/places";
+import { ReviewItem } from "@/types/review";
+import { fetchPlaceReviews } from "@/data/reviews";
 
 type Props = {};
 
 const detail = (props: Props) => {
 	const { details } = useLocalSearchParams();
 
-	const placeName = "하와이";
-	const placeType = "공원";
-	const address = "91-1001 Farrington Hwy, Kapolei, HI 96707 미국";
-	const imageSrc =
-		"https://content.skyscnr.com/m/41acfff761f8ea1a/original/GettyImages-519763361.jpg?resize=1800px:1800px&quality=100";
-	const rep = 0;
+	const [placeDetail, setPlaceDetail] = React.useState<PlaceDetailData>({
+		id: 0,
+		name: "",
+		category: "카페",
+		subcategory: "",
+		areaCd: "",
+		address: "",
+		roadAddress: "",
+		detailAddress: "",
+		lat: 0,
+		lng: 0,
+		description: "",
+		avgRating: 0,
+	});
+	const [reviews, setReviews] = React.useState<Array<ReviewItem>>([]);
+
+	const placeName = placeDetail.name;
+	const placeType = placeDetail.category;
+	const address = placeDetail.address;
+	const imageSrc = null;
+	const rep = placeDetail.avgRating;
 	const emoticon = getRepEmoticon(rep);
 	const repText = getRepText(rep);
-	const description = "매일같이 무지개를 감상할 수 있는 하와이";
+	const description = placeDetail.description;
 	const reviewCount = 19;
 
 	const copyToClipboard = async () => {
@@ -55,10 +74,39 @@ const detail = (props: Props) => {
 		);
 	};
 
+	React.useEffect(() => {
+		const getPlaceDetail = async () => {
+			await fetchPlaceDetail(details as string)
+				.then((res) => {
+					setPlaceDetail(res);
+				})
+				.catch((err) => {
+					console.log(err);
+					alert("장소 정보를 불러오지 못했습니다.");
+				});
+		};
+
+		const getPlaceReviews = async () => {
+			await fetchPlaceReviews(details as string)
+				.then((res) => {
+					setReviews(res);
+				})
+				.catch((err) => {
+					console.log(err);
+					alert("리뷰 정보를 불러오지 못했습니다.");
+				});
+		};
+
+		getPlaceDetail();
+		getPlaceReviews();
+	}, []);
+
+	console.log(placeDetail);
+	console.log(reviews);
+
 	return (
 		<>
 			<Stack.Screen
-				// getId={({ params }) => String(Date.now())}
 				options={{
 					headerShown: false,
 				}}
@@ -66,7 +114,11 @@ const detail = (props: Props) => {
 			<SafeAreaView>
 				<ScrollView style={styles.container}>
 					<ImageBackground
-						source={{ uri: imageSrc }}
+						source={{
+							uri:
+								imageSrc ??
+								"https://fakeimg.pl/600x400?text=No+image&font=bebas",
+						}}
 						style={styles.imageContainer}
 					>
 						<LinearGradient
@@ -151,12 +203,12 @@ const detail = (props: Props) => {
 										}
 									>
 										<Heading3>
-											{`${getRepEmoticon(
-												item.rep
-											)} ${getRepText(item.rep)}`}
+											{`${getRepEmoticon(0)} ${getRepText(
+												0
+											)}`}
 										</Heading3>
 										<Body5 color={Colors.gray[300]}>
-											25.04.04
+											{item.visitDate}
 										</Body5>
 									</View>
 									<View
@@ -164,8 +216,8 @@ const detail = (props: Props) => {
 											styles.reviewListRowBottomContentContainer
 										}
 									>
-										<Body2>{item.user}</Body2>
-										<Body3>{item.content}</Body3>
+										<Body2>{item.writerUsername}</Body2>
+										<Body3>{item.comment}</Body3>
 									</View>
 									{idx !== reviews.length - 1 && <Divider />}
 								</View>
@@ -310,36 +362,36 @@ const styles = StyleSheet.create({
 	},
 });
 
-const reviews: Array<ReviewItem> = [
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-];
+// const reviews: Array<ReviewItem> = [
+// 	{
+// 		id: 0,
+// 		user: "wujooin",
+// 		content: "너무너무 조용해요!!!",
+// 		rep: 0,
+// 		date: "25.04.04",
+// 	},
+// 	{
+// 		id: 0,
+// 		user: "wujooin",
+// 		content: "너무너무 조용해요!!!",
+// 		rep: 0,
+// 		date: "25.04.04",
+// 	},
+// 	{
+// 		id: 0,
+// 		user: "wujooin",
+// 		content: "너무너무 조용해요!!!",
+// 		rep: 0,
+// 		date: "25.04.04",
+// 	},
+// 	{
+// 		id: 0,
+// 		user: "wujooin",
+// 		content: "너무너무 조용해요!!!",
+// 		rep: 0,
+// 		date: "25.04.04",
+// 	},
+// ];
 
 const cardSItems: Array<CardSItem> = [
 	{

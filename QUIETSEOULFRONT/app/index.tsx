@@ -110,8 +110,6 @@ export default function Landing() {
 		getCurrentLocation();
 	}, []);
 
-	console.log(location);
-
 	return (
 		<>
 			<Stack.Screen
@@ -238,13 +236,13 @@ const carouselItems = [
 		description: "뉴욕은 정말 멋있어",
 	},
 	{
-		id: 1,
+		id: 2,
 		image: "https://ko.skyticket.com/guide/wp-content/uploads/2024/11/f3b05a7e-shutterstock_2148766635-1200x675.jpg",
 		location: "몰디브",
 		description: "에메랄드 빛깔의 해변을 지닌 몰디브",
 	},
 	{
-		id: 1,
+		id: 3,
 		image: "https://content.skyscnr.com/m/41acfff761f8ea1a/original/GettyImages-519763361.jpg?resize=1800px:1800px&quality=100",
 		location: "하와이",
 		description: "매일같이 무지개를 감상할 수 있는 하와이",
@@ -252,13 +250,6 @@ const carouselItems = [
 ];
 
 const cardLItems: Array<CardLItem> = [
-	{
-		id: 0,
-		text: "스타벅스 교대점",
-		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
-		rep: "good",
-		reviews: 19,
-	},
 	{
 		id: 1,
 		text: "스타벅스 교대점",
@@ -268,6 +259,13 @@ const cardLItems: Array<CardLItem> = [
 	},
 	{
 		id: 2,
+		text: "스타벅스 교대점",
+		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
+		rep: "good",
+		reviews: 19,
+	},
+	{
+		id: 3,
 		text: "스타벅스 교대점",
 		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
 		rep: "good",
@@ -277,18 +275,21 @@ const cardLItems: Array<CardLItem> = [
 
 const cardXLItems: Array<CardXLItem> = [
 	{
+		id: 1,
 		text: "용산역",
 		image: "https://mediahub.seoul.go.kr/uploads/mediahub/2021/02/6ec15c54a93144dcad71b7e4894bebf5.jpg",
 		subText: "현재 1.8만 ~ 2.0만",
 		status: 0,
 	},
 	{
+		id: 2,
 		text: "용산역",
 		image: "https://mediahub.seoul.go.kr/uploads/mediahub/2021/02/6ec15c54a93144dcad71b7e4894bebf5.jpg",
 		subText: "현재 1.8만 ~ 2.0만",
 		status: 0,
 	},
 	{
+		id: 3,
 		text: "용산역",
 		image: "https://mediahub.seoul.go.kr/uploads/mediahub/2021/02/6ec15c54a93144dcad71b7e4894bebf5.jpg",
 		subText: "현재 1.8만 ~ 2.0만",
@@ -297,15 +298,6 @@ const cardXLItems: Array<CardXLItem> = [
 ];
 
 const cardSItems: Array<CardSItem> = [
-	{
-		id: 0,
-		text: "동작충효길",
-		type: "카페",
-		rep: "good",
-		reviews: 0,
-		isFromUser: true,
-		distance: 1.2,
-	},
 	{
 		id: 1,
 		text: "동작충효길",
@@ -317,6 +309,15 @@ const cardSItems: Array<CardSItem> = [
 	},
 	{
 		id: 2,
+		text: "동작충효길",
+		type: "카페",
+		rep: "good",
+		reviews: 0,
+		isFromUser: true,
+		distance: 1.2,
+	},
+	{
+		id: 3,
 		text: "동작충효길",
 		type: "카페",
 		rep: "good",

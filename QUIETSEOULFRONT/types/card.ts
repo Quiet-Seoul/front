@@ -1,5 +1,5 @@
 export interface CardLItem {
-	id?: number;
+	id: number;
 	text: string;
 	image?: string;
 	rep: "good" | "normal" | "bad";
@@ -7,7 +7,7 @@ export interface CardLItem {
 }
 
 export interface CardXLItem {
-	id?: number;
+	id: number;
 	text: string;
 	image?: string;
 	subText: string;

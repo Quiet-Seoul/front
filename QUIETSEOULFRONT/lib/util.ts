@@ -1,7 +1,7 @@
 import { Colors } from "@/constants/Colors";
 import { LoginData, SignUpValidationData } from "@/types/user";
 
-export const getRepText = (rep: number) => {
+export const getRepText = (rep?: number) => {
 	return rep === 0
 		? "한적해요"
 		: rep === 1
@@ -13,7 +13,7 @@ export const getRepText = (rep: number) => {
 		: "";
 };
 
-export const getRepEmoticon = (rep: number) => {
+export const getRepEmoticon = (rep?: number) => {
 	return rep === 0
 		? "☺️"
 		: rep === 1

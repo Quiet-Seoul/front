@@ -1,7 +1,9 @@
-interface ReviewItem {
+export interface ReviewItem {
 	id: number;
-	user: string;
-	content: string;
-	rep: number;
-	date: string;
+	comment: string;
+	visitDate: string;
+	createdAt: string;
+	congestionLevel: string;
+	writerUsername: string;
+	imageUrl: string;
 }

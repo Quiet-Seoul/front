@@ -32,6 +32,7 @@ const CardSList = ({ titleComponent, items, isFromUser = false }: Props) => {
 			<FlatList
 				data={items}
 				renderItem={renderItems}
+				keyExtractor={(item) => item.id.toString()}
 				horizontal
 				contentContainerStyle={{
 					columnGap: 8,

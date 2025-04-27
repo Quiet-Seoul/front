@@ -12,6 +12,7 @@ import {
 } from "@/components/text/Text";
 import { Colors } from "@/constants/Colors";
 import { getRepEmoticon, getRepText } from "@/lib/util";
+import { ReviewItem } from "@/types/review";
 import { Stack, router } from "expo-router";
 import React from "react";
 import {

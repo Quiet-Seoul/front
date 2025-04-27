@@ -96,6 +96,7 @@ const recommand = () => {
 			} else {
 				return (
 					<CardFlexible
+						id={item.id}
 						type={item.type}
 						text={item.text}
 						rep={item.rep}
