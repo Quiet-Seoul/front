@@ -7,12 +7,14 @@ type Props = {
 	placeholder?: string;
 	readonly?: boolean;
 	value?: string;
+	onChangeText?: (text: string) => void;
 };
 
 const TextBox = ({
 	placeholder = "내용을 적어주세요",
 	readonly = false,
 	value,
+	onChangeText,
 }: Props) => {
 	return (
 		<TextInput
@@ -24,6 +26,7 @@ const TextBox = ({
 			numberOfLines={8}
 			verticalAlign="top"
 			textAlignVertical="top"
+			onChangeText={onChangeText}
 		/>
 	);
 };

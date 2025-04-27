@@ -11,6 +11,7 @@ import React from "react";
 import {
 	Keyboard,
 	Pressable,
+	SafeAreaView,
 	StyleSheet,
 	Text,
 	TouchableWithoutFeedback,
@@ -94,7 +95,7 @@ const login = (props: Props) => {
 							로그인
 						</PrimaryButton>
 					</View>
-					<Pressable onTouchEnd={() => router.push("/signup")}>
+					<Pressable onPress={() => router.push("/signup")}>
 						<Caption3 color={Colors.gray[700]}>
 							아직 회원이 아니시라면 →
 						</Caption3>

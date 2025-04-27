@@ -17,7 +17,6 @@ import UserChip from "@/components/chips/UserChip";
 import { fetchUserData } from "@/data/user";
 import SquareCarousel from "@/components/carousel/SquareCarousel";
 import * as Location from "expo-location";
-import { PermissionsAndroid, Platform, TouchableOpacity } from "react-native";
 
 export default function Landing() {
 	const [userData, setUserData] = React.useState<UserData | null>(null);
@@ -265,7 +264,7 @@ const cardLItems: Array<CardLItem> = [
 		reviews: 19,
 	},
 	{
-		id: 3,
+		id: 4,
 		text: "스타벅스 교대점",
 		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
 		rep: "good",

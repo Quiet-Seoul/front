@@ -7,12 +7,13 @@ import { getWeekdayKR } from "@/lib/util";
 
 type Props = {
 	onPress?: () => void;
+	dateString: string;
 };
 
-const DateField = ({ onPress }: Props) => {
-	const today = new Date(Date.now());
+const DateField = ({ onPress, dateString }: Props) => {
+	const today = new Date(dateString);
 	const todayYear = today.getFullYear();
-	const todayMonth = today.getMonth();
+	const todayMonth = today.getMonth() + 1;
 	const todayDay = today.getDate();
 	const todayWeekday = getWeekdayKR(today.getDay());
 

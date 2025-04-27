@@ -20,7 +20,7 @@ type Props = {};
 
 const Inform = (props: Props) => {
 	return (
-		<>
+		<SafeAreaView>
 			<Stack.Screen
 				name="inform"
 				options={{
@@ -112,7 +112,7 @@ const Inform = (props: Props) => {
 					</View>
 				</View>
 			</TouchableWithoutFeedback>
-		</>
+		</SafeAreaView>
 	);
 };
 
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16,
 		paddingVertical: 8,
 		position: "absolute",
-		bottom: 100,
+		bottom: 0,
 		borderTopWidth: 1,
 		borderTopColor: Colors.gray[100],
 	},

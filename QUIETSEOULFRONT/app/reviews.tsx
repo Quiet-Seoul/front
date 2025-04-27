@@ -11,9 +11,12 @@ import {
 	Heading4,
 } from "@/components/text/Text";
 import { Colors } from "@/constants/Colors";
+import { fetchPlaceDetail } from "@/data/places";
+import { fetchPlaceReviews } from "@/data/reviews";
 import { getRepEmoticon, getRepText } from "@/lib/util";
+import { PlaceDetailData } from "@/types/places";
 import { ReviewItem } from "@/types/review";
-import { Stack, router } from "expo-router";
+import { Stack, router, useLocalSearchParams } from "expo-router";
 import React from "react";
 import {
 	FlatList,
@@ -27,53 +30,99 @@ import {
 type Props = {};
 
 const reviews = (props: Props) => {
+	const { details } = useLocalSearchParams();
+
+	const [placeDetail, setPlaceDetail] = React.useState<PlaceDetailData>({
+		id: 0,
+		name: "",
+		category: "카페",
+		subcategory: "",
+		areaCd: "",
+		address: "",
+		roadAddress: "",
+		detailAddress: "",
+		lat: 0,
+		lng: 0,
+		description: "",
+		avgRating: 0,
+	});
+	const [reviews, setReviews] = React.useState<Array<ReviewItem>>([]);
+
 	const imageSrc =
 		"https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/07/10/MIwt/5pXvYOvGAg.jpg";
-	const placeName = "뉴욕";
-	const placeType = "공원";
-	const address = "미국 뉴욕주 뉴욕 맨해튼";
+	const placeName = placeDetail.name;
+	const placeType = placeDetail.category;
+	const address = placeDetail.address;
+
+	React.useEffect(() => {
+		const getPlaceDetail = async () => {
+			await fetchPlaceDetail(details as string)
+				.then((res) => {
+					console.log(res);
+					setPlaceDetail(res);
+				})
+				.catch((err) => {
+					console.log(err);
+					alert("장소 정보를 불러오지 못했습니다.");
+				});
+		};
+
+		const getPlaceReviews = async () => {
+			await fetchPlaceReviews(details as string)
+				.then((res) => {
+					setReviews(res);
+				})
+				.catch((err) => {
+					console.log(err);
+					alert("리뷰 정보를 불러오지 못했습니다.");
+				});
+		};
+
+		getPlaceDetail();
+		getPlaceReviews();
+	}, []);
 
 	const renderItems: ListRenderItem<ReviewItem> = React.useCallback(
 		({ item }) => (
 			<View style={styles.reviewListRowContainer}>
 				<View style={styles.reviewListRowTopContentContainer}>
 					<Heading3>
-						{`${getRepEmoticon(item.rep)} ${getRepText(item.rep)}`}
+						{/* {`${getRepEmoticon(item.congestionLevel)} ${getRepText(item.congestionLevel)}`} */}
+						asd
 					</Heading3>
-					<Body5 color={Colors.gray[300]}>25.04.04</Body5>
+					<Body5 color={Colors.gray[300]}>{item.visitDate}</Body5>
 				</View>
 				<View style={styles.reviewListRowBottomContentContainer}>
-					<Body2>{item.user}</Body2>
-					<Body3>{item.content}</Body3>
+					<Body2>{item.writerUsername}</Body2>
+					<Body3>{item.comment}</Body3>
 				</View>
 			</View>
 		),
 		[]
 	);
 
-	const renderHeader = React.useCallback(
-		() => (
-			<View style={styles.headerContainer}>
-				<View style={styles.infoContainer}>
-					<Image
-						source={{ uri: imageSrc }}
-						style={{ width: 54, height: 54 }}
-					/>
-					<View style={styles.infoTextContainer}>
-						<View style={styles.infoTextBox}>
-							<Heading4>{placeName}</Heading4>
-							<Body3 color={Colors.gray[800]}>{placeType}</Body3>
-						</View>
-						<View style={styles.infoTextBox}>
-							<Body5 color={Colors.gray[400]}>위치</Body5>
+	const renderHeader = (
+		<View style={styles.headerContainer}>
+			<View style={styles.infoContainer}>
+				<Image
+					source={{ uri: imageSrc }}
+					style={{ width: 54, height: 54 }}
+				/>
+				<View style={styles.infoTextContainer}>
+					<View style={styles.infoTextBox}>
+						<Heading4>{placeName}</Heading4>
+						<Body3 color={Colors.gray[800]}>{placeType}</Body3>
+					</View>
+					<View style={styles.infoTextBox}>
+						<Body5 color={Colors.gray[400]}>위치</Body5>
+						<View style={styles.addressBox}>
 							<Body5 color={Colors.gray[700]}>{address}</Body5>
 						</View>
 					</View>
 				</View>
-				<Divider variant="bold" />
 			</View>
-		),
-		[]
+			<Divider variant="bold" />
+		</View>
 	);
 
 	const renderSeparator = React.useCallback(
@@ -102,7 +151,7 @@ const reviews = (props: Props) => {
 			/>
 			<SafeAreaView>
 				<FlatList
-					data={reviewData}
+					data={reviews}
 					renderItem={renderItems}
 					keyExtractor={(item, idx) => String(item.id) + idx}
 					ListHeaderComponent={renderHeader}
@@ -112,7 +161,16 @@ const reviews = (props: Props) => {
 					ListFooterComponent={<BottomMargin height={128} />}
 				/>
 				<View style={styles.bottomButtonContainer}>
-					<PrimaryButton>후기 남기기</PrimaryButton>
+					<PrimaryButton
+						onPress={() =>
+							router.push({
+								pathname: "/review",
+								params: { details: details },
+							})
+						}
+					>
+						후기 남기기
+					</PrimaryButton>
 				</View>
 			</SafeAreaView>
 		</>
@@ -142,6 +200,7 @@ const styles = StyleSheet.create({
 		columnGap: 12,
 	},
 	infoTextContainer: {
+		flex: 1,
 		display: "flex",
 		flexDirection: "column",
 		rowGap: 8,
@@ -150,6 +209,10 @@ const styles = StyleSheet.create({
 		display: "flex",
 		flexDirection: "row",
 		columnGap: 8,
+	},
+	addressBox: {
+		flex: 1,
+		width: "100%",
 	},
 	reviewListRowContainer: {
 		display: "flex",
@@ -179,118 +242,3 @@ const styles = StyleSheet.create({
 		borderTopColor: Colors.gray[100],
 	},
 });
-
-const reviewData: Array<ReviewItem> = [
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-	{
-		id: 0,
-		user: "wujooin",
-		content: "너무너무 조용해요!!!",
-		rep: 0,
-		date: "25.04.04",
-	},
-];

@@ -101,9 +101,6 @@ const detail = (props: Props) => {
 		getPlaceReviews();
 	}, []);
 
-	console.log(placeDetail);
-	console.log(reviews);
-
 	return (
 		<>
 			<Stack.Screen
@@ -167,18 +164,16 @@ const detail = (props: Props) => {
 									backgroundColor: Colors.gray[100],
 								}}
 							/>
-							<View style={styles.addressAlign}>
+							<TouchableOpacity
+								style={styles.addressAlign}
+								onPress={copyToClipboard}
+							>
 								<Body5 color={Colors.gray[800]}>
 									{address}
-								</Body5>
-								<TouchableOpacity
-									style={styles.copyContainer}
-									onPress={copyToClipboard}
-								>
 									<Clipboard />
-									<Body5 color={Colors.gray[800]}>복사</Body5>
-								</TouchableOpacity>
-							</View>
+									복사
+								</Body5>
+							</TouchableOpacity>
 						</View>
 					</View>
 					<View style={styles.dividerContainer}>
@@ -188,7 +183,7 @@ const detail = (props: Props) => {
 						<View style={styles.reviewTitleContainer}>
 							<Heading2>장소 후기</Heading2>
 							<Heading2 color={Colors.gray[500]}>
-								{reviewCount}
+								{reviews.length}
 							</Heading2>
 						</View>
 						<View style={styles.reviewListContainer}>
@@ -223,7 +218,12 @@ const detail = (props: Props) => {
 								</View>
 							))}
 							<SecondaryButton
-								onPress={() => router.push("/reviews")}
+								onPress={() =>
+									router.push({
+										pathname: "/reviews",
+										params: { details: details },
+									})
+								}
 							>
 								후기 전체보기
 							</SecondaryButton>
@@ -241,7 +241,16 @@ const detail = (props: Props) => {
 					<BottomMargin height={128} />
 				</ScrollView>
 				<View style={styles.bottomButtonContainer}>
-					<PrimaryButton>후기 남기기</PrimaryButton>
+					<PrimaryButton
+						onPress={() =>
+							router.push({
+								pathname: "/review",
+								params: { details: details },
+							})
+						}
+					>
+						후기 남기기
+					</PrimaryButton>
 				</View>
 			</SafeAreaView>
 		</>
@@ -285,6 +294,7 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 	},
 	titleContainer: {
+		flex: 1,
 		display: "flex",
 		flexDirection: "column",
 		rowGap: 2,
@@ -304,15 +314,16 @@ const styles = StyleSheet.create({
 		rowGap: 8,
 	},
 	addressAlign: {
+		flex: 1,
 		display: "flex",
 		flexDirection: "row",
 		columnGap: 4,
+		alignItems: "center",
 	},
 	copyContainer: {
 		display: "flex",
 		flexDirection: "row",
 		columnGap: 2,
-		alignItems: "center",
 	},
 	dividerContainer: {
 		paddingVertical: 16,
@@ -361,37 +372,6 @@ const styles = StyleSheet.create({
 		borderTopColor: Colors.gray[100],
 	},
 });
-
-// const reviews: Array<ReviewItem> = [
-// 	{
-// 		id: 0,
-// 		user: "wujooin",
-// 		content: "너무너무 조용해요!!!",
-// 		rep: 0,
-// 		date: "25.04.04",
-// 	},
-// 	{
-// 		id: 0,
-// 		user: "wujooin",
-// 		content: "너무너무 조용해요!!!",
-// 		rep: 0,
-// 		date: "25.04.04",
-// 	},
-// 	{
-// 		id: 0,
-// 		user: "wujooin",
-// 		content: "너무너무 조용해요!!!",
-// 		rep: 0,
-// 		date: "25.04.04",
-// 	},
-// 	{
-// 		id: 0,
-// 		user: "wujooin",
-// 		content: "너무너무 조용해요!!!",
-// 		rep: 0,
-// 		date: "25.04.04",
-// 	},
-// ];
 
 const cardSItems: Array<CardSItem> = [
 	{
