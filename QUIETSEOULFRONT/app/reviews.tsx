@@ -58,11 +58,9 @@ const reviews = (props: Props) => {
 		const getPlaceDetail = async () => {
 			await fetchPlaceDetail(details as string)
 				.then((res) => {
-					console.log(res);
 					setPlaceDetail(res);
 				})
 				.catch((err) => {
-					console.log(err);
 					alert("장소 정보를 불러오지 못했습니다.");
 				});
 		};
@@ -73,7 +71,6 @@ const reviews = (props: Props) => {
 					setReviews(res);
 				})
 				.catch((err) => {
-					console.log(err);
 					alert("리뷰 정보를 불러오지 못했습니다.");
 				});
 		};
