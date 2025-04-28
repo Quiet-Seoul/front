@@ -144,6 +144,7 @@ const signup = (props: Props) => {
 					/>
 					<View style={styles.dateContainer}>
 						<Caption1 color={Colors.gray[900]}>생년월일</Caption1>
+						{/* 캘린더에서 select box로 바꾸기 */}
 						<Pressable
 							style={styles.inputField}
 							onPress={() => bottomSheetRep.current?.present()}

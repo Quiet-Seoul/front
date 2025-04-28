@@ -2,17 +2,23 @@ import CalendarSheet from "@/components/bottomsheet/CalendarSheet";
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import RadioButton, { RadioProvider } from "@/components/buttons/RadioButton";
 import Divider from "@/components/divider/Divider";
+import Camera from "@/components/icons/Camera";
 import ChevronLeft24 from "@/components/icons/ChevronLeft24";
 import DateField from "@/components/inputField/DateField";
 import TextBox from "@/components/inputField/TextBox";
 import BottomMargin from "@/components/others/BottomMargin";
-import { Heading4, Body3, Body5, Heading2 } from "@/components/text/Text";
+import {
+	Heading4,
+	Body3,
+	Body5,
+	Heading2,
+	Caption1,
+	Caption3,
+} from "@/components/text/Text";
 import { Colors } from "@/constants/Colors";
 import { fetchPlaceDetail } from "@/data/places";
-import { fetchPlaceReviews } from "@/data/reviews";
 import { DateProps } from "@/types/date";
 import { PlaceDetailData } from "@/types/places";
-import { ReviewItem } from "@/types/review";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Stack, router, useLocalSearchParams } from "expo-router";
 import React from "react";
@@ -23,7 +29,13 @@ import {
 	TouchableWithoutFeedback,
 	Keyboard,
 	SafeAreaView,
+	Pressable,
+	ImageBackground,
 } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import * as ImagePicker from "expo-image-picker";
+import Delete from "@/components/icons/Delete";
+import { sendPlaceReview } from "@/data/reviews";
 
 type Props = {};
 
@@ -66,11 +78,11 @@ const review = (props: Props) => {
 		timestamp: Date.now(),
 	});
 
-	const crowdLevel = React.useRef<string>("");
-	const content = React.useRef<string>("");
+	const congestionLevel = React.useRef<string>("");
+	const comment = React.useRef<string>("");
 
 	const handleCrowdLevel = (level: string) => {
-		crowdLevel.current = level;
+		congestionLevel.current = level;
 	};
 
 	const handleDateChange = (date: DateProps) => {
@@ -78,7 +90,56 @@ const review = (props: Props) => {
 	};
 
 	const handleChangeText = (text: string) => {
-		content.current = text;
+		comment.current = text;
+	};
+
+	const handleReviewSubmit = async () => {
+		const reviewForm = new FormData();
+
+		images?.forEach((item) => {
+			reviewForm.append("imageUrlList", {
+				uri: item.uri,
+				type: "image/png",
+				name: item.fileName,
+			} as any);
+		});
+
+		reviewForm.append("congestionLevel", congestionLevel.current);
+		reviewForm.append("comment", comment.current);
+		reviewForm.append("visitDate", dateData.dateString);
+
+		await sendPlaceReview(placeDetail.id, reviewForm)
+			.then((res) => {
+				console.log(res);
+				alert("성공적으로 리뷰를 등록했습니다!");
+			})
+			.catch((err) => {
+				console.log(err);
+				alert("리뷰 등록에 실패했습니다.");
+			});
+	};
+
+	const [images, setImages] = React.useState<
+		ImagePicker.ImagePickerAsset[] | undefined
+	>(undefined);
+
+	const pickImage = async () => {
+		// No permissions request is necessary for launching the image library
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ["images"],
+			quality: 1,
+			allowsMultipleSelection: true,
+		});
+
+		if (!result.canceled) {
+			const imageArr = result.assets.filter(
+				(item) =>
+					!images
+						?.map((item) => item.fileName)
+						.includes(item.fileName)
+			);
+			setImages(images ? imageArr.concat(images) : imageArr);
+		}
 	};
 
 	React.useEffect(() => {
@@ -113,36 +174,41 @@ const review = (props: Props) => {
 				}}
 			/>
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-				<View>
-					<View style={styles.container}>
-						<View style={styles.headerContainer}>
-							<View style={styles.infoContainer}>
-								<Image
-									source={{ uri: imageSrc }}
-									style={{ width: 54, height: 54 }}
-								/>
-								<View style={styles.infoTextContainer}>
-									<View style={styles.infoTextBox}>
-										<Heading4>{placeName}</Heading4>
-										<Body3 color={Colors.gray[800]}>
-											{placeType}
-										</Body3>
-									</View>
-									<View style={styles.infoTextBox}>
-										<Body5 color={Colors.gray[400]}>
-											위치
-										</Body5>
+				<View style={styles.container}>
+					<View style={styles.headerContainer}>
+						<View style={styles.infoContainer}>
+							<Image
+								source={{ uri: imageSrc }}
+								style={{ width: 54, height: 54 }}
+							/>
+							<View style={styles.infoTextContainer}>
+								<View style={styles.infoTextBox}>
+									<Heading4>{placeName}</Heading4>
+									<Body3 color={Colors.gray[800]}>
+										{placeType}
+									</Body3>
+								</View>
+								<View style={styles.infoTextBox}>
+									<Body5 color={Colors.gray[400]}>위치</Body5>
 
-										<View style={styles.addressBox}>
-											<Body5 color={Colors.gray[700]}>
-												{address}
-											</Body5>
-										</View>
+									<View style={styles.addressBox}>
+										<Body5 color={Colors.gray[700]}>
+											{address}
+										</Body5>
 									</View>
 								</View>
 							</View>
-							<Divider variant="light" />
 						</View>
+						<Divider variant="light" />
+					</View>
+					<ScrollView
+						contentContainerStyle={{
+							paddingVertical: 16,
+							display: "flex",
+							flexDirection: "column",
+							rowGap: 16,
+						}}
+					>
 						<View style={styles.starContainer}>
 							<Heading2>방문하신 장소는 어떠셨나요?</Heading2>
 							<View style={styles.starAlign}>
@@ -169,8 +235,8 @@ const review = (props: Props) => {
 									/>
 								</RadioProvider>
 							</View>
+							<BottomMargin height={32} />
 						</View>
-						<BottomMargin height={32} />
 						<View style={styles.dateContainer}>
 							<Heading2>방문 날짜</Heading2>
 							<DateField
@@ -180,31 +246,68 @@ const review = (props: Props) => {
 								dateString={dateData.dateString}
 							/>
 						</View>
+						<View style={styles.dateContainer}>
+							<Heading2>사진 업로드</Heading2>
+							<ScrollView
+								contentContainerStyle={styles.imageContainer}
+								horizontal
+								showsHorizontalScrollIndicator={false}
+							>
+								<Pressable
+									style={styles.imageUploadBox}
+									onPress={pickImage}
+								>
+									<Camera />
+									<Caption1 color={Colors.gray[400]}>
+										0 / 5
+									</Caption1>
+								</Pressable>
+								{images?.map((item, idx) => (
+									<ImageBackground
+										key={idx}
+										source={{
+											uri:
+												item.uri ??
+												"https://fakeimg.pl/600x400?text=No+image&font=bebas",
+										}}
+										style={styles.imageBox}
+										imageStyle={styles.imageContentBox}
+									>
+										<Pressable
+											style={styles.imageDeleteBox}
+											onPress={() =>
+												setImages((prev) =>
+													prev?.filter(
+														(elem) =>
+															elem.fileName !==
+															item.fileName
+													)
+												)
+											}
+										>
+											<Delete />
+										</Pressable>
+									</ImageBackground>
+								))}
+							</ScrollView>
+						</View>
 						<View style={styles.commentContainer}>
 							<Heading2>후기 작성</Heading2>
 							<TextBox onChangeText={handleChangeText} />
 						</View>
-					</View>
+					</ScrollView>
 					<View style={styles.bottomButtonContainer}>
-						<PrimaryButton
-							onPress={() =>
-								console.log(
-									crowdLevel.current,
-									dateData.dateString,
-									content.current
-								)
-							}
-						>
+						<PrimaryButton onPress={handleReviewSubmit}>
 							작성 완료
 						</PrimaryButton>
 					</View>
-					<CalendarSheet
-						ref={bottomSheetRep}
-						date={dateData}
-						onDateSelect={handleDateChange}
-					/>
 				</View>
 			</TouchableWithoutFeedback>
+			<CalendarSheet
+				ref={bottomSheetRep}
+				date={dateData}
+				onDateSelect={handleDateChange}
+			/>
 		</SafeAreaView>
 	);
 };
@@ -216,7 +319,6 @@ const styles = StyleSheet.create({
 		height: "100%",
 		display: "flex",
 		flexDirection: "column",
-		rowGap: 16,
 	},
 	headerContainer: {
 		backgroundColor: Colors.white,
@@ -277,13 +379,43 @@ const styles = StyleSheet.create({
 		rowGap: 16,
 	},
 	bottomButtonContainer: {
+		flex: 1,
 		width: "100%",
 		backgroundColor: Colors.white,
 		paddingHorizontal: 16,
 		paddingVertical: 8,
-		position: "absolute",
-		bottom: 0,
+		// position: "absolute",
+		// bottom: 0,
 		borderTopWidth: 1,
 		borderTopColor: Colors.gray[100],
+	},
+	imageContainer: {
+		display: "flex",
+		flexDirection: "row",
+		columnGap: 8,
+		alignItems: "center",
+	},
+	imageUploadBox: {
+		width: 96,
+		height: 96,
+		backgroundColor: Colors.gray[100],
+		borderRadius: 4,
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+		rowGap: 2,
+	},
+	imageBox: {
+		width: 96,
+		height: 96,
+	},
+	imageContentBox: {
+		borderRadius: 4,
+	},
+	imageDeleteBox: {
+		position: "absolute",
+		top: 4,
+		right: 4,
 	},
 });

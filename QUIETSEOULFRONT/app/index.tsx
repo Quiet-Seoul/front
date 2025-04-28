@@ -17,87 +17,30 @@ import UserChip from "@/components/chips/UserChip";
 import { fetchUserData } from "@/data/user";
 import SquareCarousel from "@/components/carousel/SquareCarousel";
 import * as Location from "expo-location";
+import * as SplashScreen from "expo-splash-screen";
+import Font, { useFonts } from "expo-font";
+import Header from "@/components/header/Header";
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
+
+// Set the animation options. This is optional.
+SplashScreen.setOptions({
+	duration: 2000,
+	fade: true,
+});
 
 export default function Landing() {
-	const [userData, setUserData] = React.useState<UserData | null>(null);
-
-	const getLoginInfo = async () => {
-		const jwt = await AsyncStorage.getItem("jwt");
-
-		if (jwt) {
-			await fetchUserData(jwt).then(async (res) => {
-				if (res) {
-					await AsyncStorage.setItem("user", JSON.stringify(res));
-					setUserData(res);
-				}
-			});
-		}
-	};
-
-	const handleDeleteUserData = async () => {
-		await AsyncStorage.removeItem("user");
-		await AsyncStorage.removeItem("jwt");
-		setUserData(null);
-	};
-
-	// const requestLocationPermission = async () => {
-	// 	if (Platform.OS === "android") {
-	// 		const granted = await PermissionsAndroid.request(
-	// 			PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-	// 		);
-
-	// 		if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-	// 			return true;
-	// 		} else {
-	// 			return false;
-	// 		}
-	// 		return false;
-	// 	}
-	// };
-
-	// const [currentLocation, setCurrentLocation] =
-	// 	React.useState<GeoPosition | null>(null);
-
-	// React.useEffect(() => {
-	// 	getLoginInfo();
-
-	// 	const getCurruntLocation = async () => {
-	// 		const isAuthorized = await requestLocationPermission();
-
-	// 		if (isAuthorized) {
-	// 			Geolocation.getCurrentPosition(
-	// 				(position) => {
-	// 					setCurrentLocation(position);
-	// 					console.log("==================");
-	// 				},
-	// 				(error) => {
-	// 					console.log(error.code, error.message);
-	// 				},
-	// 				{
-	// 					enableHighAccuracy: true,
-	// 					timeout: 15000,
-	// 					maximumAge: 10000,
-	// 				}
-	// 			);
-
-	// 			console.log(currentLocation);
-	// 		}
-	// 		console.log(currentLocation);
-	// 	};
-	// 	console.log(currentLocation);
-
-	// 	getCurruntLocation();
-	// }, []);
-	// console.log(currentLocation);
 	const [location, setLocation] =
 		React.useState<Location.LocationObject | null>(null);
-	const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
+
+	const [appIsReady, setAppIsReady] = React.useState(false);
 
 	React.useEffect(() => {
 		async function getCurrentLocation() {
 			let { status } = await Location.requestForegroundPermissionsAsync();
 			if (status !== "granted") {
-				setErrorMsg("Permission to access location was denied");
+				alert("Permission to access location was denied");
 				return;
 			}
 
@@ -105,37 +48,52 @@ export default function Landing() {
 			setLocation(location);
 		}
 
-		getLoginInfo();
+		async function prepare() {
+			try {
+				// Pre-load fonts, make any API calls you need to do here
+				await Font.loadAsync({
+					Pretendard: require("../assets/fonts/PretendardVariable.ttf"),
+					"Pretendard-Light": require("../assets/fonts/Pretendard-Light.otf"),
+					"Pretendard-Black": require("../assets/fonts/Pretendard-Black.otf"),
+					"Pretendard-Bold": require("../assets/fonts/Pretendard-Bold.otf"),
+					"Pretendard-ExtraBold": require("../assets/fonts/Pretendard-ExtraBold.otf"),
+					"Pretendard-Thin": require("../assets/fonts/Pretendard-Thin.otf"),
+					"Pretendard-ExtraLight": require("../assets/fonts/Pretendard-ExtraLight.otf"),
+					"Pretendard-SemiBold": require("../assets/fonts/Pretendard-SemiBold.otf"),
+					"Pretendard-Regular": require("../assets/fonts/Pretendard-Regular.otf"),
+					"Pretendard-Medium": require("../assets/fonts/Pretendard-Medium.otf"),
+				});
+				// Artificially delay for two seconds to simulate a slow loading
+				// experience. Remove this if you copy and paste the code!
+				await new Promise((resolve) => setTimeout(resolve, 5000));
+
+				console.log("Fonts loaded successfully!");
+			} catch (e) {
+				console.warn(e);
+			} finally {
+				// Tell the application to render
+				setAppIsReady(true);
+			}
+		}
+
+		prepare();
 		getCurrentLocation();
 	}, []);
 
+	const onLayoutRootView = React.useCallback(() => {
+		if (appIsReady) {
+			SplashScreen.hide();
+		}
+	}, [appIsReady]);
+
+	if (!appIsReady) {
+		return null;
+	}
+
 	return (
 		<>
-			<Stack.Screen
-				name="index"
-				options={{
-					headerBackVisible: false,
-					headerTitle: () => (
-						<Heading2 color={Colors.white}>한적서울</Heading2>
-					),
-					headerRight: () => {
-						if (userData) {
-							return (
-								<UserChip
-									userName={userData.name}
-									onPress={handleDeleteUserData}
-								/>
-							);
-						}
-						return (
-							<View onTouchEnd={() => router.push("/login")}>
-								<Heading2 color={Colors.white}>로그인</Heading2>
-							</View>
-						);
-					},
-				}}
-			/>
-			<ScrollView>
+			<Header title="한적서울" screenName="index" chevron={false} />
+			<ScrollView onLayout={onLayoutRootView}>
 				<HomeCarousel items={carouselItems} />
 				<View
 					style={{

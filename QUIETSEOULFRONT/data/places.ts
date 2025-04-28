@@ -1,6 +1,6 @@
 import { PlaceDetailData } from "@/types/places";
 
-const domain = "http://54.180.114.193:8080";
+const domain = "http://15.165.203.85:8080";
 
 export const fetchPlaceDetail = async (
 	placeId: string

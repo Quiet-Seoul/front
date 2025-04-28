@@ -1,51 +1,61 @@
 {
-  "expo": {
-    "name": "QUIETSEOULFRONT",
-    "slug": "QUIETSEOULFRONT",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.gunyange.QUIETSEOULFRONT"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.gunyange.QUIETSEOULFRONT"
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
-    },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ]
-    ],
-    "experiments": {
-      "typedRoutes": true
-    },
-    "extra": {
-      "router": {
-        "origin": false
-      },
-      "eas": {
-        "projectId": "15454a0d-f931-4cb8-b777-a9658c558107"
-      }
-    }
-  }
+	"expo": {
+		"name": "QUIETSEOULFRONT",
+		"slug": "QUIETSEOULFRONT",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./assets/images/quietseoullogo.png",
+		"android.adaptiveIcon.backgroundColor": "#3b8d55",
+		"scheme": "myapp",
+		"userInterfaceStyle": "automatic",
+		"splash": {
+			"image": "./assets/images/quietseoullogo.png",
+			"imageWidth": 200,
+			"resizeMode": "contain",
+			"backgroundColor": "#3b8d55"
+		},
+		"newArchEnabled": true,
+		"ios": {
+			"supportsTablet": true,
+			"bundleIdentifier": "com.gunyange.QUIETSEOULFRONT"
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/images/quietseoullogo.png",
+				"backgroundColor": "#3b8d55"
+			},
+			"package": "com.gunyange.QUIETSEOULFRONT"
+		},
+		"web": {
+			"bundler": "metro",
+			"output": "static",
+			"favicon": "./assets/images/favicon.png"
+		},
+		"plugins": [
+			"expo-router",
+			[
+				"expo-splash-screen",
+				{
+					"backgroundColor": "#3b8d55",
+					"image": "./assets/images/quietseoullogo.png",
+					"dark": {
+						"image": "./assets/images/quietseoullogo.png",
+						"backgroundColor": "#3b8d55"
+					},
+					"imageWidth": 200
+				}
+			]
+		],
+		"experiments": {
+			"typedRoutes": true
+		},
+		"extra": {
+			"router": {
+				"origin": false
+			},
+			"eas": {
+				"projectId": "15454a0d-f931-4cb8-b777-a9658c558107"
+			}
+		}
+	}
 }

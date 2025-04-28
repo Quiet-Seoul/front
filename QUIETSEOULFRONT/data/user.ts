@@ -1,6 +1,6 @@
 import { LoginData, SignUpData } from "@/types/user";
 
-const domain = "http://54.180.114.193:8080";
+const domain = "http://15.165.203.85:8080";
 
 export const fetchCreateUser = async (data: SignUpData) => {
 	const response = await fetch(domain + "/api/users/register", {

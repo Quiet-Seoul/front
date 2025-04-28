@@ -55,6 +55,7 @@ export default function QuietPlaces() {
 							<View style={styles.cardList}>
 								{cardLItems.map((item, idx) => (
 									<CardL
+										id={item.id}
 										key={idx}
 										text={item.text}
 										image={item.image}
@@ -69,6 +70,7 @@ export default function QuietPlaces() {
 							<View style={styles.cardList}>
 								{cardLItems.map((item, idx) => (
 									<CardL
+										id={item.id}
 										key={idx}
 										text={item.text}
 										image={item.image}
@@ -83,6 +85,7 @@ export default function QuietPlaces() {
 							<View style={styles.cardList}>
 								{cardLItems.map((item, idx) => (
 									<CardL
+										id={item.id}
 										key={idx}
 										text={item.text}
 										image={item.image}
@@ -148,18 +151,21 @@ const styles = StyleSheet.create({
 
 const cardLItems: Array<CardLItem> = [
 	{
+		id: 1,
 		text: "스타벅스 교대점",
 		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
 		rep: "good",
 		reviews: 19,
 	},
 	{
+		id: 2,
 		text: "스타벅스 교대점",
 		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
 		rep: "good",
 		reviews: 19,
 	},
 	{
+		id: 3,
 		text: "스타벅스 교대점",
 		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
 		rep: "good",
