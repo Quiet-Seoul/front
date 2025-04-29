@@ -12,3 +12,18 @@ export interface PlaceDetailData {
 	description: string;
 	avgRating: number;
 }
+
+export interface PlacesNearbyData {
+	baseArea: string;
+	category: string;
+	places: Places[];
+}
+
+export interface Places {
+	id: number;
+	name: string;
+	address: string;
+	lat: number;
+	lng: number;
+	avgRating: number;
+}

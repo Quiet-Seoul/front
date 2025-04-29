@@ -8,10 +8,11 @@ import { router } from "expo-router";
 
 const CardXL = ({ text, image, subText, status }: CardXLItem) => {
 	const statusColor = {
-		0: Colors.status.positive,
-		1: Colors.status.neutral,
-		2: Colors.status.negative,
-		3: Colors.status.veryNegative,
+		3: Colors.status.positive,
+		2: Colors.status.neutral,
+		1: Colors.status.negative,
+		0: Colors.status.veryNegative,
+		4: Colors.gray[300],
 	};
 
 	return (

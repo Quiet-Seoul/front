@@ -36,11 +36,14 @@ import { fetchPlaceDetail } from "@/data/places";
 import { PlaceDetailData } from "@/types/places";
 import { ReviewItem } from "@/types/review";
 import { fetchPlaceReviews } from "@/data/reviews";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type Props = {};
 
 const detail = (props: Props) => {
 	const { details } = useLocalSearchParams();
+
+	const jwt = React.useRef<string | null>(null);
 
 	const [placeDetail, setPlaceDetail] = React.useState<PlaceDetailData>({
 		id: 0,
@@ -96,6 +99,10 @@ const detail = (props: Props) => {
 					alert("리뷰 정보를 불러오지 못했습니다.");
 				});
 		};
+
+		AsyncStorage.getItem("jwt").then((res) => {
+			jwt.current = res;
+		});
 
 		getPlaceDetail();
 		getPlaceReviews();
@@ -242,12 +249,14 @@ const detail = (props: Props) => {
 				</ScrollView>
 				<View style={styles.bottomButtonContainer}>
 					<PrimaryButton
-						onPress={() =>
-							router.push({
-								pathname: "/review",
-								params: { details: details },
-							})
-						}
+						enabled={jwt.current ? true : false}
+						onPress={() => {
+							if (jwt.current)
+								router.push({
+									pathname: "/review",
+									params: { details: details },
+								});
+						}}
 					>
 						후기 남기기
 					</PrimaryButton>

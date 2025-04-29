@@ -12,6 +12,7 @@ const CardXLList = ({ titleComponent, items }: Props) => {
 	const renderItems: ListRenderItem<CardXLItem> = React.useCallback(
 		({ item, index }) => (
 			<CardXL
+				id={item.id}
 				key={index}
 				text={item.text}
 				image={item.image}

@@ -5,21 +5,21 @@ import DoubleHighlightTitle from "@/components/title/DoubleHighlightTitle";
 import Title from "@/components/title/Title";
 import { CardLItem, CardSItem, CardXLItem } from "@/types/card";
 import SingleHighlightTitle from "@/components/title/SingleHighlightTitle";
-import { router, Stack } from "expo-router";
+import { router } from "expo-router";
 import CardSList from "@/components/cards/CardSList";
 import CardLList from "@/components/cards/CardLList";
 import CardXLList from "@/components/cards/CardXLList";
-import { Body5, Heading2 } from "@/components/text/Text";
+import { Body5 } from "@/components/text/Text";
 import { Colors } from "@/constants/Colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { UserData } from "@/types/user";
-import UserChip from "@/components/chips/UserChip";
-import { fetchUserData } from "@/data/user";
 import SquareCarousel from "@/components/carousel/SquareCarousel";
 import * as Location from "expo-location";
 import * as SplashScreen from "expo-splash-screen";
-import Font, { useFonts } from "expo-font";
+import Font from "expo-font";
 import Header from "@/components/header/Header";
+import { fetchPlacesNearby } from "@/data/places";
+import { PlacesNearbyData } from "@/types/places";
+import { getRepValue } from "@/lib/util";
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -31,12 +31,20 @@ SplashScreen.setOptions({
 });
 
 export default function Landing() {
+	const jwt = React.useRef<string | null>(null);
+
 	const [location, setLocation] =
 		React.useState<Location.LocationObject | null>(null);
 
 	const [appIsReady, setAppIsReady] = React.useState(false);
 
+	const [placesNearby, setPlacesNearby] = React.useState<CardLItem[]>();
+
 	React.useEffect(() => {
+		AsyncStorage.getItem("jwt").then((res) => {
+			jwt.current = res;
+		});
+
 		async function getCurrentLocation() {
 			let { status } = await Location.requestForegroundPermissionsAsync();
 			if (status !== "granted") {
@@ -63,8 +71,7 @@ export default function Landing() {
 					"Pretendard-Regular": require("../assets/fonts/Pretendard-Regular.otf"),
 					"Pretendard-Medium": require("../assets/fonts/Pretendard-Medium.otf"),
 				});
-				// Artificially delay for two seconds to simulate a slow loading
-				// experience. Remove this if you copy and paste the code!
+
 				await new Promise((resolve) => setTimeout(resolve, 5000));
 
 				console.log("Fonts loaded successfully!");
@@ -80,6 +87,31 @@ export default function Landing() {
 		getCurrentLocation();
 	}, []);
 
+	React.useEffect(() => {
+		const getPlacesNearby = async () => {
+			if (location) {
+				const result = await fetchPlacesNearby(
+					location.coords.latitude,
+					location.coords.longitude
+				);
+				const placeList = result.places.map((item) => {
+					let cardItem: CardLItem = {
+						id: item.id,
+						text: item.name,
+						rep: getRepValue(item.avgRating),
+						reviews: 0,
+					};
+
+					return cardItem;
+				});
+
+				if (result.places.length > 0) setPlacesNearby(placeList);
+			}
+		};
+
+		getPlacesNearby();
+	}, [location]);
+
 	const onLayoutRootView = React.useCallback(() => {
 		if (appIsReady) {
 			SplashScreen.hide();
@@ -89,6 +121,9 @@ export default function Landing() {
 	if (!appIsReady) {
 		return null;
 	}
+
+	console.log(location);
+	console.log(placesNearby);
 
 	return (
 		<>
@@ -112,7 +147,7 @@ export default function Landing() {
 								onPress={() => router.push("/quietplaces")}
 							/>
 						}
-						items={cardLItems}
+						items={placesNearby ?? []}
 					/>
 					<CardXLList
 						titleComponent={
@@ -162,7 +197,13 @@ export default function Landing() {
 				</View>
 				<Pressable
 					style={styles.footerContainer}
-					onPress={() => router.push("/inform")}
+					onPress={() => {
+						if (jwt.current) {
+							router.push("/inform");
+						} else {
+							alert("로그인 후 이용해주세요.");
+						}
+					}}
 				>
 					<Body5 color={Colors.gray[800]}>
 						📢 한적한 장소를 알고 계시다면 저희에게 제보해주세요! →

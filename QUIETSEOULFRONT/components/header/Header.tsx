@@ -18,8 +18,6 @@ type Props = {
 const Header = ({ chevron = true, title, screenName }: Props) => {
 	const [userData, setUserData] = React.useState<UserData | null>(null);
 
-	console.log(userData);
-
 	const getLoginInfo = async () => {
 		if (!userData) {
 			const jwt = await AsyncStorage.getItem("jwt");
@@ -33,12 +31,6 @@ const Header = ({ chevron = true, title, screenName }: Props) => {
 				});
 			}
 		}
-	};
-
-	const handleDeleteUserData = async () => {
-		await AsyncStorage.removeItem("user");
-		await AsyncStorage.removeItem("jwt");
-		setUserData(null);
 	};
 
 	React.useEffect(() => {
@@ -70,7 +62,7 @@ const Header = ({ chevron = true, title, screenName }: Props) => {
 						return (
 							<UserChip
 								userName={userData.name}
-								onPress={handleDeleteUserData}
+								onPress={() => router.push("/mypage")}
 							/>
 						);
 					} else {

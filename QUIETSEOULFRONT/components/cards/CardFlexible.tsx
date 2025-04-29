@@ -22,7 +22,9 @@ const CardFlexible = ({
 	const emojis = {
 		good: "☺️ 쾌적해요",
 		normal: "🙂 보통이에요",
-		bad: "😔 혼잡해요",
+		bad: "🙁 북적해요",
+		terrible: "😔 혼잡해요",
+		NaN: "NaN",
 	};
 
 	return (

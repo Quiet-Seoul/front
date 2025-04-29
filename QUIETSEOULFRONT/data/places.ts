@@ -1,16 +1,41 @@
-import { PlaceDetailData } from "@/types/places";
-
-const domain = "http://15.165.203.85:8080";
+import { PlaceDetailData, PlacesNearbyData } from "@/types/places";
 
 export const fetchPlaceDetail = async (
 	placeId: string
 ): Promise<PlaceDetailData> => {
-	const response = await fetch(domain + `/places/${placeId}`, {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-		},
-	});
+	const response = await fetch(
+		process.env.EXPO_PUBLIC_API_URL + `/places/${placeId}`,
+		{
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		}
+	);
+
+	if (response.status !== 200) {
+		throw new Error("Failed to fetch data");
+	}
+
+	const result = await response.json();
+
+	return result;
+};
+
+export const fetchPlacesNearby = async (
+	lat: number,
+	lng: number
+): Promise<PlacesNearbyData> => {
+	const response = await fetch(
+		process.env.EXPO_PUBLIC_API_URL +
+			`/places/nearby?lat=${lat}&lng=${lng}`,
+		{
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		}
+	);
 
 	if (response.status !== 200) {
 		console.log(response.json());

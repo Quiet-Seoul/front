@@ -2,27 +2,43 @@ import { Colors } from "@/constants/Colors";
 import { LoginData, SignUpValidationData } from "@/types/user";
 
 export const getRepText = (rep?: number) => {
-	return rep === 0
-		? "한적해요"
-		: rep === 1
-		? "보통이에요"
-		: rep === 2
-		? "북적해요"
-		: rep === 3
-		? "혼잡해요"
-		: "";
+	if (!rep) return "NaN";
+
+	if (rep >= 4) {
+		return "한적해요";
+	} else if (rep >= 3) {
+		return "보통이에요";
+	} else if (rep >= 2) {
+		return "북적해요";
+	} else {
+		return "혼잡해요";
+	}
 };
 
 export const getRepEmoticon = (rep?: number) => {
-	return rep === 0
+	return rep === 3
 		? "☺️"
-		: rep === 1
-		? "🙂"
 		: rep === 2
+		? "🙂"
+		: rep === 1
 		? "🙁"
-		: rep === 3
+		: rep === 0
 		? "😔"
 		: "";
+};
+
+export const getRepValue = (rep?: number) => {
+	if (rep === undefined) return "NaN";
+
+	if (rep >= 4) {
+		return "good";
+	} else if (rep >= 3) {
+		return "normal";
+	} else if (rep >= 2) {
+		return "bad";
+	} else {
+		return "terrible";
+	}
 };
 
 export const getStatusColor = (status: 0 | 1 | 2 | 3) => {

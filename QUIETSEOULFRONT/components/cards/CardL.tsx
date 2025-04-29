@@ -10,7 +10,9 @@ const CardL = ({ id, text, image, rep, reviews }: CardLItem) => {
 	const emojis = {
 		good: "☺️ 여유",
 		normal: "🙂 보통",
-		bad: "😔 혼잡",
+		bad: "😔 북적",
+		terrible: "😔 혼잡",
+		NaN: "NaN",
 	};
 
 	return (
