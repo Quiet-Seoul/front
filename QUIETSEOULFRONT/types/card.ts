@@ -7,11 +7,11 @@ export interface CardLItem {
 }
 
 export interface CardXLItem {
-	id: number;
+	id: string;
 	text: string;
 	image?: string;
 	subText: string;
-	status: 0 | 1 | 2 | 3;
+	status: "여유" | "보통" | "약간 붐빔" | "붐빔";
 }
 
 export interface CardSItem extends CardLItem {

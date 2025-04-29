@@ -41,6 +41,20 @@ export const getRepValue = (rep?: number) => {
 	}
 };
 
+export const getRepColor = (rep?: number) => {
+	if (rep === undefined) return Colors.gray[300];
+
+	if (rep >= 4) {
+		return Colors.status.positive;
+	} else if (rep >= 3) {
+		return Colors.status.neutral;
+	} else if (rep >= 2) {
+		return Colors.status.negative;
+	} else {
+		return Colors.status.veryNegative;
+	}
+};
+
 export const getStatusColor = (status: 0 | 1 | 2 | 3) => {
 	return status === 0
 		? Colors.status.positive

@@ -38,7 +38,30 @@ export const fetchPlacesNearby = async (
 	);
 
 	if (response.status !== 200) {
-		console.log(response.json());
+		throw new Error("Failed to fetch data");
+	}
+
+	const result = await response.json();
+
+	return result;
+};
+
+export const fetchPlacesNearbybyCategory = async (
+	areaCd: string,
+	category: string
+): Promise<PlaceDetailData[]> => {
+	const response = await fetch(
+		process.env.EXPO_PUBLIC_API_URL +
+			`/places/category?areaCd=${areaCd}&category=${category}`,
+		{
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		}
+	);
+
+	if (response.status !== 200) {
 		throw new Error("Failed to fetch data");
 	}
 

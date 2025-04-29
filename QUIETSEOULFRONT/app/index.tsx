@@ -20,6 +20,8 @@ import Header from "@/components/header/Header";
 import { fetchPlacesNearby } from "@/data/places";
 import { PlacesNearbyData } from "@/types/places";
 import { getRepValue } from "@/lib/util";
+import { fetchQuietAreas } from "@/data/area";
+import { AreaData } from "@/types/area";
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -38,7 +40,8 @@ export default function Landing() {
 
 	const [appIsReady, setAppIsReady] = React.useState(false);
 
-	const [placesNearby, setPlacesNearby] = React.useState<CardLItem[]>();
+	const [placesNearby, setPlacesNearby] = React.useState<PlacesNearbyData>();
+	const [quietAreas, setQuietAreas] = React.useState<AreaData[]>();
 
 	React.useEffect(() => {
 		AsyncStorage.getItem("jwt").then((res) => {
@@ -94,22 +97,19 @@ export default function Landing() {
 					location.coords.latitude,
 					location.coords.longitude
 				);
-				const placeList = result.places.map((item) => {
-					let cardItem: CardLItem = {
-						id: item.id,
-						text: item.name,
-						rep: getRepValue(item.avgRating),
-						reviews: 0,
-					};
 
-					return cardItem;
-				});
-
-				if (result.places.length > 0) setPlacesNearby(placeList);
+				setPlacesNearby(result);
 			}
 		};
 
+		const getQuietAreas = async () => {
+			const result = await fetchQuietAreas();
+
+			setQuietAreas(result.slice(0, 5));
+		};
+
 		getPlacesNearby();
+		getQuietAreas();
 	}, [location]);
 
 	const onLayoutRootView = React.useCallback(() => {
@@ -121,9 +121,6 @@ export default function Landing() {
 	if (!appIsReady) {
 		return null;
 	}
-
-	console.log(location);
-	console.log(placesNearby);
 
 	return (
 		<>
@@ -141,13 +138,24 @@ export default function Landing() {
 					<CardLList
 						titleComponent={
 							<DoubleHighlightTitle
-								text1="교대역"
-								text2="카페"
+								text1={placesNearby?.baseArea ?? "unknown"}
+								text2={placesNearby?.category ?? "unknown"}
 								subText="*현재 위치 기반"
 								onPress={() => router.push("/quietplaces")}
 							/>
 						}
-						items={placesNearby ?? []}
+						items={
+							placesNearby?.places.map((item) => {
+								const cardItem: CardLItem = {
+									id: item.id,
+									text: item.name,
+									rep: getRepValue(item.avgRating),
+									reviews: 0,
+								};
+
+								return cardItem;
+							}) ?? []
+						}
 					/>
 					<CardXLList
 						titleComponent={
@@ -156,7 +164,20 @@ export default function Landing() {
 								onPress={() => router.push("/cities")}
 							/>
 						}
-						items={cardXLItems}
+						items={
+							quietAreas?.map((item) => {
+								const cardItem: CardXLItem = {
+									id: item.areaCd,
+									text: item.areaCd,
+									subText: `${
+										item.areaPpltnMin / 10000
+									}만 ~ ${item.areaPpltnMax / 10000}만`,
+									status: item.areaCongestLvl,
+								};
+
+								return cardItem;
+							}) ?? []
+						}
 					/>
 					<View>
 						<SquareCarousel items={carouselItems} />
@@ -244,54 +265,6 @@ const carouselItems = [
 		image: "https://content.skyscnr.com/m/41acfff761f8ea1a/original/GettyImages-519763361.jpg?resize=1800px:1800px&quality=100",
 		location: "하와이",
 		description: "매일같이 무지개를 감상할 수 있는 하와이",
-	},
-];
-
-const cardLItems: Array<CardLItem> = [
-	{
-		id: 1,
-		text: "스타벅스 교대점",
-		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
-		rep: "good",
-		reviews: 19,
-	},
-	{
-		id: 2,
-		text: "스타벅스 교대점",
-		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
-		rep: "good",
-		reviews: 19,
-	},
-	{
-		id: 4,
-		text: "스타벅스 교대점",
-		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
-		rep: "good",
-		reviews: 19,
-	},
-];
-
-const cardXLItems: Array<CardXLItem> = [
-	{
-		id: 1,
-		text: "용산역",
-		image: "https://mediahub.seoul.go.kr/uploads/mediahub/2021/02/6ec15c54a93144dcad71b7e4894bebf5.jpg",
-		subText: "현재 1.8만 ~ 2.0만",
-		status: 0,
-	},
-	{
-		id: 2,
-		text: "용산역",
-		image: "https://mediahub.seoul.go.kr/uploads/mediahub/2021/02/6ec15c54a93144dcad71b7e4894bebf5.jpg",
-		subText: "현재 1.8만 ~ 2.0만",
-		status: 0,
-	},
-	{
-		id: 3,
-		text: "용산역",
-		image: "https://mediahub.seoul.go.kr/uploads/mediahub/2021/02/6ec15c54a93144dcad71b7e4894bebf5.jpg",
-		subText: "현재 1.8만 ~ 2.0만",
-		status: 0,
 	},
 ];
 

@@ -87,10 +87,10 @@ const recommand = () => {
 			if (type === "predict") {
 				return (
 					<CardStatusFlexible
-						id={item.id}
+						id={String(item.id)}
 						text={item.text}
 						subText={"asdfasdf"}
-						status={0}
+						status={"붐빔"}
 					/>
 				);
 			} else {

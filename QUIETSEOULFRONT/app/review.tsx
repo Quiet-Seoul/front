@@ -49,12 +49,11 @@ const review = (props: Props) => {
 		subcategory: "",
 		areaCd: "",
 		address: "",
-		roadAddress: "",
-		detailAddress: "",
 		lat: 0,
 		lng: 0,
 		description: "",
 		avgRating: 0,
+		imageUrl: "",
 	});
 
 	const imageSrc =

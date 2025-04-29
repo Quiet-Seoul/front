@@ -3,16 +3,60 @@ import { Body3, Heading1, Heading2 } from "@/components/text/Text";
 import { Colors } from "@/constants/Colors";
 import PlacesStatus from "@/components/others/PlacesStatus";
 import StatusTitle from "@/components/title/StatusTitle";
-import { CardLItem } from "@/types/card";
 import CardL from "@/components/cards/CardL";
 import ChevronLeft24 from "@/components/icons/ChevronLeft24";
 import { Stack, router } from "expo-router";
+import React from "react";
+import { fetchPlacesNearbybyCategory } from "@/data/places";
+import { PlaceDetailData } from "@/types/places";
+import { getRepValue } from "@/lib/util";
 
 export default function QuietPlaces() {
+	const areaCd = "POI084";
 	const locationName = "하와이";
 	const locationDescription = "매일같이 무지개를 감상할 수 있는 하와이";
 	const locationImage =
 		"https://content.skyscnr.com/m/41acfff761f8ea1a/original/GettyImages-519763361.jpg?resize=1800px:1800px&quality=100";
+
+	const [restaurants, setRestaurants] = React.useState<PlaceDetailData[]>();
+	const [fb, setFb] = React.useState<PlaceDetailData[]>();
+	const [leisures, setLeisures] = React.useState<PlaceDetailData[]>();
+	const [cafes, setCafes] = React.useState<PlaceDetailData[]>();
+	const [distributions, setDistributions] =
+		React.useState<PlaceDetailData[]>();
+
+	React.useEffect(() => {
+		const getPlaces = async () => {
+			const restaurantsResult = await fetchPlacesNearbybyCategory(
+				areaCd,
+				"식당"
+			);
+			const fbResult = await fetchPlacesNearbybyCategory(
+				areaCd,
+				"패션·뷰티"
+			);
+			const leisuresResult = await fetchPlacesNearbybyCategory(
+				areaCd,
+				"여가"
+			);
+			const cafesResult = await fetchPlacesNearbybyCategory(
+				areaCd,
+				"카페"
+			);
+			const distributionsResult = await fetchPlacesNearbybyCategory(
+				areaCd,
+				"유통"
+			);
+
+			setRestaurants(restaurantsResult.slice(0, 5));
+			setFb(fbResult.slice(0, 5));
+			setLeisures(leisuresResult.slice(0, 5));
+			setCafes(cafesResult.slice(0, 5));
+			setDistributions(distributionsResult.slice(0, 5));
+		};
+
+		getPlaces();
+	});
 
 	return (
 		<>
@@ -47,54 +91,127 @@ export default function QuietPlaces() {
 						</View>
 					</ImageBackground>
 					<View style={styles.statusContainer}>
-						<PlacesStatus />
+						<PlacesStatus
+							restaurantEnabled={
+								(restaurants && restaurants.length > 0) || false
+							}
+							fbEnabled={(fb && fb.length > 0) || false}
+							leisureEnabled={
+								(leisures && leisures.length > 0) || false
+							}
+							cafeEnabled={(cafes && cafes.length > 0) || false}
+							distributionEnabled={
+								(distributions && distributions.length > 0) ||
+								false
+							}
+							restaurantStatus={1}
+							fbStatus={2}
+							leisureStatus={3}
+							cafeStatus={4}
+							distributionStatus={5}
+						/>
 					</View>
 					<View style={styles.cardListContainerContainer}>
-						<View style={styles.cardListContainer}>
-							<StatusTitle text="공원" status={0} />
-							<View style={styles.cardList}>
-								{cardLItems.map((item, idx) => (
-									<CardL
-										id={item.id}
-										key={idx}
-										text={item.text}
-										image={item.image}
-										rep={item.rep}
-										reviews={item.reviews}
-									/>
-								))}
+						{restaurants && restaurants.length > 0 && (
+							<View style={styles.cardListContainer}>
+								<StatusTitle text="식당" status={3} />
+								<ScrollView
+									contentContainerStyle={styles.cardList}
+									horizontal
+								>
+									{restaurants?.map((item) => (
+										<CardL
+											id={item.id}
+											key={item.id}
+											text={item.name}
+											image={item.imageUrl}
+											rep={getRepValue(item.avgRating)}
+											reviews={0}
+										/>
+									))}
+								</ScrollView>
 							</View>
-						</View>
-						<View style={styles.cardListContainer}>
-							<StatusTitle text="카페" status={1} />
-							<View style={styles.cardList}>
-								{cardLItems.map((item, idx) => (
-									<CardL
-										id={item.id}
-										key={idx}
-										text={item.text}
-										image={item.image}
-										rep={item.rep}
-										reviews={item.reviews}
-									/>
-								))}
+						)}
+						{fb && fb.length > 0 && (
+							<View style={styles.cardListContainer}>
+								<StatusTitle text="패션·뷰티" status={1} />
+								<ScrollView
+									contentContainerStyle={styles.cardList}
+									horizontal
+								>
+									{fb?.map((item) => (
+										<CardL
+											id={item.id}
+											key={item.id}
+											text={item.name}
+											image={item.imageUrl}
+											rep={getRepValue(item.avgRating)}
+											reviews={0}
+										/>
+									))}
+								</ScrollView>
 							</View>
-						</View>
-						<View style={styles.cardListContainer}>
-							<StatusTitle text="식당" status={3} />
-							<View style={styles.cardList}>
-								{cardLItems.map((item, idx) => (
-									<CardL
-										id={item.id}
-										key={idx}
-										text={item.text}
-										image={item.image}
-										rep={item.rep}
-										reviews={item.reviews}
-									/>
-								))}
+						)}
+						{leisures && leisures.length > 0 && (
+							<View style={styles.cardListContainer}>
+								<StatusTitle text="여가" status={3} />
+								<ScrollView
+									contentContainerStyle={styles.cardList}
+									horizontal
+								>
+									{leisures?.map((item) => (
+										<CardL
+											id={item.id}
+											key={item.id}
+											text={item.name}
+											image={item.imageUrl}
+											rep={getRepValue(item.avgRating)}
+											reviews={0}
+										/>
+									))}
+								</ScrollView>
 							</View>
-						</View>
+						)}
+						{cafes && cafes.length > 0 && (
+							<View style={styles.cardListContainer}>
+								<StatusTitle text="카페" status={3} />
+								<ScrollView
+									contentContainerStyle={styles.cardList}
+									horizontal
+								>
+									{cafes?.map((item) => (
+										<CardL
+											id={item.id}
+											key={item.id}
+											text={item.name}
+											image={item.imageUrl}
+											rep={getRepValue(item.avgRating)}
+											reviews={0}
+										/>
+									))}
+								</ScrollView>
+							</View>
+						)}
+						{distributions && distributions.length > 0 && (
+							<View style={styles.cardListContainer}>
+								<StatusTitle text="유통" status={3} />
+								<ScrollView
+									contentContainerStyle={styles.cardList}
+									horizontal
+								>
+									{distributions?.map((item) => (
+										<CardL
+											id={item.id}
+											key={item.id}
+											text={item.name}
+											image={item.imageUrl}
+											rep={getRepValue(item.avgRating)}
+											reviews={0}
+										/>
+									))}
+								</ScrollView>
+							</View>
+						)}
 					</View>
 				</View>
 			</ScrollView>
@@ -148,27 +265,3 @@ const styles = StyleSheet.create({
 		columnGap: 8,
 	},
 });
-
-const cardLItems: Array<CardLItem> = [
-	{
-		id: 1,
-		text: "스타벅스 교대점",
-		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
-		rep: "good",
-		reviews: 19,
-	},
-	{
-		id: 2,
-		text: "스타벅스 교대점",
-		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
-		rep: "good",
-		reviews: 19,
-	},
-	{
-		id: 3,
-		text: "스타벅스 교대점",
-		image: "https://think-note.com/wp-content/uploads/2024/06/starbucks_1-930x620.jpeg",
-		rep: "good",
-		reviews: 19,
-	},
-];

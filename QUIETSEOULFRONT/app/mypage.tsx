@@ -11,8 +11,6 @@ import ChevronRight from "@/components/icons/ChevronRight";
 
 type Props = {};
 
-SplashScreen.hide();
-
 const mypage = (props: Props) => {
 	const handleDeleteUserData = async () => {
 		await AsyncStorage.removeItem("user");

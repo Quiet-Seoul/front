@@ -18,7 +18,7 @@ import {
 import { Dropdown } from "react-native-element-dropdown";
 
 type WideCardProps = {
-	status: 0 | 1 | 2 | 3;
+	status: "여유" | "보통" | "약간 붐빔" | "붐빔";
 	text: string;
 	subText: string;
 	image?: string;
@@ -31,10 +31,10 @@ const WideCard = ({
 	image = "https://fakeimg.pl/600x400?text=no+image&font=bebas",
 }: WideCardProps) => {
 	const statusColor = {
-		0: Colors.status.positive,
-		1: Colors.status.neutral,
-		2: Colors.status.negative,
-		3: Colors.status.veryNegative,
+		여유: Colors.status.positive,
+		보통: Colors.status.neutral,
+		"약간 붐빔": Colors.status.negative,
+		붐빔: Colors.status.veryNegative,
 	};
 
 	return (
@@ -259,95 +259,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-const cardItems: Array<CardXLItem> = [
-	{
-		status: 0,
-		image: "https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/07/10/MIwt/5pXvYOvGAg.jpg",
-		text: "뉴욕",
-		subText: "뉴욕은 정말 멋있어",
-	},
-	{
-		status: 1,
-		image: "https://ko.skyticket.com/guide/wp-content/uploads/2024/11/f3b05a7e-shutterstock_2148766635-1200x675.jpg",
-		text: "몰디브",
-		subText: "에메랄드 빛깔의 해변을 지닌 몰디브",
-	},
-	{
-		status: 2,
-		image: "https://content.skyscnr.com/m/41acfff761f8ea1a/original/GettyImages-519763361.jpg?resize=1800px:1800px&quality=100",
-		text: "하와이",
-		subText: "매일같이 무지개를 감상할 수 있는 하와이",
-	},
-	{
-		status: 0,
-		image: "https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/07/10/MIwt/5pXvYOvGAg.jpg",
-		text: "뉴욕",
-		subText: "뉴욕은 정말 멋있어",
-	},
-	{
-		status: 1,
-		image: "https://ko.skyticket.com/guide/wp-content/uploads/2024/11/f3b05a7e-shutterstock_2148766635-1200x675.jpg",
-		text: "몰디브",
-		subText: "에메랄드 빛깔의 해변을 지닌 몰디브",
-	},
-	{
-		status: 2,
-		image: "https://content.skyscnr.com/m/41acfff761f8ea1a/original/GettyImages-519763361.jpg?resize=1800px:1800px&quality=100",
-		text: "하와이",
-		subText: "매일같이 무지개를 감상할 수 있는 하와이",
-	},
-	{
-		status: 0,
-		image: "https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/07/10/MIwt/5pXvYOvGAg.jpg",
-		text: "뉴욕",
-		subText: "뉴욕은 정말 멋있어",
-	},
-	{
-		status: 1,
-		image: "https://ko.skyticket.com/guide/wp-content/uploads/2024/11/f3b05a7e-shutterstock_2148766635-1200x675.jpg",
-		text: "몰디브",
-		subText: "에메랄드 빛깔의 해변을 지닌 몰디브",
-	},
-	{
-		status: 2,
-		image: "https://content.skyscnr.com/m/41acfff761f8ea1a/original/GettyImages-519763361.jpg?resize=1800px:1800px&quality=100",
-		text: "하와이",
-		subText: "매일같이 무지개를 감상할 수 있는 하와이",
-	},
-	{
-		status: 0,
-		image: "https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/07/10/MIwt/5pXvYOvGAg.jpg",
-		text: "뉴욕",
-		subText: "뉴욕은 정말 멋있어",
-	},
-	{
-		status: 1,
-		image: "https://ko.skyticket.com/guide/wp-content/uploads/2024/11/f3b05a7e-shutterstock_2148766635-1200x675.jpg",
-		text: "몰디브",
-		subText: "에메랄드 빛깔의 해변을 지닌 몰디브",
-	},
-	{
-		status: 2,
-		image: "https://content.skyscnr.com/m/41acfff761f8ea1a/original/GettyImages-519763361.jpg?resize=1800px:1800px&quality=100",
-		text: "하와이",
-		subText: "매일같이 무지개를 감상할 수 있는 하와이",
-	},
-	{
-		status: 0,
-		image: "https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/07/10/MIwt/5pXvYOvGAg.jpg",
-		text: "뉴욕",
-		subText: "뉴욕은 정말 멋있어",
-	},
-	{
-		status: 1,
-		image: "https://ko.skyticket.com/guide/wp-content/uploads/2024/11/f3b05a7e-shutterstock_2148766635-1200x675.jpg",
-		text: "몰디브",
-		subText: "에메랄드 빛깔의 해변을 지닌 몰디브",
-	},
-	{
-		status: 2,
-		image: "https://content.skyscnr.com/m/41acfff761f8ea1a/original/GettyImages-519763361.jpg?resize=1800px:1800px&quality=100",
-		text: "하와이",
-		subText: "매일같이 무지개를 감상할 수 있는 하와이",
-	},
-];
+const cardItems: Array<CardXLItem> = [];

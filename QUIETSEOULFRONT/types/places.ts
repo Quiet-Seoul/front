@@ -5,12 +5,11 @@ export interface PlaceDetailData {
 	subcategory: string;
 	areaCd: string;
 	address: string;
-	roadAddress: string;
-	detailAddress: string;
 	lat: number;
 	lng: number;
 	description: string;
 	avgRating: number;
+	imageUrl: string;
 }
 
 export interface PlacesNearbyData {

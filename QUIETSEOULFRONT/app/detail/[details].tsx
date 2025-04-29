@@ -52,12 +52,11 @@ const detail = (props: Props) => {
 		subcategory: "",
 		areaCd: "",
 		address: "",
-		roadAddress: "",
-		detailAddress: "",
 		lat: 0,
 		lng: 0,
 		description: "",
 		avgRating: 0,
+		imageUrl: "",
 	});
 	const [reviews, setReviews] = React.useState<Array<ReviewItem>>([]);
 
