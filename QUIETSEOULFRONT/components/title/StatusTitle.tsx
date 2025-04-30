@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import ChevronRight from "../icons/ChevronRight";
 import { Body3, Caption3, Heading2 } from "../text/Text";
 import { Colors } from "@/constants/Colors";
@@ -25,11 +25,12 @@ type StatusTitleProps = {
 	text: string;
 	status: 0 | 1 | 2 | 3;
 	subText?: string;
+	onPress?: () => void;
 };
 
-const StatusTitle = ({ text, subText, status }: StatusTitleProps) => {
+const StatusTitle = ({ text, subText, status, onPress }: StatusTitleProps) => {
 	return (
-		<View style={styles.titleContainer}>
+		<Pressable style={styles.titleContainer} onPress={onPress}>
 			{subText && (
 				<View>
 					<Caption3 color={Colors.gray[400]}>{subText}</Caption3>
@@ -44,7 +45,7 @@ const StatusTitle = ({ text, subText, status }: StatusTitleProps) => {
 					<ChevronRight />
 				</View>
 			</View>
-		</View>
+		</Pressable>
 	);
 };
 

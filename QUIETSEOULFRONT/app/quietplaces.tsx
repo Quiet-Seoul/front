@@ -5,18 +5,17 @@ import PlacesStatus from "@/components/others/PlacesStatus";
 import StatusTitle from "@/components/title/StatusTitle";
 import CardL from "@/components/cards/CardL";
 import ChevronLeft24 from "@/components/icons/ChevronLeft24";
-import { Stack, router } from "expo-router";
+import { Stack, router, useLocalSearchParams } from "expo-router";
 import React from "react";
 import { fetchPlacesNearbybyCategory } from "@/data/places";
 import { PlaceDetailData } from "@/types/places";
 import { getRepValue } from "@/lib/util";
+import { fetchAreaCurrentStatus } from "@/data/area";
+import { AreaData } from "@/types/area";
 
 export default function QuietPlaces() {
-	const areaCd = "POI084";
-	const locationName = "하와이";
-	const locationDescription = "매일같이 무지개를 감상할 수 있는 하와이";
-	const locationImage =
-		"https://content.skyscnr.com/m/41acfff761f8ea1a/original/GettyImages-519763361.jpg?resize=1800px:1800px&quality=100";
+	const areaCd = useLocalSearchParams().areaCd.toString();
+	const [currentStatus, setCurrentStatus] = React.useState<AreaData>();
 
 	const [restaurants, setRestaurants] = React.useState<PlaceDetailData[]>();
 	const [fb, setFb] = React.useState<PlaceDetailData[]>();
@@ -26,6 +25,12 @@ export default function QuietPlaces() {
 		React.useState<PlaceDetailData[]>();
 
 	React.useEffect(() => {
+		const getCurrentStatus = async () => {
+			const result = await fetchAreaCurrentStatus();
+
+			setCurrentStatus(result[0]);
+		};
+
 		const getPlaces = async () => {
 			const restaurantsResult = await fetchPlacesNearbybyCategory(
 				areaCd,
@@ -55,8 +60,9 @@ export default function QuietPlaces() {
 			setDistributions(distributionsResult.slice(0, 5));
 		};
 
+		getCurrentStatus();
 		getPlaces();
-	});
+	}, []);
 
 	return (
 		<>
@@ -76,16 +82,21 @@ export default function QuietPlaces() {
 			<ScrollView>
 				<View style={styles.container}>
 					<ImageBackground
-						source={{ uri: locationImage }}
+						source={{
+							uri:
+								currentStatus?.imageurl ??
+								process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
+						}}
 						style={styles.banner}
 					>
 						<View style={styles.bannerDim}>
 							<View style={styles.bannerContainer}>
 								<Heading1 color={Colors.white}>
-									{locationName}
+									{currentStatus?.areaNm ?? "알 수 없음"}
 								</Heading1>
 								<Body3 color={Colors.white}>
-									{locationDescription}
+									{currentStatus?.areaCongestMsg ??
+										"알 수 없음"}
 								</Body3>
 							</View>
 						</View>
@@ -104,17 +115,28 @@ export default function QuietPlaces() {
 								(distributions && distributions.length > 0) ||
 								false
 							}
-							restaurantStatus={1}
-							fbStatus={2}
-							leisureStatus={3}
-							cafeStatus={4}
-							distributionStatus={5}
+							areaCd={areaCd}
 						/>
 					</View>
 					<View style={styles.cardListContainerContainer}>
 						{restaurants && restaurants.length > 0 && (
 							<View style={styles.cardListContainer}>
-								<StatusTitle text="식당" status={3} />
+								<StatusTitle
+									text="식당"
+									status={3}
+									onPress={() =>
+										router.push({
+											pathname: "/recommand",
+											params: {
+												type: "quietplaces",
+												title:
+													currentStatus?.areaNm +
+													" 전체보기",
+												areaCd: areaCd,
+											},
+										})
+									}
+								/>
 								<ScrollView
 									contentContainerStyle={styles.cardList}
 									horizontal

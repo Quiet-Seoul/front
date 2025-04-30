@@ -7,6 +7,7 @@ interface Props {
 	children: React.ReactNode;
 	color?: string;
 	bold?: boolean;
+	ellipsis?: boolean;
 }
 
 export function Heading1({ children, color = Colors.gray[900] }: Props) {
@@ -21,8 +22,19 @@ export function Heading3({ children, color = Colors.gray[900] }: Props) {
 	return <Text style={[styles.h3, { color: color }]}>{children}</Text>;
 }
 
-export function Heading4({ children, color = Colors.gray[900] }: Props) {
-	return <Text style={[styles.h4, { color: color }]}>{children}</Text>;
+export function Heading4({
+	children,
+	color = Colors.gray[900],
+	ellipsis = false,
+}: Props) {
+	return (
+		<Text
+			style={[styles.h4, { color: color }]}
+			numberOfLines={ellipsis ? 1 : undefined}
+		>
+			{children}
+		</Text>
+	);
 }
 
 export function Body1({ children, color = Colors.gray[900] }: Props) {

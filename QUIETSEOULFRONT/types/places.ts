@@ -1,7 +1,7 @@
 export interface PlaceDetailData {
 	id: number;
 	name: string;
-	category: "카페" | "공원" | "식당";
+	category: "식당" | "패션" | "여가" | "카페" | "유통";
 	subcategory: string;
 	areaCd: string;
 	address: string;
@@ -14,6 +14,7 @@ export interface PlaceDetailData {
 
 export interface PlacesNearbyData {
 	baseArea: string;
+	areaCd: string;
 	category: string;
 	places: Places[];
 }
@@ -25,4 +26,12 @@ export interface Places {
 	lat: number;
 	lng: number;
 	avgRating: number;
+}
+
+export interface CategoriesStatusData {
+	식당: number;
+	패션: number;
+	여가: number;
+	유통: number;
+	카페: number;
 }

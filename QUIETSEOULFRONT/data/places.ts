@@ -1,4 +1,8 @@
-import { PlaceDetailData, PlacesNearbyData } from "@/types/places";
+import {
+	CategoriesStatusData,
+	PlaceDetailData,
+	PlacesNearbyData,
+} from "@/types/places";
 
 export const fetchPlaceDetail = async (
 	placeId: string
@@ -26,6 +30,10 @@ export const fetchPlacesNearby = async (
 	lat: number,
 	lng: number
 ): Promise<PlacesNearbyData> => {
+	console.log(
+		process.env.EXPO_PUBLIC_API_URL + `/places/nearby?lat=${lat}&lng=${lng}`
+	);
+
 	const response = await fetch(
 		process.env.EXPO_PUBLIC_API_URL +
 			`/places/nearby?lat=${lat}&lng=${lng}`,
@@ -35,6 +43,10 @@ export const fetchPlacesNearby = async (
 				"Content-Type": "application/json",
 			},
 		}
+	);
+
+	console.log(
+		process.env.EXPO_PUBLIC_API_URL + `/places/nearby?lat=${lat}&lng=${lng}`
 	);
 
 	if (response.status !== 200) {
@@ -53,6 +65,50 @@ export const fetchPlacesNearbybyCategory = async (
 	const response = await fetch(
 		process.env.EXPO_PUBLIC_API_URL +
 			`/places/category?areaCd=${areaCd}&category=${category}`,
+		{
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		}
+	);
+
+	if (response.status !== 200) {
+		throw new Error("Failed to fetch data");
+	}
+
+	const result = await response.json();
+
+	return result;
+};
+
+export const fetchCategoriesStatus = async (
+	areaCd: string
+): Promise<CategoriesStatusData> => {
+	const response = await fetch(
+		process.env.EXPO_PUBLIC_API_URL + `/area/industry/${areaCd}/score`,
+		{
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		}
+	);
+
+	if (response.status !== 200) {
+		throw new Error("Failed to fetch data");
+	}
+
+	const result = await response.json();
+
+	return result;
+};
+
+export const fetchAreaPlaces = async (
+	areaCd: string
+): Promise<PlaceDetailData[]> => {
+	const response = await fetch(
+		process.env.EXPO_PUBLIC_API_URL + `/places/area?areaCd=${areaCd}`,
 		{
 			method: "GET",
 			headers: {

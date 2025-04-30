@@ -122,6 +122,8 @@ export default function Landing() {
 		return null;
 	}
 
+	console.log(placesNearby);
+
 	return (
 		<>
 			<Header title="한적서울" screenName="index" chevron={false} />
@@ -141,7 +143,14 @@ export default function Landing() {
 								text1={placesNearby?.baseArea ?? "unknown"}
 								text2={placesNearby?.category ?? "unknown"}
 								subText="*현재 위치 기반"
-								onPress={() => router.push("/quietplaces")}
+								onPress={() =>
+									router.push({
+										pathname: "/quietplaces",
+										params: {
+											areaCd: placesNearby?.areaCd,
+										},
+									})
+								}
 							/>
 						}
 						items={
@@ -168,7 +177,7 @@ export default function Landing() {
 							quietAreas?.map((item) => {
 								const cardItem: CardXLItem = {
 									id: item.areaCd,
-									text: item.areaCd,
+									text: item.areaNm,
 									subText: `${
 										item.areaPpltnMin / 10000
 									}만 ~ ${item.areaPpltnMax / 10000}만`,

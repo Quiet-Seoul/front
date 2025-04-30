@@ -18,6 +18,9 @@ import FilterSheet from "@/components/bottomsheet/FilterSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import RadioButton, { RadioProvider } from "@/components/buttons/RadioButton";
 import CardStatusFlexible from "@/components/cards/CardStatusFlexible";
+import { fetchAreaPlaces } from "@/data/places";
+import { PlaceDetailData } from "@/types/places";
+import { getRepValue } from "@/lib/util";
 
 const aligns = [
 	{ label: "전체", value: "all" },
@@ -80,15 +83,17 @@ type Props = {
 const recommand = () => {
 	const bottomSheetRep = React.useRef<BottomSheetModal | null>(null);
 
-	const { type } = useLocalSearchParams();
+	const { type, title, areaCd } = useLocalSearchParams();
 
-	const renderItems: ListRenderItem<CardSItem> = React.useCallback(
+	const [areaPlaces, setAreaPlaces] = React.useState<PlaceDetailData[]>();
+
+	const renderItems: ListRenderItem<PlaceDetailData> = React.useCallback(
 		({ item }) => {
 			if (type === "predict") {
 				return (
 					<CardStatusFlexible
 						id={String(item.id)}
-						text={item.text}
+						text={item.name}
 						subText={"asdfasdf"}
 						status={"붐빔"}
 					/>
@@ -97,11 +102,11 @@ const recommand = () => {
 				return (
 					<CardFlexible
 						id={item.id}
-						type={item.type}
-						text={item.text}
-						rep={item.rep}
-						reviews={item.reviews}
-						distance={item.distance}
+						type={item.category}
+						text={item.name}
+						rep={getRepValue(item.avgRating)}
+						reviews={0}
+						distance={0}
 						isFromUser
 					/>
 				);
@@ -111,6 +116,18 @@ const recommand = () => {
 	);
 
 	const BottomSheetFiltersMemo = React.memo(BottomSheetFilters);
+
+	React.useEffect(() => {
+		const getAreaPlaces = async () => {
+			if (areaCd) {
+				const result = await fetchAreaPlaces(areaCd.toString());
+
+				setAreaPlaces(result);
+			}
+		};
+
+		getAreaPlaces();
+	}, []);
 
 	return (
 		<>
@@ -123,9 +140,7 @@ const recommand = () => {
 						</View>
 					),
 					headerTitle: () => (
-						<Heading2 color={Colors.white}>
-							사용자 제보 기반 추천
-						</Heading2>
+						<Heading2 color={Colors.white}>{title}</Heading2>
 					),
 				}}
 			/>
@@ -136,16 +151,16 @@ const recommand = () => {
 						<Heading2 color={Colors.main[700]}> 제보 </Heading2>
 						<Heading2 color={Colors.gray[900]}>기반 추천</Heading2>
 					</View>
-					<Pressable
+					{/* <Pressable
 						style={styles.filterButtonContainer}
 						onPress={() => bottomSheetRep.current?.present()}
 					>
 						<Filter />
 						<Heading3 color={Colors.gray[400]}>필터</Heading3>
-					</Pressable>
+					</Pressable> */}
 				</View>
 				<FlatList
-					data={cardSItems}
+					data={areaPlaces}
 					renderItem={renderItems}
 					keyExtractor={(_, index) => `CARDITEM_${index}`}
 					contentContainerStyle={{
@@ -180,7 +195,7 @@ const styles = StyleSheet.create({
 		width: "100%",
 		display: "flex",
 		flexDirection: "row",
-		justifyContent: "space-between",
+		// justifyContent: "space-between",
 		alignItems: "center",
 		paddingHorizontal: 16,
 	},

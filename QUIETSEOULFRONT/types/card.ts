@@ -15,7 +15,7 @@ export interface CardXLItem {
 }
 
 export interface CardSItem extends CardLItem {
-	type: "카페" | "공원" | "식당";
+	type: "식당" | "패션" | "여가" | "카페" | "유통";
 	isFromUser?: boolean;
 	distance?: number;
 }

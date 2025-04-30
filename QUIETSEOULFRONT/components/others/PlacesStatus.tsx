@@ -9,10 +9,12 @@ import { getRepColor } from "@/lib/util";
 import Fb48 from "../icons/Fb48";
 import Leisure48 from "../icons/Leisure48";
 import Distribution48 from "../icons/Distribution48";
+import { fetchCategoriesStatus } from "@/data/places";
+import { CategoriesStatusData } from "@/types/places";
 
 type StatusItemProps = {
 	type: string;
-	status: number;
+	status?: number;
 };
 
 const StatusItem = ({ type, status }: StatusItemProps) => {
@@ -103,30 +105,42 @@ type PlacesStatusProps = {
 	leisureEnabled: boolean;
 	cafeEnabled: boolean;
 	distributionEnabled: boolean;
-	restaurantStatus: number;
-	fbStatus: number;
-	leisureStatus: number;
-	cafeStatus: number;
-	distributionStatus: number;
+	areaCd: string;
 };
 
 const PlacesStatus = (props: PlacesStatusProps) => {
+	const [categoriesStatus, setCategoriesStatus] =
+		React.useState<CategoriesStatusData>();
+
+	React.useEffect(() => {
+		const getCategoriesStatus = async () => {
+			const result = await fetchCategoriesStatus(props.areaCd);
+
+			setCategoriesStatus(result);
+		};
+
+		getCategoriesStatus();
+	}, []);
+
 	return (
 		<View style={styles.container}>
 			{props.restaurantEnabled && (
-				<StatusItem type="식당" status={props.restaurantStatus} />
+				<StatusItem type="식당" status={categoriesStatus?.식당} />
 			)}
-			{props.fbEnabled && (
-				<StatusItem type="패션·뷰티" status={props.fbStatus} />
-			)}
+			{/* {props.fbEnabled && (
+				<StatusItem
+					type="패션·뷰티"
+					status={categoriesStatus?.패션}
+				/>
+			)} */}
 			{props.leisureEnabled && (
-				<StatusItem type="여가" status={props.leisureStatus} />
+				<StatusItem type="여가" status={categoriesStatus?.여가} />
 			)}
 			{props.cafeEnabled && (
-				<StatusItem type="카페" status={props.cafeStatus} />
+				<StatusItem type="카페" status={categoriesStatus?.카페} />
 			)}
 			{props.distributionEnabled && (
-				<StatusItem type="유통" status={props.distributionStatus} />
+				<StatusItem type="유통" status={categoriesStatus?.유통} />
 			)}
 		</View>
 	);

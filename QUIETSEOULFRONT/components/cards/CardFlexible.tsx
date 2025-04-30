@@ -79,10 +79,12 @@ const CardFlexible = ({
 							columnGap: 8,
 						}}
 					>
-						<Heading4>{text}</Heading4>
-						<Body5 color={Colors.gray[700]}>
+						<View style={{ flex: 1 }}>
+							<Heading4 ellipsis>{text}</Heading4>
+						</View>
+						{/* <Body5 color={Colors.gray[700]}>
 							거리 {distance} km
-						</Body5>
+						</Body5> */}
 					</View>
 					<View
 						style={{

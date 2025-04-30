@@ -26,7 +26,7 @@ const CardXL = ({ text, image, subText, status }: CardXLItem) => {
 			>
 				<ImageBackground
 					source={{
-						uri: image ?? "https://placehold.co/400x300.png",
+						uri: image ?? process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
 					}}
 					style={{
 						width: 160,

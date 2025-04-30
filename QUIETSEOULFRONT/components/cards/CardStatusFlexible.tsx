@@ -16,11 +16,10 @@ const CardStatusFlexible = ({
 	status,
 }: CardXLItem) => {
 	const statusColor = {
-		3: Colors.status.positive,
-		2: Colors.status.neutral,
-		1: Colors.status.negative,
-		0: Colors.status.veryNegative,
-		4: Colors.gray[300],
+		여유: Colors.status.positive,
+		보통: Colors.status.neutral,
+		"약간 붐빔": Colors.status.negative,
+		붐빔: Colors.status.veryNegative,
 	};
 
 	return (
@@ -42,7 +41,7 @@ const CardStatusFlexible = ({
 			>
 				<ImageBackground
 					source={{
-						uri: image ?? "https://placehold.co/400x300.png",
+						uri: image ?? process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
 					}}
 					style={{
 						width: (windowWidth - 40) / 2,

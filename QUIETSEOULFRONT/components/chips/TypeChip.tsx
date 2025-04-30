@@ -1,22 +1,28 @@
 import React from "react";
 import { View } from "react-native";
 import Cafe from "../icons/Cafe";
-import Park from "../icons/Park";
 import Restaurant from "../icons/Restaurant";
 import { Body3 } from "../text/Text";
 import { Colors } from "@/constants/Colors";
+import Fb from "../icons/Fb";
+import Leisure from "../icons/Leisure";
+import Distribution from "../icons/Distribution";
 
 type Props = {
-	type: "카페" | "공원" | "식당";
+	type: "식당" | "여가" | "카페" | "유통" | "패션";
 };
 
 const TypeChip = ({ type }: Props) => {
 	const RenderIcon = () => {
 		switch (type) {
+			case "패션":
+				return <Fb />;
+			case "여가":
+				return <Leisure />;
+			case "유통":
+				return <Distribution />;
 			case "카페":
 				return <Cafe />;
-			case "공원":
-				return <Park />;
 			case "식당":
 				return <Restaurant />;
 		}
