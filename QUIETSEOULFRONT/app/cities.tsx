@@ -2,9 +2,13 @@ import ChevronLeft24 from "@/components/icons/ChevronLeft24";
 import ChevronRight36 from "@/components/icons/ChevronRight36";
 import BottomMargin from "@/components/others/BottomMargin";
 import { Body3, Heading1, Heading2 } from "@/components/text/Text";
-import cities from "@/constants/Cities";
+import cityList from "@/constants/Cities";
 import { Colors } from "@/constants/Colors";
+import { fetchDistrictAreas } from "@/data/area";
+import { getRepTextToColor } from "@/lib/util";
+import { AreaData } from "@/types/area";
 import { CardXLItem } from "@/types/card";
+import { DistrictData } from "@/types/district";
 import { Stack, router } from "expo-router";
 import React from "react";
 import {
@@ -18,17 +22,17 @@ import {
 import { Dropdown } from "react-native-element-dropdown";
 
 type WideCardProps = {
-	status: "여유" | "보통" | "약간 붐빔" | "붐빔";
 	text: string;
-	subText: string;
+	subText?: string;
 	image?: string;
+	status: "여유" | "보통" | "약간 붐빔" | "붐빔";
 };
 
 const WideCard = ({
-	status,
 	text,
 	subText,
-	image = "https://fakeimg.pl/600x400?text=no+image&font=bebas",
+	image = process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
+	status,
 }: WideCardProps) => {
 	const statusColor = {
 		여유: Colors.status.positive,
@@ -41,7 +45,7 @@ const WideCard = ({
 		<View
 			style={[
 				styles.cardContainer,
-				{ backgroundColor: statusColor[status] },
+				{ backgroundColor: getRepTextToColor(status) },
 			]}
 		>
 			<ImageBackground
@@ -65,21 +69,37 @@ const WideCard = ({
 
 type Props = {};
 
-const index = (props: Props) => {
-	const [value, setValue] = React.useState("hello");
+const cities = (props: Props) => {
+	const [district, setDistrict] = React.useState<DistrictData>();
 	const [isFocus, setIsFocus] = React.useState(false);
+	const [areaDatas, setAreaDatas] = React.useState<AreaData[]>();
 
-	const renderItems: ListRenderItem<CardXLItem> = React.useCallback(
+	const renderItems: ListRenderItem<AreaData> = React.useCallback(
 		({ item }) => (
 			<WideCard
-				status={item.status}
-				text={item.text}
-				subText={item.subText}
-				image={item.image}
+				status={item.areaCongestLvl}
+				text={item.areaNm}
+				subText={item.areaCongestMsg}
+				image={process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER}
 			/>
 		),
 		[]
 	);
+
+	React.useEffect(() => {
+		const getDistrictAreas = async () => {
+			if (district) {
+				const result = await fetchDistrictAreas(district.id);
+
+				setAreaDatas(result);
+			}
+		};
+
+		getDistrictAreas();
+	}, [district]);
+
+	console.log(district);
+	console.log(areaDatas);
 
 	return (
 		<>
@@ -110,25 +130,25 @@ const index = (props: Props) => {
 							selectedTextStyle={styles.selectedTextStyle}
 							inputSearchStyle={styles.inputSearchStyle}
 							iconStyle={styles.iconStyle}
-							data={cities}
+							data={cityList}
 							search
 							maxHeight={300}
 							labelField="label"
-							valueField="value"
+							valueField="id"
 							placeholder={!isFocus ? "지역 선택" : "..."}
 							searchPlaceholder="검색어 입력"
-							value={value}
+							value={district}
 							onFocus={() => setIsFocus(true)}
 							onBlur={() => setIsFocus(false)}
 							onChange={(item) => {
-								setValue(item.value);
+								setDistrict(item);
 								setIsFocus(false);
 							}}
 						/>
 					</View>
 					<View style={styles.cardList}>
 						<FlatList
-							data={cardItems}
+							data={areaDatas}
 							renderItem={renderItems}
 							contentContainerStyle={{
 								flexGrow: 1,
@@ -139,26 +159,26 @@ const index = (props: Props) => {
 						/>
 					</View>
 					{/* <View style={styles.dropdownContainer}>
-					<Heading2>한적한 지역 추천</Heading2>
-					<View style={styles.cardList}>
-						{cardItems.map((item, idx) => (
-							<WideCard
-								key={idx}
-								status={item.status}
-								text={item.text}
-								subText={item.subText}
-								image={item.image}
-							/>
-						))}
-					</View>
-				</View> */}
+						<Heading2>한적한 지역 추천</Heading2>
+						<View style={styles.cardList}>
+							{cardItems.map((item, idx) => (
+								<WideCard
+									key={idx}
+									status={item.status}
+									text={item.text}
+									subText={item.subText}
+									image={item.image}
+								/>
+							))}
+						</View>
+					</View> */}
 				</View>
 			</SafeAreaView>
 		</>
 	);
 };
 
-export default index;
+export default cities;
 
 const styles = StyleSheet.create({
 	container: {
@@ -258,5 +278,3 @@ const styles = StyleSheet.create({
 		color: Colors.gray[900],
 	},
 });
-
-const cardItems: Array<CardXLItem> = [];

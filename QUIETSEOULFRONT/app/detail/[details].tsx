@@ -119,8 +119,8 @@ const detail = (props: Props) => {
 					<ImageBackground
 						source={{
 							uri:
-								imageSrc ??
-								"https://fakeimg.pl/600x400?text=No+image&font=bebas",
+								imageSrc ||
+								process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
 						}}
 						style={styles.imageContainer}
 					>

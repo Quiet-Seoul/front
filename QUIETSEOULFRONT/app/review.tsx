@@ -266,8 +266,9 @@ const review = (props: Props) => {
 										key={idx}
 										source={{
 											uri:
-												item.uri ??
-												"https://fakeimg.pl/600x400?text=No+image&font=bebas",
+												item.uri ||
+												process.env
+													.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
 										}}
 										style={styles.imageBox}
 										imageStyle={styles.imageContentBox}

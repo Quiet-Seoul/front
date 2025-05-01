@@ -5,25 +5,26 @@ import { Body3, Caption3, Heading2 } from "../text/Text";
 import { Colors } from "@/constants/Colors";
 
 type StatusTextProps = {
-	status: 0 | 1 | 2 | 3;
+	status: number;
 };
 
 const StatusText = ({ status }: StatusTextProps) => {
-	switch (status) {
-		case 0:
-			return <Body3 color={Colors.status.positive}>여유</Body3>;
-		case 1:
-			return <Body3 color={Colors.status.neutral}>보통</Body3>;
-		case 2:
-			return <Body3 color={Colors.status.negative}>조금 혼잡</Body3>;
-		case 3:
-			return <Body3 color={Colors.status.veryNegative}>혼잡</Body3>;
+	if (status >= 4) {
+		return <Body3 color={Colors.status.positive}>여유</Body3>;
+	} else if (status >= 3) {
+		return <Body3 color={Colors.status.neutral}>보통</Body3>;
+	} else if (status >= 2) {
+		return <Body3 color={Colors.status.negative}>조금 혼잡</Body3>;
+	} else if (status >= 1) {
+		return <Body3 color={Colors.status.veryNegative}>혼잡</Body3>;
+	} else {
+		return <Body3 color={Colors.gray[300]}>알 수 없음</Body3>;
 	}
 };
 
 type StatusTitleProps = {
 	text: string;
-	status: 0 | 1 | 2 | 3;
+	status: number;
 	subText?: string;
 	onPress?: () => void;
 };

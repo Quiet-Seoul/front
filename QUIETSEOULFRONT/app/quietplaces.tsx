@@ -7,14 +7,18 @@ import CardL from "@/components/cards/CardL";
 import ChevronLeft24 from "@/components/icons/ChevronLeft24";
 import { Stack, router, useLocalSearchParams } from "expo-router";
 import React from "react";
-import { fetchPlacesNearbybyCategory } from "@/data/places";
-import { PlaceDetailData } from "@/types/places";
+import {
+	fetchCategoriesStatus,
+	fetchPlacesNearbybyCategory,
+} from "@/data/places";
+import { CategoriesStatusData, PlaceDetailData } from "@/types/places";
 import { getRepValue } from "@/lib/util";
 import { fetchAreaCurrentStatus } from "@/data/area";
 import { AreaData } from "@/types/area";
 
 export default function QuietPlaces() {
-	const areaCd = useLocalSearchParams().areaCd.toString();
+	const areaCd = useLocalSearchParams().areaCd?.toString();
+
 	const [currentStatus, setCurrentStatus] = React.useState<AreaData>();
 
 	const [restaurants, setRestaurants] = React.useState<PlaceDetailData[]>();
@@ -24,9 +28,12 @@ export default function QuietPlaces() {
 	const [distributions, setDistributions] =
 		React.useState<PlaceDetailData[]>();
 
+	const [categoriesStatus, setCategoriesStatus] =
+		React.useState<CategoriesStatusData>();
+
 	React.useEffect(() => {
 		const getCurrentStatus = async () => {
-			const result = await fetchAreaCurrentStatus();
+			const result = await fetchAreaCurrentStatus(areaCd);
 
 			setCurrentStatus(result[0]);
 		};
@@ -60,8 +67,15 @@ export default function QuietPlaces() {
 			setDistributions(distributionsResult.slice(0, 5));
 		};
 
+		const getCategoriesStatus = async () => {
+			const result = await fetchCategoriesStatus(areaCd);
+
+			setCategoriesStatus(result);
+		};
+
 		getCurrentStatus();
 		getPlaces();
+		getCategoriesStatus();
 	}, []);
 
 	return (
@@ -84,7 +98,7 @@ export default function QuietPlaces() {
 					<ImageBackground
 						source={{
 							uri:
-								currentStatus?.imageurl ??
+								currentStatus?.imageurl ||
 								process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
 						}}
 						style={styles.banner}
@@ -92,10 +106,10 @@ export default function QuietPlaces() {
 						<View style={styles.bannerDim}>
 							<View style={styles.bannerContainer}>
 								<Heading1 color={Colors.white}>
-									{currentStatus?.areaNm ?? "알 수 없음"}
+									{currentStatus?.areaNm || "알 수 없음"}
 								</Heading1>
 								<Body3 color={Colors.white}>
-									{currentStatus?.areaCongestMsg ??
+									{currentStatus?.areaCongestMsg ||
 										"알 수 없음"}
 								</Body3>
 							</View>
@@ -106,15 +120,20 @@ export default function QuietPlaces() {
 							restaurantEnabled={
 								(restaurants && restaurants.length > 0) || false
 							}
+							restaurantStatus={categoriesStatus?.식당}
 							fbEnabled={(fb && fb.length > 0) || false}
+							fbStatus={categoriesStatus?.패션}
 							leisureEnabled={
 								(leisures && leisures.length > 0) || false
 							}
+							leisureStatus={categoriesStatus?.여가}
 							cafeEnabled={(cafes && cafes.length > 0) || false}
+							cafeStatus={categoriesStatus?.카페}
 							distributionEnabled={
 								(distributions && distributions.length > 0) ||
 								false
 							}
+							distributionStatus={categoriesStatus?.유통}
 							areaCd={areaCd}
 						/>
 					</View>
@@ -123,7 +142,7 @@ export default function QuietPlaces() {
 							<View style={styles.cardListContainer}>
 								<StatusTitle
 									text="식당"
-									status={3}
+									status={categoriesStatus?.식당 || 0}
 									onPress={() =>
 										router.push({
 											pathname: "/recommand",
@@ -156,7 +175,10 @@ export default function QuietPlaces() {
 						)}
 						{fb && fb.length > 0 && (
 							<View style={styles.cardListContainer}>
-								<StatusTitle text="패션·뷰티" status={1} />
+								<StatusTitle
+									text="패션·뷰티"
+									status={categoriesStatus?.패션 || 0}
+								/>
 								<ScrollView
 									contentContainerStyle={styles.cardList}
 									horizontal
@@ -176,7 +198,10 @@ export default function QuietPlaces() {
 						)}
 						{leisures && leisures.length > 0 && (
 							<View style={styles.cardListContainer}>
-								<StatusTitle text="여가" status={3} />
+								<StatusTitle
+									text="여가"
+									status={categoriesStatus?.여가 || 0}
+								/>
 								<ScrollView
 									contentContainerStyle={styles.cardList}
 									horizontal
@@ -196,7 +221,10 @@ export default function QuietPlaces() {
 						)}
 						{cafes && cafes.length > 0 && (
 							<View style={styles.cardListContainer}>
-								<StatusTitle text="카페" status={3} />
+								<StatusTitle
+									text="카페"
+									status={categoriesStatus?.카페 || 0}
+								/>
 								<ScrollView
 									contentContainerStyle={styles.cardList}
 									horizontal
@@ -216,7 +244,10 @@ export default function QuietPlaces() {
 						)}
 						{distributions && distributions.length > 0 && (
 							<View style={styles.cardListContainer}>
-								<StatusTitle text="유통" status={3} />
+								<StatusTitle
+									text="유통"
+									status={categoriesStatus?.유통 || 0}
+								/>
 								<ScrollView
 									contentContainerStyle={styles.cardList}
 									horizontal

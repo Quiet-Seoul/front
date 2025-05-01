@@ -6,7 +6,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { CardXLItem } from "@/types/card";
 import { router } from "expo-router";
 
-const CardXL = ({ text, image, subText, status }: CardXLItem) => {
+const CardXL = ({ id, text, image, subText, status }: CardXLItem) => {
 	const statusColor = {
 		여유: Colors.status.positive,
 		보통: Colors.status.neutral,
@@ -15,7 +15,14 @@ const CardXL = ({ text, image, subText, status }: CardXLItem) => {
 	};
 
 	return (
-		<Pressable onPress={() => router.push("/quietplaces")}>
+		<Pressable
+			onPress={() =>
+				router.push({
+					pathname: "/quietplaces",
+					params: { areaCd: id },
+				})
+			}
+		>
 			<View
 				style={{
 					width: 160,
@@ -26,7 +33,7 @@ const CardXL = ({ text, image, subText, status }: CardXLItem) => {
 			>
 				<ImageBackground
 					source={{
-						uri: image ?? process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
+						uri: image || process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
 					}}
 					style={{
 						width: 160,

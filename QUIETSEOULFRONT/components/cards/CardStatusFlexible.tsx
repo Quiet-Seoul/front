@@ -41,7 +41,7 @@ const CardStatusFlexible = ({
 			>
 				<ImageBackground
 					source={{
-						uri: image ?? process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
+						uri: image || process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
 					}}
 					style={{
 						width: (windowWidth - 40) / 2,

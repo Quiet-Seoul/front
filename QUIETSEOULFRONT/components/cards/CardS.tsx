@@ -10,7 +10,7 @@ import { router } from "expo-router";
 const CardS = ({
 	id,
 	text,
-	image = "https://fakeimg.pl/600x400?text=No+image&font=bebas",
+	image = process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
 	type,
 	isFromUser,
 	distance,

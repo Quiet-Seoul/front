@@ -12,7 +12,7 @@ const windowWidth = Dimensions.get("window").width;
 const CardFlexible = ({
 	id,
 	text,
-	image = "https://fakeimg.pl/600x400?text=No+image&font=bebas",
+	image = process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
 	type,
 	isFromUser,
 	distance,

@@ -122,8 +122,6 @@ export default function Landing() {
 		return null;
 	}
 
-	console.log(placesNearby);
-
 	return (
 		<>
 			<Header title="한적서울" screenName="index" chevron={false} />
@@ -140,8 +138,8 @@ export default function Landing() {
 					<CardLList
 						titleComponent={
 							<DoubleHighlightTitle
-								text1={placesNearby?.baseArea ?? "unknown"}
-								text2={placesNearby?.category ?? "unknown"}
+								text1={placesNearby?.baseArea || "unknown"}
+								text2={placesNearby?.category || "unknown"}
 								subText="*현재 위치 기반"
 								onPress={() =>
 									router.push({
@@ -163,7 +161,7 @@ export default function Landing() {
 								};
 
 								return cardItem;
-							}) ?? []
+							}) || []
 						}
 					/>
 					<CardXLList
@@ -185,7 +183,7 @@ export default function Landing() {
 								};
 
 								return cardItem;
-							}) ?? []
+							}) || []
 						}
 					/>
 					<View>

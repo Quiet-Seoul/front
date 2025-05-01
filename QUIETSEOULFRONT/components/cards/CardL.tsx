@@ -26,7 +26,7 @@ const CardL = ({ id, text, image, rep, reviews }: CardLItem) => {
 		>
 			<ImageBackground
 				source={{
-					uri: image ?? process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
+					uri: image || process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
 				}}
 				style={{
 					width: 160,

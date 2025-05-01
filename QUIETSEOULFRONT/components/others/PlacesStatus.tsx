@@ -105,27 +105,21 @@ type PlacesStatusProps = {
 	leisureEnabled: boolean;
 	cafeEnabled: boolean;
 	distributionEnabled: boolean;
+	restaurantStatus?: number;
+	fbStatus?: number;
+	leisureStatus?: number;
+	cafeStatus?: number;
+	distributionStatus?: number;
 	areaCd: string;
 };
 
 const PlacesStatus = (props: PlacesStatusProps) => {
-	const [categoriesStatus, setCategoriesStatus] =
-		React.useState<CategoriesStatusData>();
-
-	React.useEffect(() => {
-		const getCategoriesStatus = async () => {
-			const result = await fetchCategoriesStatus(props.areaCd);
-
-			setCategoriesStatus(result);
-		};
-
-		getCategoriesStatus();
-	}, []);
+	React.useEffect(() => {}, []);
 
 	return (
 		<View style={styles.container}>
 			{props.restaurantEnabled && (
-				<StatusItem type="식당" status={categoriesStatus?.식당} />
+				<StatusItem type="식당" status={props.restaurantStatus} />
 			)}
 			{/* {props.fbEnabled && (
 				<StatusItem
@@ -134,13 +128,13 @@ const PlacesStatus = (props: PlacesStatusProps) => {
 				/>
 			)} */}
 			{props.leisureEnabled && (
-				<StatusItem type="여가" status={categoriesStatus?.여가} />
+				<StatusItem type="여가" status={props.leisureStatus} />
 			)}
 			{props.cafeEnabled && (
-				<StatusItem type="카페" status={categoriesStatus?.카페} />
+				<StatusItem type="카페" status={props.cafeStatus} />
 			)}
 			{props.distributionEnabled && (
-				<StatusItem type="유통" status={categoriesStatus?.유통} />
+				<StatusItem type="유통" status={props.distributionStatus} />
 			)}
 		</View>
 	);
