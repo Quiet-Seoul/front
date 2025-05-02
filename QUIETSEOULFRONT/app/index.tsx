@@ -180,6 +180,7 @@ export default function Landing() {
 										item.areaPpltnMin / 10000
 									}만 ~ ${item.areaPpltnMax / 10000}만`,
 									status: item.areaCongestLvl,
+									image: item.imageUrl,
 								};
 
 								return cardItem;
