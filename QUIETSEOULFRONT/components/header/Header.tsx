@@ -53,7 +53,7 @@ const Header = ({ chevron = true, title, screenName }: Props) => {
 								<ChevronLeft24 />
 							</View>
 					  )
-					: undefined,
+					: () => <View></View>,
 				headerTitle: () => (
 					<Heading2 color={Colors.white}>{title}</Heading2>
 				),

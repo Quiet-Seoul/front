@@ -18,6 +18,7 @@ import {
 	FlatList,
 	ListRenderItem,
 	SafeAreaView,
+	Pressable,
 } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
@@ -26,6 +27,7 @@ type WideCardProps = {
 	subText?: string;
 	image?: string;
 	status: "여유" | "보통" | "약간 붐빔" | "붐빔";
+	areaCd: string;
 };
 
 const WideCard = ({
@@ -33,6 +35,7 @@ const WideCard = ({
 	subText,
 	image = process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
 	status,
+	areaCd,
 }: WideCardProps) => {
 	const statusColor = {
 		여유: Colors.status.positive,
@@ -42,11 +45,17 @@ const WideCard = ({
 	};
 
 	return (
-		<View
+		<Pressable
 			style={[
 				styles.cardContainer,
 				{ backgroundColor: getRepTextToColor(status) },
 			]}
+			onPress={() =>
+				router.push({
+					pathname: "/quietplaces",
+					params: { areaCd: areaCd },
+				})
+			}
 		>
 			<ImageBackground
 				source={{ uri: image }}
@@ -63,7 +72,7 @@ const WideCard = ({
 					</View>
 				</View>
 			</ImageBackground>
-		</View>
+		</Pressable>
 	);
 };
 
@@ -81,6 +90,7 @@ const cities = (props: Props) => {
 				text={item.areaNm}
 				subText={item.areaCongestMsg}
 				image={process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER}
+				areaCd={item.areaCd}
 			/>
 		),
 		[]
@@ -97,9 +107,6 @@ const cities = (props: Props) => {
 
 		getDistrictAreas();
 	}, [district]);
-
-	console.log(district);
-	console.log(areaDatas);
 
 	return (
 		<>

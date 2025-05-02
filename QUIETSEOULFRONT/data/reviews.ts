@@ -22,17 +22,24 @@ export const fetchPlaceReviews = async (
 	return result;
 };
 
-export const sendPlaceReview = async (placeId: number, data: FormData) => {
+export const sendPlaceReview = async (
+	placeId: number,
+	data: FormData,
+	token?: string
+) => {
 	const response = await fetch(
 		process.env.EXPO_PUBLIC_API_URL + `/places/${placeId}/reviews`,
 		{
 			method: "POST",
 			headers: {
-				// "Content-Type": "multipart/form-data",
+				"Content-Type": "multipart/form-data",
+				Authorization: `Bearer ${token}`,
 			},
 			body: data,
 		}
 	);
+
+	console.log(data);
 
 	if (response.status !== 200) {
 		console.log(response);

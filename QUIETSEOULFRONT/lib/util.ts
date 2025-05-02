@@ -67,8 +67,10 @@ export const getRepColor = (rep?: number) => {
 		return Colors.status.neutral;
 	} else if (rep >= 2) {
 		return Colors.status.negative;
-	} else {
+	} else if (rep >= 1) {
 		return Colors.status.veryNegative;
+	} else {
+		return Colors.gray[300];
 	}
 };
 

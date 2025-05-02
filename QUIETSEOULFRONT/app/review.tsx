@@ -36,11 +36,14 @@ import { ScrollView } from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";
 import Delete from "@/components/icons/Delete";
 import { sendPlaceReview } from "@/data/reviews";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type Props = {};
 
 const review = (props: Props) => {
 	const { details } = useLocalSearchParams();
+
+	const jwt = React.useRef<string>();
 
 	const [placeDetail, setPlaceDetail] = React.useState<PlaceDetailData>({
 		id: 0,
@@ -57,7 +60,7 @@ const review = (props: Props) => {
 	});
 
 	const imageSrc =
-		"https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/07/10/MIwt/5pXvYOvGAg.jpg";
+		placeDetail.imageUrl || process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER;
 	const placeName = placeDetail.name;
 	const placeType = placeDetail.category;
 	const address = placeDetail.address;
@@ -95,19 +98,21 @@ const review = (props: Props) => {
 	const handleReviewSubmit = async () => {
 		const reviewForm = new FormData();
 
-		images?.forEach((item) => {
-			reviewForm.append("imageUrlList", {
-				uri: item.uri,
-				type: "image/png",
-				name: item.fileName,
-			} as any);
-		});
+		// images?.forEach((item) => {
+		// 	reviewForm.append("imageUrlList", {
+		// 		uri: item.uri,
+		// 		type: `image/${item.fileName?.split(".")[1]}`,
+		// 		name: item.fileName,
+		// 	} as any);
+		// });
+
+		// console.log(reviewForm.getAll("imageUrlList"));
 
 		reviewForm.append("congestionLevel", congestionLevel.current);
 		reviewForm.append("comment", comment.current);
 		reviewForm.append("visitDate", dateData.dateString);
 
-		await sendPlaceReview(placeDetail.id, reviewForm)
+		await sendPlaceReview(placeDetail.id, reviewForm, jwt.current)
 			.then((res) => {
 				console.log(res);
 				alert("성공적으로 리뷰를 등록했습니다!");
@@ -142,6 +147,11 @@ const review = (props: Props) => {
 	};
 
 	React.useEffect(() => {
+		const getJwt = async () => {
+			await AsyncStorage.getItem("jwt").then((res) => {
+				if (res) jwt.current = res;
+			});
+		};
 		const getPlaceDetail = async () => {
 			await fetchPlaceDetail(details as string)
 				.then((res) => {
@@ -153,6 +163,7 @@ const review = (props: Props) => {
 				});
 		};
 
+		getJwt();
 		getPlaceDetail();
 	}, []);
 
@@ -214,22 +225,22 @@ const review = (props: Props) => {
 								<RadioProvider>
 									<RadioButton
 										text="여유"
-										value="0"
-										onSelect={handleCrowdLevel}
-									/>
-									<RadioButton
-										text="보통"
 										value="1"
 										onSelect={handleCrowdLevel}
 									/>
 									<RadioButton
-										text="북적"
+										text="보통"
 										value="2"
 										onSelect={handleCrowdLevel}
 									/>
 									<RadioButton
-										text="혼잡"
+										text="북적"
 										value="3"
+										onSelect={handleCrowdLevel}
+									/>
+									<RadioButton
+										text="혼잡"
+										value="4"
 										onSelect={handleCrowdLevel}
 									/>
 								</RadioProvider>

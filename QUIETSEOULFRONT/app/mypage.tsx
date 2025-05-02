@@ -8,6 +8,7 @@ import * as SplashScreen from "expo-splash-screen";
 import Divider from "@/components/divider/Divider";
 import { Colors } from "@/constants/Colors";
 import ChevronRight from "@/components/icons/ChevronRight";
+import { router } from "expo-router";
 
 type Props = {};
 
@@ -15,7 +16,7 @@ const mypage = (props: Props) => {
 	const handleDeleteUserData = async () => {
 		await AsyncStorage.removeItem("user");
 		await AsyncStorage.removeItem("jwt");
-		// setUserData(null);
+		router.push("/");
 	};
 
 	return (

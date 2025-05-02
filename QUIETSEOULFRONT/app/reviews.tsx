@@ -50,7 +50,7 @@ const reviews = (props: Props) => {
 	const [reviews, setReviews] = React.useState<Array<ReviewItem>>([]);
 
 	const imageSrc =
-		"https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/07/10/MIwt/5pXvYOvGAg.jpg";
+		placeDetail.imageUrl || process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER;
 	const placeName = placeDetail.name;
 	const placeType = placeDetail.category;
 	const address = placeDetail.address;
