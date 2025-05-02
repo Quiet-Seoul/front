@@ -1,7 +1,7 @@
 export interface AreaData {
 	areaCd: string;
 	areaNm: string;
-	imageurl: string;
+	imageUrl: string;
 	ppltnTime: string;
 	areaCongestLvl: "여유" | "보통" | "약간 붐빔" | "붐빔";
 	areaCongestMsg: string;

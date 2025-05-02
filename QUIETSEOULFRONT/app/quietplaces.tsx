@@ -98,7 +98,7 @@ export default function QuietPlaces() {
 					<ImageBackground
 						source={{
 							uri:
-								currentStatus?.imageurl ||
+								currentStatus?.imageUrl ||
 								process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
 						}}
 						style={styles.banner}

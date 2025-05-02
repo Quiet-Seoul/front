@@ -37,12 +37,7 @@ const WideCard = ({
 	status,
 	areaCd,
 }: WideCardProps) => {
-	const statusColor = {
-		여유: Colors.status.positive,
-		보통: Colors.status.neutral,
-		"약간 붐빔": Colors.status.negative,
-		붐빔: Colors.status.veryNegative,
-	};
+	console.log(image);
 
 	return (
 		<Pressable
@@ -89,7 +84,7 @@ const cities = (props: Props) => {
 				status={item.areaCongestLvl}
 				text={item.areaNm}
 				subText={item.areaCongestMsg}
-				image={process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER}
+				image={item.imageUrl}
 				areaCd={item.areaCd}
 			/>
 		),
@@ -107,6 +102,8 @@ const cities = (props: Props) => {
 
 		getDistrictAreas();
 	}, [district]);
+
+	console.log(areaDatas);
 
 	return (
 		<>
