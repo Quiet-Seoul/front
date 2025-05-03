@@ -35,12 +35,7 @@ const SquareCarousel = ({ items }: Props) => {
 					text1="가장 한적할"
 					text2="추천"
 					highlight="공원"
-					onPress={() =>
-						router.push({
-							pathname: "/recommand",
-							params: { type: "predict" },
-						})
-					}
+					onPress={() => router.push("/predictList")}
 				/>
 			</View>
 			<Carousel
@@ -53,10 +48,14 @@ const SquareCarousel = ({ items }: Props) => {
 				}}
 				autoPlay
 				autoPlayInterval={3000}
-				renderItem={({ item, index, animationValue }) => (
+				renderItem={({ item }) => (
 					<View style={{ padding: 16 }}>
 						<ImageBackground
-							source={{ uri: item.image }}
+							source={{
+								uri:
+									item.image ||
+									process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
+							}}
 							style={{
 								height: "100%",
 							}}

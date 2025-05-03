@@ -22,6 +22,9 @@ import { PlacesNearbyData } from "@/types/places";
 import { getRepValue } from "@/lib/util";
 import { fetchQuietAreas } from "@/data/area";
 import { AreaData } from "@/types/area";
+import { fetchPredictQuietList } from "@/data/predict";
+import { PredictPlaceData } from "@/types/predict";
+import { CarouselItem } from "@/types/carousel";
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -42,6 +45,8 @@ export default function Landing() {
 
 	const [placesNearby, setPlacesNearby] = React.useState<PlacesNearbyData>();
 	const [quietAreas, setQuietAreas] = React.useState<AreaData[]>();
+	const [predictQuietList, setPredictQuietList] =
+		React.useState<PredictPlaceData[]>();
 
 	React.useEffect(() => {
 		AsyncStorage.getItem("jwt").then((res) => {
@@ -88,6 +93,16 @@ export default function Landing() {
 
 		prepare();
 		getCurrentLocation();
+	}, []);
+
+	React.useEffect(() => {
+		const getPredictQuietList = async () => {
+			const result = await fetchPredictQuietList();
+
+			setPredictQuietList(result);
+		};
+
+		getPredictQuietList();
 	}, []);
 
 	React.useEffect(() => {
@@ -157,7 +172,7 @@ export default function Landing() {
 									id: item.id,
 									text: item.name,
 									rep: getRepValue(item.avgRating),
-									reviews: 0,
+									reviews: item.reviewCount,
 								};
 
 								return cardItem;
@@ -188,7 +203,24 @@ export default function Landing() {
 						}
 					/>
 					<View>
-						<SquareCarousel items={carouselItems} />
+						<SquareCarousel
+							items={
+								predictQuietList?.map((item, idx) => {
+									const card: CarouselItem = {
+										image: item.imageUrl,
+										location: item.name,
+										description:
+											item.type === "park"
+												? "공원"
+												: item.type === "mainstreet"
+												? "길거리"
+												: "기타",
+									};
+
+									return card;
+								}) || []
+							}
+						/>
 					</View>
 					<CardSList
 						titleComponent={

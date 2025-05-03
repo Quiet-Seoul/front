@@ -122,7 +122,7 @@ export default function QuietPlaces() {
 							}
 							restaurantStatus={categoriesStatus?.식당}
 							fbEnabled={(fb && fb.length > 0) || false}
-							fbStatus={categoriesStatus?.패션}
+							fbStatus={categoriesStatus?.패션뷰티}
 							leisureEnabled={
 								(leisures && leisures.length > 0) || false
 							}
@@ -177,7 +177,7 @@ export default function QuietPlaces() {
 							<View style={styles.cardListContainer}>
 								<StatusTitle
 									text="패션·뷰티"
-									status={categoriesStatus?.패션 || 0}
+									status={categoriesStatus?.패션뷰티 || 0}
 								/>
 								<ScrollView
 									contentContainerStyle={styles.cardList}

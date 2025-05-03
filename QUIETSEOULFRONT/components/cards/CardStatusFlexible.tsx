@@ -1,25 +1,30 @@
 import React from "react";
 import { Dimensions, ImageBackground, Pressable, View } from "react-native";
-import { Body3, Body5, Heading2, Heading4 } from "../text/Text";
+import { Body3, Heading2 } from "../text/Text";
 import { Colors } from "@/constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
-import { CardXLItem } from "@/types/card";
 import { router } from "expo-router";
 
 const windowWidth = Dimensions.get("window").width;
 
+interface CardStatusFlexibleProps {
+	name: string;
+	imageUrl?: string;
+	subText: string;
+	status: "여유" | "보통" | "약간 혼잡" | "혼잡";
+}
+
 const CardStatusFlexible = ({
-	id,
-	text,
-	image,
+	name,
 	subText,
 	status,
-}: CardXLItem) => {
+	imageUrl,
+}: CardStatusFlexibleProps) => {
 	const statusColor = {
 		여유: Colors.status.positive,
 		보통: Colors.status.neutral,
-		"약간 붐빔": Colors.status.negative,
-		붐빔: Colors.status.veryNegative,
+		"약간 혼잡": Colors.status.negative,
+		혼잡: Colors.status.veryNegative,
 	};
 
 	return (
@@ -27,7 +32,7 @@ const CardStatusFlexible = ({
 			onPress={() =>
 				router.push({
 					pathname: "/predict",
-					params: { id: id },
+					params: { name: name },
 				})
 			}
 		>
@@ -41,7 +46,9 @@ const CardStatusFlexible = ({
 			>
 				<ImageBackground
 					source={{
-						uri: image || process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
+						uri:
+							imageUrl ||
+							process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
 					}}
 					style={{
 						width: (windowWidth - 40) / 2,
@@ -70,7 +77,7 @@ const CardStatusFlexible = ({
 							}}
 						>
 							<View>
-								<Heading2 color={Colors.white}>{text}</Heading2>
+								<Heading2 color={Colors.white}>{name}</Heading2>
 							</View>
 							<View>
 								<Body3 color={Colors.white}>{subText}</Body3>

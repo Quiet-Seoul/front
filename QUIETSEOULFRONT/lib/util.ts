@@ -16,15 +16,17 @@ export const getRepText = (rep?: number) => {
 };
 
 export const getRepEmoticon = (rep?: number) => {
-	return rep === 3
-		? "☺️"
-		: rep === 2
-		? "🙂"
-		: rep === 1
-		? "🙁"
-		: rep === 0
-		? "😔"
-		: "";
+	if (typeof rep === "undefined") return "NaN";
+
+	if (rep >= 4) {
+		return "☺️";
+	} else if (rep >= 3) {
+		return "🙂";
+	} else if (rep >= 2) {
+		return "🙁";
+	} else {
+		return "😔";
+	}
 };
 
 export const getRepValue = (rep?: number) => {
@@ -42,7 +44,7 @@ export const getRepValue = (rep?: number) => {
 };
 
 export const getRepTextToColor = (rep: string) => {
-	if (rep) return Colors.gray[300];
+	if (!rep) return Colors.gray[300];
 
 	switch (rep) {
 		case "여유":

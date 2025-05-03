@@ -26,11 +26,12 @@ export interface Places {
 	lat: number;
 	lng: number;
 	avgRating: number;
+	reviewCount: number;
 }
 
 export interface CategoriesStatusData {
 	식당: number;
-	패션: number;
+	패션뷰티: number;
 	여가: number;
 	유통: number;
 	카페: number;

@@ -37,11 +37,14 @@ import { PlaceDetailData } from "@/types/places";
 import { ReviewItem } from "@/types/review";
 import { fetchPlaceReviews } from "@/data/reviews";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/native";
 
 type Props = {};
 
 const detail = (props: Props) => {
 	const { details } = useLocalSearchParams();
+
+	const isFocused = useIsFocused();
 
 	const jwt = React.useRef<string | null>(null);
 
@@ -68,7 +71,8 @@ const detail = (props: Props) => {
 	const emoticon = getRepEmoticon(rep);
 	const repText = getRepText(rep);
 	const description = placeDetail.description;
-	const reviewCount = 19;
+
+	console.log(rep);
 
 	const copyToClipboard = async () => {
 		await ClipboardAPI.setStringAsync(address).then(() =>
@@ -105,7 +109,7 @@ const detail = (props: Props) => {
 
 		getPlaceDetail();
 		getPlaceReviews();
-	}, []);
+	}, [isFocused]);
 
 	return (
 		<>
@@ -204,8 +208,10 @@ const detail = (props: Props) => {
 										}
 									>
 										<Heading3>
-											{`${getRepEmoticon(0)} ${getRepText(
-												0
+											{`${getRepEmoticon(
+												item.congestionScore
+											)} ${getRepText(
+												item.congestionScore
 											)}`}
 										</Heading3>
 										<Body5 color={Colors.gray[300]}>

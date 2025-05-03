@@ -1,23 +1,14 @@
 import React from "react";
 import { router, Stack, useLocalSearchParams } from "expo-router";
-import {
-	View,
-	StyleSheet,
-	FlatList,
-	ListRenderItem,
-	Pressable,
-} from "react-native";
+import { View, StyleSheet, FlatList, ListRenderItem } from "react-native";
 import { Heading2, Heading3, Heading4 } from "@/components/text/Text";
 import { Colors } from "@/constants/Colors";
-import Filter from "@/components/icons/Filter";
-import { CardSItem } from "@/types/card";
 import CardFlexible from "@/components/cards/CardFlexible";
 import ChevronLeft24 from "@/components/icons/ChevronLeft24";
 import BottomMargin from "@/components/others/BottomMargin";
 import FilterSheet from "@/components/bottomsheet/FilterSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import RadioButton, { RadioProvider } from "@/components/buttons/RadioButton";
-import CardStatusFlexible from "@/components/cards/CardStatusFlexible";
 import { fetchAreaPlaces } from "@/data/places";
 import { PlaceDetailData } from "@/types/places";
 import { getRepValue } from "@/lib/util";
@@ -83,35 +74,22 @@ type Props = {
 const recommand = () => {
 	const bottomSheetRep = React.useRef<BottomSheetModal | null>(null);
 
-	const { type, title, areaCd } = useLocalSearchParams();
+	const { title, areaCd } = useLocalSearchParams();
 
 	const [areaPlaces, setAreaPlaces] = React.useState<PlaceDetailData[]>();
 
 	const renderItems: ListRenderItem<PlaceDetailData> = React.useCallback(
-		({ item }) => {
-			if (type === "predict") {
-				return (
-					<CardStatusFlexible
-						id={String(item.id)}
-						text={item.name}
-						subText={"asdfasdf"}
-						status={"붐빔"}
-					/>
-				);
-			} else {
-				return (
-					<CardFlexible
-						id={item.id}
-						type={item.category}
-						text={item.name}
-						rep={getRepValue(item.avgRating)}
-						reviews={0}
-						distance={0}
-						isFromUser
-					/>
-				);
-			}
-		},
+		({ item }) => (
+			<CardFlexible
+				id={item.id}
+				type={item.category}
+				text={item.name}
+				rep={getRepValue(item.avgRating)}
+				reviews={0}
+				distance={0}
+				isFromUser
+			/>
+		),
 		[]
 	);
 
@@ -147,9 +125,10 @@ const recommand = () => {
 			<View style={styles.container}>
 				<View style={styles.titleContainer}>
 					<View style={styles.titleAlign}>
-						<Heading2 color={Colors.gray[900]}>사용자</Heading2>
+						{/* <Heading2 color={Colors.gray[900]}>사용자</Heading2>
 						<Heading2 color={Colors.main[700]}> 제보 </Heading2>
-						<Heading2 color={Colors.gray[900]}>기반 추천</Heading2>
+						<Heading2 color={Colors.gray[900]}>기반 추천</Heading2> */}
+						<Heading2 color={Colors.gray[900]}>{title}</Heading2>
 					</View>
 					{/* <Pressable
 						style={styles.filterButtonContainer}
@@ -246,69 +225,3 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16,
 	},
 });
-
-const cardSItems: Array<CardSItem> = [
-	{
-		id: 1,
-		text: "동작충효길",
-		type: "카페",
-		rep: "good",
-		reviews: 0,
-		isFromUser: true,
-		distance: 1.2,
-	},
-	{
-		id: 1,
-		text: "동작충효길",
-		type: "카페",
-		rep: "good",
-		reviews: 0,
-		isFromUser: true,
-		distance: 1.2,
-	},
-	{
-		id: 1,
-		text: "동작충효길",
-		type: "카페",
-		rep: "good",
-		reviews: 0,
-		isFromUser: true,
-		distance: 1.2,
-	},
-	{
-		id: 1,
-		text: "동작충효길",
-		type: "카페",
-		rep: "good",
-		reviews: 0,
-		isFromUser: true,
-		distance: 1.2,
-	},
-	{
-		id: 1,
-		text: "동작충효길",
-		type: "카페",
-		rep: "good",
-		reviews: 0,
-		isFromUser: true,
-		distance: 1.2,
-	},
-	{
-		id: 1,
-		text: "동작충효길",
-		type: "카페",
-		rep: "good",
-		reviews: 0,
-		isFromUser: true,
-		distance: 1.2,
-	},
-	{
-		id: 1,
-		text: "동작충효길",
-		type: "카페",
-		rep: "good",
-		reviews: 0,
-		isFromUser: true,
-		distance: 1.2,
-	},
-];

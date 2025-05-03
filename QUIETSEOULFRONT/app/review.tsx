@@ -98,17 +98,7 @@ const review = (props: Props) => {
 	const handleReviewSubmit = async () => {
 		const reviewForm = new FormData();
 
-		// images?.forEach((item) => {
-		// 	reviewForm.append("imageUrlList", {
-		// 		uri: item.uri,
-		// 		type: `image/${item.fileName?.split(".")[1]}`,
-		// 		name: item.fileName,
-		// 	} as any);
-		// });
-
-		// console.log(reviewForm.getAll("imageUrlList"));
-
-		reviewForm.append("congestionLevel", congestionLevel.current);
+		reviewForm.append("congestionScore", congestionLevel.current);
 		reviewForm.append("comment", comment.current);
 		reviewForm.append("visitDate", dateData.dateString);
 
@@ -116,6 +106,7 @@ const review = (props: Props) => {
 			.then((res) => {
 				console.log(res);
 				alert("성공적으로 리뷰를 등록했습니다!");
+				router.back();
 			})
 			.catch((err) => {
 				console.log(err);
@@ -230,17 +221,12 @@ const review = (props: Props) => {
 									/>
 									<RadioButton
 										text="보통"
-										value="2"
-										onSelect={handleCrowdLevel}
-									/>
-									<RadioButton
-										text="북적"
 										value="3"
 										onSelect={handleCrowdLevel}
 									/>
 									<RadioButton
 										text="혼잡"
-										value="4"
+										value="5"
 										onSelect={handleCrowdLevel}
 									/>
 								</RadioProvider>

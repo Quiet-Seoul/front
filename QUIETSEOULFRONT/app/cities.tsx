@@ -103,8 +103,6 @@ const cities = (props: Props) => {
 		getDistrictAreas();
 	}, [district]);
 
-	console.log(areaDatas);
-
 	return (
 		<>
 			<Stack.Screen

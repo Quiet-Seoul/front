@@ -4,6 +4,7 @@ export interface ReviewItem {
 	visitDate: string;
 	createdAt: string;
 	congestionLevel: string;
+	congestionScore: number;
 	writerUsername: string;
 	imageUrl: string;
 }
