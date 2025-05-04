@@ -35,7 +35,7 @@ SplashScreen.setOptions({
 	fade: true,
 });
 
-export default function Landing() {
+export default function Index() {
 	const jwt = React.useRef<string | null>(null);
 
 	const [location, setLocation] =

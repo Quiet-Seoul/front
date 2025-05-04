@@ -15,7 +15,7 @@ import { ListRenderItem, StyleSheet, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { BarChart, barDataItem } from "react-native-gifted-charts";
 
-const predict = () => {
+const Predict = () => {
 	const placeName = useLocalSearchParams().name.toString();
 	const placeType = useLocalSearchParams().type.toString();
 
@@ -159,7 +159,7 @@ const predict = () => {
 	);
 };
 
-export default predict;
+export default Predict;
 
 const styles = StyleSheet.create({
 	container: {

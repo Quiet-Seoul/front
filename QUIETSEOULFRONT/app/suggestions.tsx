@@ -74,7 +74,7 @@ type Props = {
 	type: string;
 };
 
-const suggestions = () => {
+const Suggestions = () => {
 	const bottomSheetRep = React.useRef<BottomSheetModal | null>(null);
 
 	const [areaPlaces, setAreaPlaces] = React.useState<SuggestionData[]>();
@@ -159,7 +159,7 @@ const suggestions = () => {
 	);
 };
 
-export default suggestions;
+export default Suggestions;
 
 const styles = StyleSheet.create({
 	container: {

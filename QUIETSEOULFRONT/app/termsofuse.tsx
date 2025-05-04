@@ -11,7 +11,7 @@ type Props = {};
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-const termsofuse = (props: Props) => {
+const Termsofuse = (props: Props) => {
 	return (
 		<>
 			<Stack.Screen
@@ -37,7 +37,7 @@ const termsofuse = (props: Props) => {
 	);
 };
 
-export default termsofuse;
+export default Termsofuse;
 
 const styles = StyleSheet.create({
 	container: {

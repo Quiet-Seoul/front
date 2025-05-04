@@ -12,7 +12,7 @@ import { router } from "expo-router";
 
 type Props = {};
 
-const mypage = (props: Props) => {
+const Mypage = (props: Props) => {
 	const handleDeleteUserData = async () => {
 		await AsyncStorage.removeItem("user");
 		await AsyncStorage.removeItem("jwt");
@@ -57,7 +57,7 @@ const mypage = (props: Props) => {
 	);
 };
 
-export default mypage;
+export default Mypage;
 
 const styles = StyleSheet.create({
 	container: {

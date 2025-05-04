@@ -11,7 +11,7 @@ import { Stack, router } from "expo-router";
 import React from "react";
 import { FlatList, ListRenderItem, View, StyleSheet } from "react-native";
 
-const predictList = () => {
+const PredictList = () => {
 	const [predictPlaces, setPredictPlaces] =
 		React.useState<PredictPlaceData[]>();
 
@@ -81,7 +81,7 @@ const predictList = () => {
 	);
 };
 
-export default predictList;
+export default PredictList;
 
 const styles = StyleSheet.create({
 	container: {

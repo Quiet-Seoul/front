@@ -71,7 +71,7 @@ type Props = {
 	type: string;
 };
 
-const recommand = () => {
+const Recommand = () => {
 	const bottomSheetRep = React.useRef<BottomSheetModal | null>(null);
 
 	const { title, areaCd } = useLocalSearchParams();
@@ -161,7 +161,7 @@ const recommand = () => {
 	);
 };
 
-export default recommand;
+export default Recommand;
 
 const styles = StyleSheet.create({
 	container: {

@@ -5,7 +5,7 @@ import InputField from "@/components/inputField/InputField";
 import TextBox from "@/components/inputField/TextBox";
 import { Heading2, Heading4 } from "@/components/text/Text";
 import { Colors } from "@/constants/Colors";
-import { router, Stack } from "expo-router";
+import { router, Stack, useLocalSearchParams } from "expo-router";
 import React from "react";
 import {
 	View,
@@ -13,12 +13,13 @@ import {
 	TouchableWithoutFeedback,
 	Keyboard,
 	SafeAreaView,
-	Dimensions,
+	Pressable,
+	Button,
 } from "react-native";
 
-type Props = {};
+const Inform = () => {
+	const { address } = useLocalSearchParams();
 
-const Inform = (props: Props) => {
 	return (
 		<SafeAreaView>
 			<Stack.Screen
@@ -50,7 +51,7 @@ const Inform = (props: Props) => {
 								width: 40,
 							}}
 						>
-							<Heading4>장소명</Heading4>
+							<Heading4>장소</Heading4>
 						</View>
 						<View style={{ flex: 1 }}>
 							<InputField />
@@ -89,10 +90,29 @@ const Inform = (props: Props) => {
 						>
 							<Heading4>위치</Heading4>
 						</View>
-						<View style={{ flex: 1 }}>
-							<InputField
-								readonly
-								value="서울 강남구 강남대로 426"
+						<View
+							style={{
+								flex: 1,
+								display: "flex",
+								flexDirection: "row",
+								columnGap: 16,
+							}}
+						>
+							<View
+								style={{
+									flex: 1,
+								}}
+							>
+								<InputField
+									readonly
+									placeholder="지도에서 위치를 검색해주세요"
+									value={address?.toString() || undefined}
+								/>
+							</View>
+							<Button
+								title="지도"
+								onPress={() => router.push("./map")}
+								color={Colors.main[500]}
 							/>
 						</View>
 					</View>

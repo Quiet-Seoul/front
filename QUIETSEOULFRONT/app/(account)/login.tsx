@@ -21,7 +21,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 type Props = {};
 
-const login = (props: Props) => {
+const Login = (props: Props) => {
 	const [id, setId] = React.useState<string>("");
 	const [pw, setPw] = React.useState<string>("");
 
@@ -106,7 +106,7 @@ const login = (props: Props) => {
 	);
 };
 
-export default login;
+export default Login;
 
 const styles = StyleSheet.create({
 	container: {

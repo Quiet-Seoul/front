@@ -73,7 +73,7 @@ const WideCard = ({
 
 type Props = {};
 
-const cities = (props: Props) => {
+const Cities = (props: Props) => {
 	const [district, setDistrict] = React.useState<DistrictData>();
 	const [isFocus, setIsFocus] = React.useState(false);
 	const [areaDatas, setAreaDatas] = React.useState<AreaData[]>();
@@ -180,7 +180,7 @@ const cities = (props: Props) => {
 	);
 };
 
-export default cities;
+export default Cities;
 
 const styles = StyleSheet.create({
 	container: {

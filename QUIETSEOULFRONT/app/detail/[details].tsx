@@ -41,7 +41,7 @@ import { useIsFocused } from "@react-navigation/native";
 
 type Props = {};
 
-const detail = (props: Props) => {
+const Detail = (props: Props) => {
 	const { details } = useLocalSearchParams();
 
 	const isFocused = useIsFocused();
@@ -271,7 +271,7 @@ const detail = (props: Props) => {
 	);
 };
 
-export default detail;
+export default Detail;
 
 const styles = StyleSheet.create({
 	container: {

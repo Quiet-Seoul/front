@@ -29,7 +29,7 @@ import {
 
 type Props = {};
 
-const reviews = (props: Props) => {
+const Reviews = (props: Props) => {
 	const { details } = useLocalSearchParams();
 
 	const jwt = React.useRef<string | null>(null);
@@ -181,7 +181,7 @@ const reviews = (props: Props) => {
 	);
 };
 
-export default reviews;
+export default Reviews;
 
 const styles = StyleSheet.create({
 	headerContainer: {

@@ -30,7 +30,7 @@ import CalendarIcon from "@/components/icons/Calendar";
 
 type Props = {};
 
-const signup = (props: Props) => {
+const Signup = (props: Props) => {
 	const username = React.useRef<string>("");
 	const password = React.useRef<string>("");
 	const checkPassword = React.useRef<string>("");
@@ -203,7 +203,7 @@ const signup = (props: Props) => {
 	);
 };
 
-export default signup;
+export default Signup;
 
 const styles = StyleSheet.create({
 	contentcontainer: {

@@ -40,7 +40,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type Props = {};
 
-const review = (props: Props) => {
+const Review = (props: Props) => {
 	const { details } = useLocalSearchParams();
 
 	const jwt = React.useRef<string>();
@@ -309,7 +309,7 @@ const review = (props: Props) => {
 	);
 };
 
-export default review;
+export default Review;
 
 const styles = StyleSheet.create({
 	container: {
