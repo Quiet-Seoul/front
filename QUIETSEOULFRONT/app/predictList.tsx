@@ -19,13 +19,7 @@ const predictList = () => {
 		({ item }) => (
 			<CardStatusFlexible
 				name={item.name}
-				subText={
-					item.type === "park"
-						? "공원"
-						: item.type === "mainstreet"
-						? "길거리"
-						: "기타"
-				}
+				type={item.type}
 				status={item.congestionLevel}
 				imageUrl={item.imageUrl}
 			/>

@@ -9,14 +9,14 @@ const windowWidth = Dimensions.get("window").width;
 
 interface CardStatusFlexibleProps {
 	name: string;
+	type: string;
 	imageUrl?: string;
-	subText: string;
 	status: "여유" | "보통" | "약간 혼잡" | "혼잡";
 }
 
 const CardStatusFlexible = ({
 	name,
-	subText,
+	type,
 	status,
 	imageUrl,
 }: CardStatusFlexibleProps) => {
@@ -32,7 +32,7 @@ const CardStatusFlexible = ({
 			onPress={() =>
 				router.push({
 					pathname: "/predict",
-					params: { name: name },
+					params: { name: name, type: type },
 				})
 			}
 		>
@@ -80,7 +80,13 @@ const CardStatusFlexible = ({
 								<Heading2 color={Colors.white}>{name}</Heading2>
 							</View>
 							<View>
-								<Body3 color={Colors.white}>{subText}</Body3>
+								<Body3 color={Colors.white}>
+									{type === "park"
+										? "공원"
+										: type === "mainstreet"
+										? "길거리"
+										: "기타"}
+								</Body3>
 							</View>
 						</View>
 					</LinearGradient>

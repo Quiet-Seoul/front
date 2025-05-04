@@ -3,26 +3,22 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Body2 } from "../text/Text";
 import { getAlignedDaysFromTheDay, getWeekdayKR } from "@/lib/util";
+import { DayStatus } from "@/types/predict";
 
-type StatusItemProps = {
-	day: string;
-	status: 0 | 1 | 2 | 3;
-};
-
-const StatusItem = ({ day, status }: StatusItemProps) => {
+const StatusItem = ({ date, level }: DayStatus) => {
 	let lineColor = "";
 
-	switch (status) {
-		case 0:
+	switch (level) {
+		case "여유":
 			lineColor = Colors.status.positive;
 			break;
-		case 1:
+		case "보통":
 			lineColor = Colors.status.neutral;
 			break;
-		case 2:
+		case "약간 혼잡":
 			lineColor = Colors.status.negative;
 			break;
-		case 3:
+		case "혼잡":
 			lineColor = Colors.status.veryNegative;
 			break;
 	}
@@ -30,21 +26,26 @@ const StatusItem = ({ day, status }: StatusItemProps) => {
 	return (
 		<View style={styles.item}>
 			<View style={styles.textView}>
-				<Body2 color={Colors.gray[800]}>{day}요일</Body2>
+				<Body2 color={Colors.gray[800]}>{date}요일</Body2>
 			</View>
 			<View style={[styles.statusLine, { backgroundColor: lineColor }]} />
 		</View>
 	);
 };
 
-const DaysStatus = () => {
-	const today = new Date(Date.now());
-	const days = getAlignedDaysFromTheDay(getWeekdayKR(today.getDay()));
+type Props = {
+	data: DayStatus[];
+};
 
+const DaysStatus = ({ data }: Props) => {
 	return (
 		<View style={styles.container}>
-			{days?.map((item, idx) => (
-				<StatusItem key={idx} day={item} status={0} />
+			{data?.map((item, idx) => (
+				<StatusItem
+					key={idx}
+					date={getWeekdayKR(new Date(item.date).getDay())}
+					level={item.level}
+				/>
 			))}
 		</View>
 	);

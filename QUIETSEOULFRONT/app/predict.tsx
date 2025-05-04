@@ -1,35 +1,108 @@
 import ChevronLeft24 from "@/components/icons/ChevronLeft24";
 import BottomMargin from "@/components/others/BottomMargin";
 import DaysStatus from "@/components/others/DaysStatus";
-import { Body3, Heading2, Heading4 } from "@/components/text/Text";
+import { Body3, Heading2 } from "@/components/text/Text";
 import { Colors } from "@/constants/Colors";
-import { graphData } from "@/data/dummy";
-import { DayPredictData } from "@/types/chart";
+import {
+	fetchAreaWeeklyStatus,
+	fetchAreaWeeklyStatusDetail,
+} from "@/data/predict";
+import { getRepStringToNumber, getWeekdayKR } from "@/lib/util";
+import { DayStatus, WeeklyStatus } from "@/types/predict";
 import { Stack, router, useLocalSearchParams } from "expo-router";
 import React from "react";
-import { Dimensions, ListRenderItem, StyleSheet, View } from "react-native";
+import { ListRenderItem, StyleSheet, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { BarChart } from "react-native-gifted-charts";
+import { BarChart, barDataItem } from "react-native-gifted-charts";
 
 const predict = () => {
-	const { id } = useLocalSearchParams();
+	const placeName = useLocalSearchParams().name.toString();
+	const placeType = useLocalSearchParams().type.toString();
 
-	console.log("id", id);
+	const [weeklyStatus, setWeeklyStatus] = React.useState<DayStatus[]>();
+	const [weeklyStatusDetail, setWeeklyStatusDetail] =
+		React.useState<WeeklyStatus[]>();
 
-	const placename = "한강공원";
+	const statusColor = {
+		여유: Colors.status.positive,
+		보통: Colors.status.neutral,
+		"약간 혼잡": Colors.status.negative,
+		혼잡: Colors.status.veryNegative,
+	};
 
-	const renderGraphItem: ListRenderItem<DayPredictData> = React.useCallback(
+	React.useEffect(() => {
+		const getAreaWeeklyStatus = async () => {
+			if (placeName) {
+				const result = await fetchAreaWeeklyStatus(placeName);
+
+				setWeeklyStatus(result);
+			}
+		};
+
+		const getAreaWeeklyStatusDetail = async () => {
+			if (placeName && placeType) {
+				const result = await fetchAreaWeeklyStatusDetail(
+					placeName,
+					placeType
+				);
+
+				setWeeklyStatusDetail(result);
+			}
+		};
+
+		getAreaWeeklyStatus();
+		getAreaWeeklyStatusDetail();
+	}, []);
+
+	const renderGraphItem: ListRenderItem<WeeklyStatus> = React.useCallback(
 		({ item }) => {
+			const today = new Date(item.date);
+			const first = item.hourlyForecasts.findIndex(
+				(item) => item.congestionLevel === "혼잡"
+			);
+			let last = first;
+
+			for (
+				let i = first;
+				i !== -1 && i < item.hourlyForecasts.length;
+				i++
+			) {
+				if (item.hourlyForecasts[i].congestionLevel !== "혼잡") {
+					last = i - 1;
+					i = item.hourlyForecasts.length;
+				}
+			}
+
 			return (
 				<View style={styles.itemContainer}>
 					<View style={styles.graphTitleAlign}>
-						<Heading2>{item.day}요일</Heading2>
+						<Heading2>{getWeekdayKR(today.getDay())}요일</Heading2>
 						<Body3 color={Colors.gray[800]}>
-							12시 ~ 18시의 활동을 피해주세요
+							{first === -1
+								? item.hourlyForecasts.findIndex(
+										(item) =>
+											item.congestionLevel === "약간 혼잡"
+								  ) !== -1
+									? "대체적으로 활동하기 좋아요"
+									: "사람이 적어 한산해요"
+								: `${first}시 ~ ${last}시의 활동을 피해주세요`}
 						</Body3>
 					</View>
 					<BarChart
-						data={item.data}
+						data={item.hourlyForecasts.map((elem) => {
+							const chartData: barDataItem = {
+								label:
+									elem.hour % 6
+										? undefined
+										: String(elem.hour),
+								value: elem.yhat,
+								frontColor: statusColor[elem.congestionLevel],
+							};
+
+							console.log(chartData);
+
+							return chartData;
+						})}
 						// width={Dimensions.get("window").width}
 						height={100}
 						// hideAxesAndRules
@@ -68,12 +141,12 @@ const predict = () => {
 			/>
 			<View style={styles.container}>
 				<View style={styles.titleContainer}>
-					<Heading2 color={Colors.main[700]}>{placename}</Heading2>
+					<Heading2 color={Colors.main[700]}>{placeName}</Heading2>
 					<Heading2> 예상 한적도</Heading2>
 				</View>
-				<DaysStatus />
+				<DaysStatus data={weeklyStatus || []} />
 				<FlatList
-					data={graphData}
+					data={weeklyStatusDetail}
 					renderItem={renderGraphItem}
 					contentContainerStyle={{
 						rowGap: 40,

@@ -88,6 +88,20 @@ export const getStatusColor = (status: 0 | 1 | 2 | 3) => {
 		: "";
 };
 
+export const getRepStringToNumber = (
+	rep?: "여유" | "보통" | "약간 혼잡" | "혼잡"
+) => {
+	if (rep === "여유") {
+		return 4;
+	} else if (rep === "보통") {
+		return 3;
+	} else if (rep === "약간 혼잡") {
+		return 2;
+	} else {
+		return 1;
+	}
+};
+
 export const getWeekdayKR = (weekday: number) => {
 	switch (weekday) {
 		case 0:
