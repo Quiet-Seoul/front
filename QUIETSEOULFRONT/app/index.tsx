@@ -228,18 +228,13 @@ export default function Landing() {
 								text1="사용자"
 								text2="기반 추천"
 								highlight="제보"
-								onPress={() =>
-									router.push({
-										pathname: "/recommand",
-										params: { type: "suggestion" },
-									})
-								}
+								onPress={() => router.push("/suggestions")}
 							/>
 						}
 						items={cardSItems}
 						isFromUser
 					/>
-					<CardSList
+					{/* <CardSList
 						titleComponent={
 							<SingleHighlightTitle
 								text1="사용자"
@@ -254,7 +249,7 @@ export default function Landing() {
 							/>
 						}
 						items={cardSItems}
-					/>
+					/> */}
 				</View>
 				<Pressable
 					style={styles.footerContainer}

@@ -19,3 +19,12 @@ export interface CardSItem extends CardLItem {
 	isFromUser?: boolean;
 	distance?: number;
 }
+
+export interface CardSuggestionItem {
+	id: string;
+	text: string;
+	image?: string;
+	avgRate: number;
+	reviews: number;
+	isFromUser?: boolean;
+}

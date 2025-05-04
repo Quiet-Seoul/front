@@ -95,7 +95,7 @@ const predict = () => {
 									elem.hour % 6
 										? undefined
 										: String(elem.hour),
-								value: elem.yhat,
+								value: elem.stayPopulation,
 								frontColor: statusColor[elem.congestionLevel],
 							};
 
@@ -117,6 +117,7 @@ const predict = () => {
 						}}
 						spacing={4}
 						disablePress
+						yAxisLabelWidth={50}
 					/>
 				</View>
 			);
@@ -151,7 +152,7 @@ const predict = () => {
 					contentContainerStyle={{
 						rowGap: 40,
 					}}
-					ListFooterComponent={<BottomMargin height={128} />}
+					ListFooterComponent={<BottomMargin height={256} />}
 				/>
 			</View>
 		</>

@@ -14,6 +14,7 @@ import { PlaceDetailData } from "@/types/places";
 import { getRepValue } from "@/lib/util";
 import { fetchApprovedSuggestions } from "@/data/suggestions";
 import { SuggestionData } from "@/types/suggestions";
+import CardSuggestion from "@/components/cards/CardSuggestion";
 
 const aligns = [
 	{ label: "전체", value: "all" },
@@ -80,13 +81,11 @@ const suggestions = () => {
 
 	const renderItems: ListRenderItem<SuggestionData> = React.useCallback(
 		({ item }) => (
-			<CardFlexible
+			<CardSuggestion
 				id={item.id}
-				type={item.category}
-				text={item.name}
-				rep={getRepValue(item.avgRating)}
+				text={item.placeName}
+				avgRate={1}
 				reviews={0}
-				distance={0}
 				isFromUser
 			/>
 		),

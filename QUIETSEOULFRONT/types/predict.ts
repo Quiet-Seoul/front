@@ -19,5 +19,5 @@ export interface WeeklyStatus {
 export interface WeeklyStatusDetail {
 	hour: number;
 	congestionLevel: "여유" | "보통" | "약간 혼잡" | "혼잡";
-	yhat: number;
+	stayPopulation: number;
 }

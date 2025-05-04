@@ -241,7 +241,7 @@ const detail = (props: Props) => {
 							</SecondaryButton>
 						</View>
 					</View>
-					<CardSList
+					{/* <CardSList
 						titleComponent={
 							<Title
 								text="유사한 장소 추천"
@@ -249,7 +249,7 @@ const detail = (props: Props) => {
 							/>
 						}
 						items={cardSItems}
-					/>
+					/> */}
 					<BottomMargin height={128} />
 				</ScrollView>
 				<View style={styles.bottomButtonContainer}>
@@ -386,33 +386,3 @@ const styles = StyleSheet.create({
 		borderTopColor: Colors.gray[100],
 	},
 });
-
-const cardSItems: Array<CardSItem> = [
-	{
-		id: 0,
-		text: "동작충효길",
-		type: "카페",
-		rep: "good",
-		reviews: 0,
-		isFromUser: true,
-		distance: 1.2,
-	},
-	{
-		id: 1,
-		text: "동작충효길",
-		type: "카페",
-		rep: "good",
-		reviews: 0,
-		isFromUser: true,
-		distance: 1.2,
-	},
-	{
-		id: 2,
-		text: "동작충효길",
-		type: "카페",
-		rep: "good",
-		reviews: 0,
-		isFromUser: true,
-		distance: 1.2,
-	},
-];

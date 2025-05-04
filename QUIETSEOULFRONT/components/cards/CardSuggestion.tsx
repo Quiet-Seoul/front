@@ -1,4 +1,4 @@
-import { CardSItem } from "@/types/card";
+import { CardSItem, CardSuggestionItem } from "@/types/card";
 import React from "react";
 import { View, Image, Dimensions, Pressable } from "react-native";
 import TypeChip from "../chips/TypeChip";
@@ -6,32 +6,24 @@ import FromUserChip from "../chips/FromUserChip";
 import { Body5, Heading4 } from "../text/Text";
 import { Colors } from "@/constants/Colors";
 import { Link, router } from "expo-router";
+import { getRepEmoticon, getRepText } from "@/lib/util";
 
 const windowWidth = Dimensions.get("window").width;
 
-const CardFlexible = ({
+const CardSuggestion = ({
 	id,
 	text,
 	image = process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
-	type,
 	isFromUser,
-	rep,
 	reviews,
-}: CardSItem) => {
-	const emojis = {
-		good: "☺️ 쾌적해요",
-		normal: "🙂 보통이에요",
-		bad: "🙁 북적해요",
-		terrible: "😔 혼잡해요",
-		NaN: "NaN",
-	};
-
+	avgRate,
+}: CardSuggestionItem) => {
 	return (
 		<Pressable
 			onPress={() =>
 				router.push({
 					pathname: "/detail/[details]",
-					params: { details: String(id) },
+					params: { details: String(id), type: "suggestion" },
 				})
 			}
 		>
@@ -67,7 +59,7 @@ const CardFlexible = ({
 							columnGap: 4,
 						}}
 					>
-						<TypeChip type={type} />
+						<TypeChip type={"카페"} />
 						{isFromUser && <FromUserChip />}
 					</View>
 					<View
@@ -81,9 +73,6 @@ const CardFlexible = ({
 						<View style={{ flex: 1 }}>
 							<Heading4 ellipsis>{text}</Heading4>
 						</View>
-						{/* <Body5 color={Colors.gray[700]}>
-							거리 {distance} km
-						</Body5> */}
 					</View>
 					<View
 						style={{
@@ -92,7 +81,11 @@ const CardFlexible = ({
 							gap: 8,
 						}}
 					>
-						<Body5 color={Colors.gray[700]}>{emojis[rep]}</Body5>
+						<Body5 color={Colors.gray[700]}>
+							{`${getRepEmoticon(avgRate)} ${getRepText(
+								avgRate
+							)}`}
+						</Body5>
 						<Body5 color={Colors.gray[700]}>💬 {reviews} 건</Body5>
 					</View>
 				</View>
@@ -101,4 +94,4 @@ const CardFlexible = ({
 	);
 };
 
-export default CardFlexible;
+export default CardSuggestion;
