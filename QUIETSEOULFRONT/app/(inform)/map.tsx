@@ -1,7 +1,7 @@
 import ChevronLeft24 from "@/components/icons/ChevronLeft24";
 import { Heading2 } from "@/components/text/Text";
 import { Colors } from "@/constants/Colors";
-import { Stack, router } from "expo-router";
+import { Stack, router, useLocalSearchParams } from "expo-router";
 import React from "react";
 import { Dimensions, SafeAreaView, StyleSheet, View } from "react-native";
 import WebView, { WebViewMessageEvent } from "react-native-webview";
@@ -13,14 +13,19 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const Map = () => {
+	const { latitude, longitude } = useLocalSearchParams();
+
 	const webViewRef = React.useRef<WebView>(null);
 
 	const address = React.useRef<string>("");
+	const coords = React.useRef<Coordinates>();
 
 	const onMessage = (e: WebViewMessageEvent) => {
 		const data = e.nativeEvent.data;
+		const { addr, lat, lng } = JSON.parse(data);
 
-		address.current = data;
+		address.current = addr;
+		coords.current = { lat: lat, lng: lng };
 	};
 
 	React.useEffect(() => {
@@ -33,8 +38,8 @@ const Map = () => {
 
 			const location = await Location.getCurrentPositionAsync({});
 			const coords: Coordinates = {
-				lat: location.coords.latitude,
-				lng: location.coords.longitude,
+				lat: +latitude?.toString() || location.coords.latitude,
+				lng: +longitude?.toString() || location.coords.longitude,
 			};
 			webViewRef.current?.postMessage(JSON.stringify(coords));
 		}
@@ -71,7 +76,11 @@ const Map = () => {
 					<PrimaryButton
 						onPress={() => {
 							router.back();
-							router.setParams({ address: address.current });
+							router.setParams({
+								address: address.current,
+								latitude: coords.current?.lat,
+								longitude: coords.current?.lng,
+							});
 						}}
 					>
 						이곳으로 지정

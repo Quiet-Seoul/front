@@ -9,7 +9,7 @@ import BottomMargin from "@/components/others/BottomMargin";
 import FilterSheet from "@/components/bottomsheet/FilterSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import RadioButton, { RadioProvider } from "@/components/buttons/RadioButton";
-import { fetchAreaPlaces } from "@/data/places";
+import { fetchAreaPlaces, fetchPlacesNearbybyCategory } from "@/data/places";
 import { PlaceDetailData } from "@/types/places";
 import { getRepValue } from "@/lib/util";
 
@@ -74,7 +74,7 @@ type Props = {
 const Recommand = () => {
 	const bottomSheetRep = React.useRef<BottomSheetModal | null>(null);
 
-	const { title, areaCd } = useLocalSearchParams();
+	const { title, areaCd, type } = useLocalSearchParams();
 
 	const [areaPlaces, setAreaPlaces] = React.useState<PlaceDetailData[]>();
 
@@ -87,7 +87,6 @@ const Recommand = () => {
 				rep={getRepValue(item.avgRating)}
 				reviews={0}
 				distance={0}
-				isFromUser
 			/>
 		),
 		[]
@@ -98,7 +97,10 @@ const Recommand = () => {
 	React.useEffect(() => {
 		const getAreaPlaces = async () => {
 			if (areaCd) {
-				const result = await fetchAreaPlaces(areaCd.toString());
+				const result = await fetchPlacesNearbybyCategory(
+					areaCd.toString(),
+					type.toString()
+				);
 
 				setAreaPlaces(result);
 			}

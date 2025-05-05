@@ -7,9 +7,10 @@ import { Colors } from "@/constants/Colors";
 import Fb from "../icons/Fb";
 import Leisure from "../icons/Leisure";
 import Distribution from "../icons/Distribution";
+import Etc from "../icons/Etc";
 
 type Props = {
-	type: "식당" | "여가" | "카페" | "유통" | "패션";
+	type: string;
 };
 
 const TypeChip = ({ type }: Props) => {
@@ -25,6 +26,8 @@ const TypeChip = ({ type }: Props) => {
 				return <Cafe />;
 			case "식당":
 				return <Restaurant />;
+			default:
+				return <Etc />;
 		}
 	};
 
@@ -45,7 +48,7 @@ const TypeChip = ({ type }: Props) => {
 				<RenderIcon />
 			</View>
 			<View>
-				<Body3 color={Colors.main[300]}>{type}</Body3>
+				<Body3 color={Colors.main[300]}>{type || "기타"}</Body3>
 			</View>
 		</View>
 	);

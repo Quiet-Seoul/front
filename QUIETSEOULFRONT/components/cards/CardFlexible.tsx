@@ -12,7 +12,7 @@ const windowWidth = Dimensions.get("window").width;
 const CardFlexible = ({
 	id,
 	text,
-	image = process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
+	image,
 	type,
 	isFromUser,
 	rep,
@@ -31,7 +31,10 @@ const CardFlexible = ({
 			onPress={() =>
 				router.push({
 					pathname: "/detail/[details]",
-					params: { details: String(id) },
+					params: {
+						details: String(id),
+						isSuggestion: `${isFromUser}`,
+					},
 				})
 			}
 		>
@@ -44,7 +47,11 @@ const CardFlexible = ({
 			>
 				<View>
 					<Image
-						source={{ uri: image }}
+						source={{
+							uri:
+								image ||
+								process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
+						}}
 						style={{
 							width: (windowWidth - 40) / 2,
 							aspectRatio: 1 / 1,

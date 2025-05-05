@@ -77,15 +77,18 @@ type Props = {
 const Suggestions = () => {
 	const bottomSheetRep = React.useRef<BottomSheetModal | null>(null);
 
-	const [areaPlaces, setAreaPlaces] = React.useState<SuggestionData[]>();
+	const [suggestionPlaces, setSuggestionPlaces] =
+		React.useState<PlaceDetailData[]>();
 
-	const renderItems: ListRenderItem<SuggestionData> = React.useCallback(
+	const renderItems: ListRenderItem<PlaceDetailData> = React.useCallback(
 		({ item }) => (
-			<CardSuggestion
+			<CardFlexible
 				id={item.id}
-				text={item.placeName}
-				avgRate={1}
+				text={item.name}
+				image={item.imageUrl}
+				rep={getRepValue(item.avgRating)}
 				reviews={0}
+				type={item.category}
 				isFromUser
 			/>
 		),
@@ -98,11 +101,13 @@ const Suggestions = () => {
 		const getPlaces = async () => {
 			const result = await fetchApprovedSuggestions();
 
-			setAreaPlaces(result);
+			setSuggestionPlaces(result);
 		};
 
 		getPlaces();
 	}, []);
+
+	console.log(suggestionPlaces);
 
 	return (
 		<>
@@ -137,7 +142,7 @@ const Suggestions = () => {
 					</Pressable> */}
 				</View>
 				<FlatList
-					data={areaPlaces}
+					data={suggestionPlaces}
 					renderItem={renderItems}
 					keyExtractor={(_, index) => `CARDITEM_${index}`}
 					contentContainerStyle={{

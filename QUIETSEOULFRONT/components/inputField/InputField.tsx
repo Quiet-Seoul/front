@@ -7,12 +7,14 @@ type Props = {
 	placeholder?: string;
 	readonly?: boolean;
 	value?: string;
+	onChangeText?: (text: string) => void;
 };
 
 const InputField = ({
 	placeholder = "내용을 적어주세요",
 	readonly = false,
 	value,
+	onChangeText,
 }: Props) => {
 	return (
 		<TextInput
@@ -25,6 +27,7 @@ const InputField = ({
 			placeholder={placeholder}
 			readOnly={readonly}
 			value={value}
+			onChangeText={onChangeText}
 		/>
 	);
 };

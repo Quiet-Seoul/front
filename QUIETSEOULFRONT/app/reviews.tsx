@@ -13,6 +13,7 @@ import {
 import { Colors } from "@/constants/Colors";
 import { fetchPlaceDetail } from "@/data/places";
 import { fetchPlaceReviews } from "@/data/reviews";
+import { fetchSuggestionPlaceDetail } from "@/data/suggestions";
 import { PlaceDetailData } from "@/types/places";
 import { ReviewItem } from "@/types/review";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -30,7 +31,7 @@ import {
 type Props = {};
 
 const Reviews = (props: Props) => {
-	const { details } = useLocalSearchParams();
+	const { details, isSuggestion } = useLocalSearchParams();
 
 	const jwt = React.useRef<string | null>(null);
 
@@ -57,13 +58,23 @@ const Reviews = (props: Props) => {
 
 	React.useEffect(() => {
 		const getPlaceDetail = async () => {
-			await fetchPlaceDetail(details as string)
-				.then((res) => {
-					setPlaceDetail(res);
-				})
-				.catch((err) => {
-					alert("장소 정보를 불러오지 못했습니다.");
-				});
+			if (isSuggestion) {
+				await fetchSuggestionPlaceDetail(details as string)
+					.then((res) => {
+						setPlaceDetail(res);
+					})
+					.catch((err) => {
+						alert("장소 정보를 불러오지 못했습니다.");
+					});
+			} else {
+				await fetchPlaceDetail(details as string)
+					.then((res) => {
+						setPlaceDetail(res);
+					})
+					.catch((err) => {
+						alert("장소 정보를 불러오지 못했습니다.");
+					});
+			}
 		};
 
 		const getPlaceReviews = async () => {
@@ -83,6 +94,8 @@ const Reviews = (props: Props) => {
 		getPlaceDetail();
 		getPlaceReviews();
 	}, []);
+
+	console.log(placeDetail);
 
 	const renderItems: ListRenderItem<ReviewItem> = React.useCallback(
 		({ item }) => (

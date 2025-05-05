@@ -1,7 +1,13 @@
 import { Colors } from "@/constants/Colors";
 import { CarouselItem } from "@/types/carousel";
 import React from "react";
-import { View, Image, Dimensions, ImageBackground } from "react-native";
+import {
+	View,
+	Image,
+	Dimensions,
+	ImageBackground,
+	Pressable,
+} from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import Carousel, {
 	ICarouselInstance,
@@ -9,6 +15,7 @@ import Carousel, {
 } from "react-native-reanimated-carousel";
 import { Body3, Heading1 } from "../text/Text";
 import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
 
 type Props = {
 	items: CarouselItem[];
@@ -31,42 +38,51 @@ const HomeCarousel = ({ items }: Props) => {
 				autoPlay
 				autoPlayInterval={3000}
 				renderItem={({ item, index, animationValue }) => (
-					<ImageBackground
-						source={{ uri: item.image }}
-						style={{
-							height: "100%",
-						}}
+					<Pressable
+						onPress={() =>
+							router.push({
+								pathname: "/quietplaces",
+								params: { areaCd: item.id },
+							})
+						}
 					>
-						<LinearGradient
-							colors={["#00000000", "#00000080"]}
-							locations={[0.5, 1]}
-							start={{ x: 0, y: 0 }}
-							end={{ x: 0, y: 1 }}
+						<ImageBackground
+							source={{ uri: item.image }}
 							style={{
 								height: "100%",
-								width: "100%",
 							}}
 						>
-							<View
+							<LinearGradient
+								colors={["#00000000", "#00000080"]}
+								locations={[0.5, 1]}
+								start={{ x: 0, y: 0 }}
+								end={{ x: 0, y: 1 }}
 								style={{
-									position: "absolute",
-									bottom: 28,
-									left: 16,
-									right: 16,
-									display: "flex",
-									flexDirection: "column",
-									rowGap: 8,
+									height: "100%",
+									width: "100%",
 								}}
 							>
-								<Heading1 color={Colors.white}>
-									{item.location}
-								</Heading1>
-								<Body3 color={Colors.white}>
-									{item.description}
-								</Body3>
-							</View>
-						</LinearGradient>
-					</ImageBackground>
+								<View
+									style={{
+										position: "absolute",
+										bottom: 28,
+										left: 16,
+										right: 16,
+										display: "flex",
+										flexDirection: "column",
+										rowGap: 8,
+									}}
+								>
+									<Heading1 color={Colors.white}>
+										{item.location}
+									</Heading1>
+									<Body3 color={Colors.white}>
+										{item.description}
+									</Body3>
+								</View>
+							</LinearGradient>
+						</ImageBackground>
+					</Pressable>
 				)}
 			/>
 

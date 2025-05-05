@@ -153,6 +153,7 @@ const Predict = () => {
 						rowGap: 40,
 					}}
 					ListFooterComponent={<BottomMargin height={256} />}
+					showsVerticalScrollIndicator={false}
 				/>
 			</View>
 		</>

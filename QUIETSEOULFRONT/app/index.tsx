@@ -141,7 +141,20 @@ export default function Index() {
 		<>
 			<Header title="한적서울" screenName="index" chevron={false} />
 			<ScrollView onLayout={onLayoutRootView}>
-				<HomeCarousel items={carouselItems} />
+				<HomeCarousel
+					items={
+						quietAreas?.slice(0, 3).map((item) => {
+							const carouselItem: CarouselItem = {
+								id: item.areaCd,
+								image: item.imageUrl,
+								location: item.areaNm,
+								description: item.areaCongestMsg,
+							};
+
+							return carouselItem;
+						}) || []
+					}
+				/>
 				<View
 					style={{
 						display: "flex",
@@ -205,8 +218,9 @@ export default function Index() {
 					<View>
 						<SquareCarousel
 							items={
-								predictQuietList?.map((item, idx) => {
+								predictQuietList?.map((item) => {
 									const card: CarouselItem = {
+										type: item.type,
 										image: item.imageUrl,
 										location: item.name,
 										description:

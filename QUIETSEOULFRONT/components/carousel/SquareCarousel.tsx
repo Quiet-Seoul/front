@@ -7,6 +7,7 @@ import {
 	Dimensions,
 	ImageBackground,
 	StyleSheet,
+	Pressable,
 } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import Carousel, {
@@ -49,7 +50,18 @@ const SquareCarousel = ({ items }: Props) => {
 				autoPlay
 				autoPlayInterval={3000}
 				renderItem={({ item }) => (
-					<View style={{ padding: 16 }}>
+					<Pressable
+						style={{ padding: 16 }}
+						onPress={() =>
+							router.push({
+								pathname: "/predict",
+								params: {
+									name: item.location,
+									type: item.type,
+								},
+							})
+						}
+					>
 						<ImageBackground
 							source={{
 								uri:
@@ -94,7 +106,7 @@ const SquareCarousel = ({ items }: Props) => {
 								</View>
 							</LinearGradient>
 						</ImageBackground>
-					</View>
+					</Pressable>
 				)}
 			/>
 

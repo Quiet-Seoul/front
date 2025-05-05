@@ -147,10 +147,10 @@ export default function QuietPlaces() {
 										router.push({
 											pathname: "/recommand",
 											params: {
-												type: "quietplaces",
+												type: "식당",
 												title:
 													currentStatus?.areaNm +
-													" 전체보기",
+													"식당 전체보기",
 												areaCd: areaCd,
 											},
 										})
@@ -178,6 +178,18 @@ export default function QuietPlaces() {
 								<StatusTitle
 									text="패션·뷰티"
 									status={categoriesStatus?.패션뷰티 || 0}
+									onPress={() =>
+										router.push({
+											pathname: "/recommand",
+											params: {
+												type: "패션뷰티",
+												title:
+													currentStatus?.areaNm +
+													"패션뷰티 전체보기",
+												areaCd: areaCd,
+											},
+										})
+									}
 								/>
 								<ScrollView
 									contentContainerStyle={styles.cardList}
@@ -201,6 +213,18 @@ export default function QuietPlaces() {
 								<StatusTitle
 									text="여가"
 									status={categoriesStatus?.여가 || 0}
+									onPress={() =>
+										router.push({
+											pathname: "/recommand",
+											params: {
+												type: "여가",
+												title:
+													currentStatus?.areaNm +
+													"여가 전체보기",
+												areaCd: areaCd,
+											},
+										})
+									}
 								/>
 								<ScrollView
 									contentContainerStyle={styles.cardList}
@@ -224,6 +248,18 @@ export default function QuietPlaces() {
 								<StatusTitle
 									text="카페"
 									status={categoriesStatus?.카페 || 0}
+									onPress={() =>
+										router.push({
+											pathname: "/recommand",
+											params: {
+												type: "카페",
+												title:
+													currentStatus?.areaNm +
+													"카페 전체보기",
+												areaCd: areaCd,
+											},
+										})
+									}
 								/>
 								<ScrollView
 									contentContainerStyle={styles.cardList}
@@ -247,6 +283,18 @@ export default function QuietPlaces() {
 								<StatusTitle
 									text="유통"
 									status={categoriesStatus?.유통 || 0}
+									onPress={() =>
+										router.push({
+											pathname: "/recommand",
+											params: {
+												type: "유통",
+												title:
+													currentStatus?.areaNm +
+													"유통 전체보기",
+												areaCd: areaCd,
+											},
+										})
+									}
 								/>
 								<ScrollView
 									contentContainerStyle={styles.cardList}

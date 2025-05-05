@@ -38,15 +38,20 @@ import { ReviewItem } from "@/types/review";
 import { fetchPlaceReviews } from "@/data/reviews";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
+import { fetchSuggestionPlaceDetail } from "@/data/suggestions";
+import WebView from "react-native-webview";
+import { Coordinates } from "@/types/location";
 
 type Props = {};
 
 const Detail = (props: Props) => {
-	const { details } = useLocalSearchParams();
+	const { details, isSuggestion } = useLocalSearchParams();
 
 	const isFocused = useIsFocused();
 
 	const jwt = React.useRef<string | null>(null);
+	const webViewRef = React.useRef<WebView>(null);
+	const [scrollEnabled, setScrollEnabled] = React.useState<boolean>(true);
 
 	const [placeDetail, setPlaceDetail] = React.useState<PlaceDetailData>({
 		id: 0,
@@ -72,8 +77,6 @@ const Detail = (props: Props) => {
 	const repText = getRepText(rep);
 	const description = placeDetail.description;
 
-	console.log(rep);
-
 	const copyToClipboard = async () => {
 		await ClipboardAPI.setStringAsync(address).then(() =>
 			alert("클립보드에 복사되었습니다!")
@@ -82,14 +85,23 @@ const Detail = (props: Props) => {
 
 	React.useEffect(() => {
 		const getPlaceDetail = async () => {
-			await fetchPlaceDetail(details as string)
-				.then((res) => {
-					setPlaceDetail(res);
-				})
-				.catch((err) => {
-					console.log(err);
-					alert("장소 정보를 불러오지 못했습니다.");
-				});
+			if (isSuggestion) {
+				await fetchSuggestionPlaceDetail(details as string)
+					.then((res) => {
+						setPlaceDetail(res);
+					})
+					.catch((err) => {
+						alert("장소 정보를 불러오지 못했습니다.");
+					});
+			} else {
+				await fetchPlaceDetail(details as string)
+					.then((res) => {
+						setPlaceDetail(res);
+					})
+					.catch((err) => {
+						alert("장소 정보를 불러오지 못했습니다.");
+					});
+			}
 		};
 
 		const getPlaceReviews = async () => {
@@ -98,7 +110,6 @@ const Detail = (props: Props) => {
 					setReviews(res);
 				})
 				.catch((err) => {
-					console.log(err);
 					alert("리뷰 정보를 불러오지 못했습니다.");
 				});
 		};
@@ -111,6 +122,18 @@ const Detail = (props: Props) => {
 		getPlaceReviews();
 	}, [isFocused]);
 
+	React.useEffect(() => {
+		const coords: Coordinates = {
+			lat: placeDetail.lat,
+			lng: placeDetail.lng,
+		};
+
+		if (webViewRef.current) {
+			console.log(placeDetail);
+			webViewRef.current.postMessage(JSON.stringify(coords));
+		}
+	}, [placeDetail]);
+
 	return (
 		<>
 			<Stack.Screen
@@ -119,7 +142,10 @@ const Detail = (props: Props) => {
 				}}
 			/>
 			<SafeAreaView>
-				<ScrollView style={styles.container}>
+				<ScrollView
+					style={styles.container}
+					scrollEnabled={scrollEnabled}
+				>
 					<ImageBackground
 						source={{
 							uri:
@@ -165,13 +191,20 @@ const Detail = (props: Props) => {
 						<View>
 							<Body3>{description}</Body3>
 						</View>
-						<View style={styles.mapContainer}>
-							<View
-								style={{
-									height: 200,
-									borderRadius: 8,
-									borderColor: Colors.gray[300],
-									backgroundColor: Colors.gray[100],
+						<View
+							style={styles.mapContainer}
+							onTouchStart={() => {
+								setScrollEnabled(false);
+							}}
+							onTouchEnd={() => {
+								setScrollEnabled(true);
+							}}
+						>
+							<WebView
+								ref={webViewRef}
+								containerStyle={styles.webview}
+								source={{
+									uri: "https://nextjs-boilerplate-one-ecru-11.vercel.app/detailMap",
 								}}
 							/>
 							<TouchableOpacity
@@ -233,7 +266,12 @@ const Detail = (props: Props) => {
 								onPress={() =>
 									router.push({
 										pathname: "/reviews",
-										params: { details: details },
+										params: {
+											details: details,
+											isSuggestion: isSuggestion
+												? isSuggestion.toString()
+												: undefined,
+										},
 									})
 								}
 							>
@@ -384,5 +422,11 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		borderTopWidth: 1,
 		borderTopColor: Colors.gray[100],
+	},
+	webview: {
+		height: 200,
+		borderWidth: 1,
+		borderRadius: 8,
+		borderColor: Colors.gray[300],
 	},
 });
