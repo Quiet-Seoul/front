@@ -18,13 +18,14 @@ import * as SplashScreen from "expo-splash-screen";
 import Font from "expo-font";
 import Header from "@/components/header/Header";
 import { fetchPlacesNearby } from "@/data/places";
-import { PlacesNearbyData } from "@/types/places";
+import { PlaceDetailData, PlacesNearbyData } from "@/types/places";
 import { getRepValue } from "@/lib/util";
 import { fetchQuietAreas } from "@/data/area";
 import { AreaData } from "@/types/area";
 import { fetchPredictQuietList } from "@/data/predict";
 import { PredictPlaceData } from "@/types/predict";
 import { CarouselItem } from "@/types/carousel";
+import { fetchApprovedSuggestions } from "@/data/suggestions";
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -47,6 +48,8 @@ export default function Index() {
 	const [quietAreas, setQuietAreas] = React.useState<AreaData[]>();
 	const [predictQuietList, setPredictQuietList] =
 		React.useState<PredictPlaceData[]>();
+	const [suggestionPlaces, setSuggestionPlaces] =
+		React.useState<PlaceDetailData[]>();
 
 	React.useEffect(() => {
 		AsyncStorage.getItem("jwt").then((res) => {
@@ -102,7 +105,14 @@ export default function Index() {
 			setPredictQuietList(result);
 		};
 
+		const getSuggesitonPlaces = async () => {
+			const result = await fetchApprovedSuggestions();
+
+			setSuggestionPlaces(result);
+		};
+
 		getPredictQuietList();
+		getSuggesitonPlaces();
 	}, []);
 
 	React.useEffect(() => {
@@ -245,7 +255,19 @@ export default function Index() {
 								onPress={() => router.push("/suggestions")}
 							/>
 						}
-						items={cardSItems}
+						items={
+							suggestionPlaces?.slice(0, 5).map((item) => {
+								const cardData: CardSItem = {
+									type: item.category,
+									id: item.id,
+									text: item.name,
+									rep: getRepValue(item.avgRating),
+									reviews: 0,
+								};
+
+								return cardData;
+							}) || []
+						}
 						isFromUser
 					/>
 					{/* <CardSList
@@ -295,54 +317,3 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16,
 	},
 });
-
-const carouselItems = [
-	{
-		id: 1,
-		image: "https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/07/10/MIwt/5pXvYOvGAg.jpg",
-		location: "뉴욕",
-		description: "뉴욕은 정말 멋있어",
-	},
-	{
-		id: 2,
-		image: "https://ko.skyticket.com/guide/wp-content/uploads/2024/11/f3b05a7e-shutterstock_2148766635-1200x675.jpg",
-		location: "몰디브",
-		description: "에메랄드 빛깔의 해변을 지닌 몰디브",
-	},
-	{
-		id: 3,
-		image: "https://content.skyscnr.com/m/41acfff761f8ea1a/original/GettyImages-519763361.jpg?resize=1800px:1800px&quality=100",
-		location: "하와이",
-		description: "매일같이 무지개를 감상할 수 있는 하와이",
-	},
-];
-
-const cardSItems: Array<CardSItem> = [
-	{
-		id: 1,
-		text: "동작충효길",
-		type: "카페",
-		rep: "good",
-		reviews: 0,
-		isFromUser: true,
-		distance: 1.2,
-	},
-	{
-		id: 2,
-		text: "동작충효길",
-		type: "카페",
-		rep: "good",
-		reviews: 0,
-		isFromUser: true,
-		distance: 1.2,
-	},
-	{
-		id: 3,
-		text: "동작충효길",
-		type: "카페",
-		rep: "good",
-		reviews: 0,
-		isFromUser: true,
-		distance: 1.2,
-	},
-];

@@ -23,7 +23,7 @@ const CardFlexible = ({
 		normal: "🙂 보통이에요",
 		bad: "🙁 북적해요",
 		terrible: "😔 혼잡해요",
-		NaN: "NaN",
+		NaN: "❔ 평점없음",
 	};
 
 	return (
@@ -33,7 +33,7 @@ const CardFlexible = ({
 					pathname: "/detail/[details]",
 					params: {
 						details: String(id),
-						isSuggestion: `${isFromUser}`,
+						isSuggestion: isFromUser ? `${isFromUser}` : undefined,
 					},
 				})
 			}

@@ -86,6 +86,7 @@ const Detail = (props: Props) => {
 	React.useEffect(() => {
 		const getPlaceDetail = async () => {
 			if (isSuggestion) {
+				console.log("11111111");
 				await fetchSuggestionPlaceDetail(details as string)
 					.then((res) => {
 						setPlaceDetail(res);
@@ -94,6 +95,7 @@ const Detail = (props: Props) => {
 						alert("장소 정보를 불러오지 못했습니다.");
 					});
 			} else {
+				console.log("2222222");
 				await fetchPlaceDetail(details as string)
 					.then((res) => {
 						setPlaceDetail(res);
@@ -181,9 +183,7 @@ const Detail = (props: Props) => {
 								</View>
 								<View style={styles.repContainer}>
 									<Heading1>{emoticon}</Heading1>
-									<Body4 color={Colors.gray[800]}>
-										{repText}
-									</Body4>
+									<Body3>{repText}</Body3>
 								</View>
 							</View>
 						</View>
@@ -230,7 +230,7 @@ const Detail = (props: Props) => {
 							</Heading2>
 						</View>
 						<View style={styles.reviewListContainer}>
-							{reviews.map((item, idx) => (
+							{reviews.slice(0, 5).map((item, idx) => (
 								<View
 									style={styles.reviewListRowContainer}
 									key={`REVIEW_${idx}`}
@@ -297,7 +297,12 @@ const Detail = (props: Props) => {
 							if (jwt.current)
 								router.push({
 									pathname: "/review",
-									params: { details: details },
+									params: {
+										details: details,
+										isSuggestion: isSuggestion
+											? isSuggestion.toString()
+											: undefined,
+									},
 								});
 						}}
 					>

@@ -37,11 +37,12 @@ import * as ImagePicker from "expo-image-picker";
 import Delete from "@/components/icons/Delete";
 import { sendPlaceReview } from "@/data/reviews";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { fetchSuggestionPlaceDetail } from "@/data/suggestions";
 
 type Props = {};
 
 const Review = (props: Props) => {
-	const { details } = useLocalSearchParams();
+	const { details, isSuggestion } = useLocalSearchParams();
 
 	const jwt = React.useRef<string>();
 
@@ -144,14 +145,23 @@ const Review = (props: Props) => {
 			});
 		};
 		const getPlaceDetail = async () => {
-			await fetchPlaceDetail(details as string)
-				.then((res) => {
-					setPlaceDetail(res);
-				})
-				.catch((err) => {
-					console.log(err);
-					alert("장소 정보를 불러오지 못했습니다.");
-				});
+			if (isSuggestion) {
+				await fetchSuggestionPlaceDetail(details as string)
+					.then((res) => {
+						setPlaceDetail(res);
+					})
+					.catch((err) => {
+						alert("장소 정보를 불러오지 못했습니다.");
+					});
+			} else {
+				await fetchPlaceDetail(details as string)
+					.then((res) => {
+						setPlaceDetail(res);
+					})
+					.catch((err) => {
+						alert("장소 정보를 불러오지 못했습니다.");
+					});
+			}
 		};
 
 		getJwt();
@@ -216,7 +226,7 @@ const Review = (props: Props) => {
 								<RadioProvider>
 									<RadioButton
 										text="여유"
-										value="1"
+										value="5"
 										onSelect={handleCrowdLevel}
 									/>
 									<RadioButton
@@ -226,7 +236,7 @@ const Review = (props: Props) => {
 									/>
 									<RadioButton
 										text="혼잡"
-										value="5"
+										value="1"
 										onSelect={handleCrowdLevel}
 									/>
 								</RadioProvider>

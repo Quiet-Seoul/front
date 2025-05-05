@@ -98,13 +98,13 @@ const Suggestions = () => {
 	const BottomSheetFiltersMemo = React.memo(BottomSheetFilters);
 
 	React.useEffect(() => {
-		const getPlaces = async () => {
+		const getSuggesitonPlaces = async () => {
 			const result = await fetchApprovedSuggestions();
 
 			setSuggestionPlaces(result);
 		};
 
-		getPlaces();
+		getSuggesitonPlaces();
 	}, []);
 
 	console.log(suggestionPlaces);

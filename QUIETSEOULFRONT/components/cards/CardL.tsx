@@ -12,7 +12,7 @@ const CardL = ({ id, text, image, rep, reviews }: CardLItem) => {
 		normal: "🙂 보통",
 		bad: "😔 북적",
 		terrible: "😔 혼잡",
-		NaN: "NaN",
+		NaN: "❔ 평점없음",
 	};
 
 	return (

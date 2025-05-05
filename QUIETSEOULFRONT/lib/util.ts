@@ -10,13 +10,15 @@ export const getRepText = (rep?: number) => {
 		return "보통이에요";
 	} else if (rep >= 2) {
 		return "북적해요";
-	} else {
+	} else if (rep > 0) {
 		return "혼잡해요";
+	} else {
+		return "평점없음";
 	}
 };
 
 export const getRepEmoticon = (rep?: number) => {
-	if (typeof rep === "undefined") return "NaN";
+	if (typeof rep === "undefined") return "❔";
 
 	if (rep >= 4) {
 		return "☺️";
@@ -24,8 +26,10 @@ export const getRepEmoticon = (rep?: number) => {
 		return "🙂";
 	} else if (rep >= 2) {
 		return "🙁";
-	} else {
+	} else if (rep > 0) {
 		return "😔";
+	} else {
+		return "❔";
 	}
 };
 
@@ -38,8 +42,10 @@ export const getRepValue = (rep?: number) => {
 		return "normal";
 	} else if (rep >= 2) {
 		return "bad";
-	} else {
+	} else if (rep > 0) {
 		return "terrible";
+	} else {
+		return "NaN";
 	}
 };
 
@@ -69,7 +75,7 @@ export const getRepColor = (rep?: number) => {
 		return Colors.status.neutral;
 	} else if (rep >= 2) {
 		return Colors.status.negative;
-	} else if (rep >= 1) {
+	} else if (rep > 0) {
 		return Colors.status.veryNegative;
 	} else {
 		return Colors.gray[300];

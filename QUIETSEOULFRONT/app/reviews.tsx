@@ -182,7 +182,12 @@ const Reviews = (props: Props) => {
 							if (jwt.current)
 								router.push({
 									pathname: "/review",
-									params: { details: details },
+									params: {
+										details: details,
+										isSuggestion: isSuggestion
+											? isSuggestion.toString()
+											: undefined,
+									},
 								});
 						}}
 					>
