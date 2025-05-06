@@ -5,7 +5,6 @@
 		"version": "1.0.0",
 		"orientation": "portrait",
 		"icon": "./assets/images/quietseoullogo.png",
-		"android.adaptiveIcon.backgroundColor": "#3b8d55",
 		"scheme": "myapp",
 		"userInterfaceStyle": "automatic",
 		"splash": {
