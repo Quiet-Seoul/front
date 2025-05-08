@@ -1,30 +1,28 @@
 import { Colors } from "@/constants/Colors";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { Stack, useRouter } from "expo-router";
+import { Stack } from "expo-router";
 import React from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 import { StatusBar } from "expo-status-bar";
 
 export default function RootLayout() {
-	const router = useRouter();
-
-	return (
-		<GestureHandlerRootView>
-			<StatusBar style="light" />
-			<BottomSheetModalProvider>
-				<Stack
-					screenOptions={{
-						headerStyle: {
-							backgroundColor: Colors.main[700],
-							height: 40,
-						},
-						contentStyle: {
-							backgroundColor: Colors.white,
-						},
-					}}
-				/>
-			</BottomSheetModalProvider>
-		</GestureHandlerRootView>
-	);
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <StatusBar style="light" />
+      <BottomSheetModalProvider>
+        <Stack
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: Colors.main[700],
+              height: 40,
+            },
+            contentStyle: {
+              backgroundColor: Colors.white,
+            },
+          }}
+        />
+      </BottomSheetModalProvider>
+    </GestureHandlerRootView>
+  );
 }

@@ -30,7 +30,8 @@ const Termsofuse = (props: Props) => {
 			<SafeAreaView style={styles.container}>
 				<WebView
 					style={styles.webview}
-					source={{ uri: "http://192.168.0.111:3000/termsofuse" }}
+					// render 배포 후 바꾸기
+					source={{ uri: "http://10.0.2.2:3000/termsofuse" }}
 				/>
 			</SafeAreaView>
 		</>
