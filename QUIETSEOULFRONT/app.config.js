@@ -33,6 +33,7 @@ export default () => ({
     web: {
       bundler: "metro",
       output: "static",
+      bundler: "webpack",
       favicon: "./assets/images/favicon.png",
     },
     plugins: [
