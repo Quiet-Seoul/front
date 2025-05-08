@@ -50,7 +50,7 @@ export default () => ({
       ],
     ],
     experiments: {
-      typedRoutes: true,
+      typedRoutes: false,
     },
     extra: {
       router: {
