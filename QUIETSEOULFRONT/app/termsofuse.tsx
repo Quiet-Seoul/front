@@ -5,6 +5,7 @@ import { Stack, router } from "expo-router";
 import React from "react";
 import { Dimensions, SafeAreaView, StyleSheet, View } from "react-native";
 import WebView from "react-native-webview";
+import FRONTEND_URL from "@/constants/FrontendURL";
 
 type Props = {};
 
@@ -30,8 +31,7 @@ const Termsofuse = (props: Props) => {
 			<SafeAreaView style={styles.container}>
 				<WebView
 					style={styles.webview}
-					// render 배포 후 바꾸기
-					source={{ uri: "http://10.0.2.2:3000/termsofuse" }}
+					source={{ uri: `${FRONTEND_URL}/termsofuse` }}
 				/>
 			</SafeAreaView>
 		</>

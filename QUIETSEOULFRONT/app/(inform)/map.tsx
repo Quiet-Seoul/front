@@ -8,6 +8,7 @@ import WebView, { WebViewMessageEvent } from "react-native-webview";
 import * as Location from "expo-location";
 import { Coordinates } from "@/types/location";
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
+import FRONTEND_URL from "@/constants/FrontendURL";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -67,8 +68,8 @@ const Map = () => {
 					ref={webViewRef}
 					style={styles.webview}
 					source={{
-						uri: "https://nextjs-boilerplate-one-ecru-11.vercel.app/map",
-						// uri: "http://192.168.0.111:3000/map",
+                        uri: `${FRONTEND_URL}/map`,
+                        // uri: "http://192.168.0.111:3000/map",
 					}}
 					onMessage={onMessage}
 				/>
