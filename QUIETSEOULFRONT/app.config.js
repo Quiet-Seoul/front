@@ -7,22 +7,23 @@ export default () => ({
     scheme: "myapp",
     userInterfaceStyle: "automatic",
     icon: "./assets/images/quietseoullogo.png",
+
+    platforms: ["ios", "android", "web"],
+
     splash: {
       image: "./assets/images/quietseoullogo.png",
       imageWidth: 200,
       resizeMode: "contain",
       backgroundColor: "#3b8d55",
     },
-    updates: {
-      enabled: false,
-      checkAutomatically: "ON_LOAD",
-      fallbackToCacheTimeout: 0,
-    },
+
     assetBundlePatterns: ["**/*"],
+
     ios: {
       supportsTablet: true,
       bundleIdentifier: "com.gunyange.QUIETSEOULFRONT",
     },
+
     android: {
       package: "com.gunyange.QUIETSEOULFRONT",
       adaptiveIcon: {
@@ -30,12 +31,13 @@ export default () => ({
         backgroundColor: "#3b8d55",
       },
     },
+
     web: {
       bundler: "metro",
       output: "static",
-      bundler: "webpack",
       favicon: "./assets/images/favicon.png",
     },
+
     plugins: [
       "expo-router",
       "expo-font",
@@ -49,19 +51,22 @@ export default () => ({
         },
       ],
     ],
+
     experiments: {
       typedRoutes: false,
     },
+
     extra: {
       router: {
         origin: false,
       },
       eas: {
-        projectId: "60a390b1-9c0d-4100-817f-b47797ced81d", // 그대로 유지
+        projectId: "60a390b1-9c0d-4100-817f-b47797ced81d",
       },
       EXPO_PUBLIC_API_URL: process.env.EXPO_PUBLIC_API_URL,
       EXPO_PUBLIC_IMAGE_PLACEHOLDER: process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
     },
-    owner: "xaexix", // Expo 계정명
+
+    owner: "xaexix",
   },
 });
