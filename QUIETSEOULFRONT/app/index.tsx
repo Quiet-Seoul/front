@@ -15,7 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import SquareCarousel from "@/components/carousel/SquareCarousel";
 import * as Location from "expo-location";
 import * as SplashScreen from "expo-splash-screen";
-import Font from "expo-font";
+import * as Font from 'expo-font';
 import Header from "@/components/header/Header";
 import { fetchPlacesNearby } from "@/data/places";
 import { PlaceDetailData, PlacesNearbyData } from "@/types/places";
@@ -139,7 +139,7 @@ export default function Index() {
 
 	const onLayoutRootView = React.useCallback(() => {
 		if (appIsReady) {
-			SplashScreen.hide();
+			SplashScreen.hideAsync();
 		}
 	}, [appIsReady]);
 
