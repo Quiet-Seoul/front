@@ -1,95 +1,43 @@
-import { CardSItem, CardSuggestionItem } from "@/types/card";
 import React from "react";
-import { View, Image, Dimensions, Pressable } from "react-native";
-import TypeChip from "../chips/TypeChip";
-import FromUserChip from "../chips/FromUserChip";
-import { Body5, Heading4 } from "../text/Text";
+import { Pressable, View, ImageBackground } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { Heading4, Body5 } from "../text/Text";
 import { Colors } from "@/constants/Colors";
-import { Link, router } from "expo-router";
-import { getRepEmoticon, getRepText } from "@/lib/util";
+import { CardSuggestionItem } from "@/types/card";
+import { router } from "expo-router";
 
-const windowWidth = Dimensions.get("window").width;
+const CardSuggestion = ({ id, text, image, category }: CardSuggestionItem) => {
+	const fallbackImage = process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER;
+	const validImageUrl = image && image.startsWith("http") ? image : fallbackImage;
 
-const CardSuggestion = ({
-	id,
-	text,
-	image = process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
-	isFromUser,
-	reviews,
-	avgRate,
-}: CardSuggestionItem) => {
 	return (
 		<Pressable
 			onPress={() =>
 				router.push({
 					pathname: "/detail/[details]",
-					params: { details: String(id), type: "suggestion" },
+					params: { details: String(id), isSuggestion: "true" },
 				})
 			}
 		>
-			<View
+			<ImageBackground
+				source={{ uri: validImageUrl }}
 				style={{
-					display: "flex",
-					flexDirection: "column",
-					rowGap: 8,
+					width: 160,
+					height: 160,
+					borderRadius: 4,
+					overflow: "hidden",
 				}}
+				imageStyle={{ borderRadius: 4 }}
 			>
-				<View>
-					<Image
-						source={{ uri: image }}
-						style={{
-							width: (windowWidth - 40) / 2,
-							aspectRatio: 1 / 1,
-							borderRadius: 4,
-						}}
-					/>
-				</View>
-				<View
-					style={{
-						display: "flex",
-						flexDirection: "column",
-						rowGap: 4,
-					}}
+				<LinearGradient
+					colors={["#00000000", "#00000080"]}
+					locations={[0.3, 1]}
+					style={{ flex: 1, justifyContent: "flex-end", padding: 8 }}
 				>
-					<View
-						style={{
-							display: "flex",
-							flexDirection: "row",
-							alignItems: "center",
-							columnGap: 4,
-						}}
-					>
-						<TypeChip type={"카페"} />
-						{isFromUser && <FromUserChip />}
-					</View>
-					<View
-						style={{
-							display: "flex",
-							flexDirection: "row",
-							alignItems: "center",
-							columnGap: 8,
-						}}
-					>
-						<View style={{ flex: 1 }}>
-							<Heading4 ellipsis>{text}</Heading4>
-						</View>
-					</View>
-					<View
-						style={{
-							display: "flex",
-							flexDirection: "row",
-							gap: 8,
-						}}
-					>
-						<Body5 color={Colors.gray[700]}>
-							{`${getRepEmoticon(avgRate)} ${getRepText(
-								avgRate
-							)}`}
-						</Body5>
-						<Body5 color={Colors.gray[700]}>💬 {reviews} 건</Body5>
-					</View>
-				</View>
-			</View>
+					<Heading4 color={Colors.white}>{text}</Heading4>
+					<Body5 color={Colors.white}>{category}</Body5>
+				</LinearGradient>
+			</ImageBackground>
 		</Pressable>
 	);
 };

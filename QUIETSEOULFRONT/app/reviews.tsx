@@ -50,8 +50,18 @@ const Reviews = (props: Props) => {
 	});
 	const [reviews, setReviews] = React.useState<Array<ReviewItem>>([]);
 
-	const imageSrc =
-		placeDetail.imageUrl || process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER;
+// const fallbackImage = process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER;
+
+const fallbackImage =
+	"https://quietseoul-review-images.s3.ap-northeast-2.amazonaws.com/defaults/restaurant.png";
+
+const isValidImage = (url?: string) =>
+	url && url.trim().startsWith("http") && !url.includes("defauls");
+
+const imageSrc = isValidImage(placeDetail.imageUrl)
+	? placeDetail.imageUrl!.trim()
+	: fallbackImage;
+
 	const placeName = placeDetail.name;
 	const placeType = placeDetail.category;
 	const address = placeDetail.address;
@@ -120,9 +130,13 @@ const Reviews = (props: Props) => {
 		<View style={styles.headerContainer}>
 			<View style={styles.infoContainer}>
 				<Image
-					source={{ uri: imageSrc }}
-					style={{ width: 54, height: 54 }}
-				/>
+                  source={{ uri: imageSrc }}
+                  style={{ width: 54, height: 54 }}
+                  onError={(e) => {
+                    console.log("🔥 이미지 로드 실패", e.nativeEvent);
+                  }}
+                />
+
 				<View style={styles.infoTextContainer}>
 					<View style={styles.infoTextBox}>
 						<Heading4>{placeName}</Heading4>

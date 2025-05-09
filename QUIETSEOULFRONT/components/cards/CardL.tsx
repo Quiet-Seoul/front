@@ -15,6 +15,9 @@ const CardL = ({ id, text, image, rep, reviews }: CardLItem) => {
 		NaN: "❔ 평점없음",
 	};
 
+	const fallbackImage = process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER;
+	const validImageUrl = image && image.startsWith("http") ? image : fallbackImage;
+
 	return (
 		<Pressable
 			onPress={() =>
@@ -25,9 +28,7 @@ const CardL = ({ id, text, image, rep, reviews }: CardLItem) => {
 			}
 		>
 			<ImageBackground
-				source={{
-					uri: image || process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
-				}}
+				source={{ uri: validImageUrl }}
 				style={{
 					width: 160,
 					height: 200,

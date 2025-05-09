@@ -15,7 +15,7 @@ const CardXLList = ({ titleComponent, items }: Props) => {
 				id={item.id}
 				key={index}
 				text={item.text}
-				image={item.image}
+				image={item.image || item.imageUrl}
 				subText={item.subText}
 				status={item.status}
 			/>

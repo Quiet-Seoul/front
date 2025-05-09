@@ -1,6 +1,6 @@
 import React from "react";
 import { ImageBackground, Pressable, View } from "react-native";
-import { Body3, Body5, Heading2, Heading4 } from "../text/Text";
+import { Body3, Heading2 } from "../text/Text";
 import { Colors } from "@/constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { CardXLItem } from "@/types/card";
@@ -13,6 +13,9 @@ const CardXL = ({ id, text, image, subText, status }: CardXLItem) => {
 		"약간 붐빔": Colors.status.negative,
 		붐빔: Colors.status.veryNegative,
 	};
+
+	const fallbackImage = process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER;
+	const validImageUrl = image && image.startsWith("http") ? image : fallbackImage;
 
 	return (
 		<Pressable
@@ -33,7 +36,7 @@ const CardXL = ({ id, text, image, subText, status }: CardXLItem) => {
 			>
 				<ImageBackground
 					source={{
-						uri: image || process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
+						uri: validImageUrl,
 					}}
 					style={{
 						width: 160,

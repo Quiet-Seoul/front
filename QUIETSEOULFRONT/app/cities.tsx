@@ -33,11 +33,15 @@ type WideCardProps = {
 const WideCard = ({
 	text,
 	subText,
-	image = process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
+	image,
 	status,
 	areaCd,
 }: WideCardProps) => {
-	console.log(image);
+	const fallbackImage =
+		"https://quietseoul-review-images.s3.ap-northeast-2.amazonaws.com/defaults/park.png";
+
+	const validImage =
+		image && image.startsWith("http") ? image : fallbackImage;
 
 	return (
 		<Pressable
@@ -53,7 +57,7 @@ const WideCard = ({
 			}
 		>
 			<ImageBackground
-				source={{ uri: image }}
+				source={{ uri: validImage }}
 				style={styles.cardImageBackground}
 				imageStyle={styles.cardImageStyle}
 			>
