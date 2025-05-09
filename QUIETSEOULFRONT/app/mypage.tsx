@@ -9,10 +9,14 @@ import Divider from "@/components/divider/Divider";
 import { Colors } from "@/constants/Colors";
 import ChevronRight from "@/components/icons/ChevronRight";
 import { router } from "expo-router";
+import { UserData } from "@/types/user";
+import { fetchUserData } from "@/data/user";
 
 type Props = {};
 
 const Mypage = (props: Props) => {
+	const [userData, setUserData] = React.useState<UserData | null>(null);
+
 	const handleDeleteUserData = () => {
 		const logout = async () => {
 			await AsyncStorage.removeItem("user");
@@ -34,12 +38,37 @@ const Mypage = (props: Props) => {
 		);
 	};
 
+	const getLoginInfo = async () => {
+		if (!userData) {
+			const jwt = await AsyncStorage.getItem("jwt");
+
+			if (jwt) {
+				await fetchUserData(jwt).then(async (res) => {
+					if (res) {
+						await AsyncStorage.setItem("user", JSON.stringify(res));
+						setUserData(res);
+					}
+				});
+			}
+		}
+	};
+
+	React.useEffect(() => {
+		AsyncStorage.getItem("user").then((res) => {
+			if (res) {
+				setUserData(JSON.parse(res));
+			} else {
+				getLoginInfo();
+			}
+		});
+	}, []);
+
 	return (
 		<>
 			<Header title="내 정보" screenName="mypage" />
 			<SafeAreaView style={styles.container}>
 				<View style={styles.nameContainer}>
-					<Heading1>그냥이 님</Heading1>
+					<Heading1>{userData?.name} 님</Heading1>
 					<RoundChip text="내 정보 수정" />
 				</View>
 				<Divider variant="bold" />
