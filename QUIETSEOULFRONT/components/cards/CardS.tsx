@@ -25,6 +25,9 @@ const CardS = ({
 		NaN: "NaN",
 	};
 
+	const fallbackImage = process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER;
+	const validImageUrl = image && image.startsWith("http") ? image : fallbackImage;
+
 	return (
 		<Pressable
 			onPress={() =>
@@ -47,7 +50,7 @@ const CardS = ({
 			>
 				<View>
 					<Image
-						source={{ uri: image }}
+						source={{ uri: validImageUrl }}
 						style={{ width: 160, height: 160, borderRadius: 4 }}
 					/>
 				</View>
@@ -78,9 +81,6 @@ const CardS = ({
 						}}
 					>
 						<Heading4 ellipsis>{text}</Heading4>
-						{/* <Body5 color={Colors.gray[700]}>
-							거리 {distance} km
-						</Body5> */}
 					</View>
 					<View
 						style={{

@@ -15,7 +15,7 @@ const CardLList = ({ titleComponent, items }: Props) => {
 				id={item.id}
 				key={index}
 				text={item.text}
-				image={item.image}
+				image={item.image || item.imageUrl}
 				rep={item.rep}
 				reviews={item.reviews}
 			/>

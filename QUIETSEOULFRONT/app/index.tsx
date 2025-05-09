@@ -196,6 +196,7 @@ export default function Index() {
 									text: item.name,
 									rep: getRepValue(item.avgRating),
 									reviews: item.reviewCount,
+									image: item.imageUrl,
 								};
 
 								return cardItem;
@@ -227,24 +228,29 @@ export default function Index() {
 					/>
 					<View>
 						<SquareCarousel
-							items={
-								predictQuietList?.map((item) => {
-									const card: CarouselItem = {
-										type: item.type,
-										image: item.imageUrl,
-										location: item.name,
-										description:
-											item.type === "park"
-												? "공원"
-												: item.type === "mainstreet"
-												? "길거리"
-												: "기타",
-									};
+                          items={
+                            predictQuietList?.map((item) => {
+                              const fallback = "https://quietseoul-review-images.s3.ap-northeast-2.amazonaws.com/defaults/park.png"; // ✅ 실제 URL을 명시적으로
+                              const imageUrl =
+                                item.imageUrl && item.imageUrl.startsWith("http")
+                                  ? item.imageUrl
+                                  : fallback;
 
-									return card;
-								}) || []
-							}
-						/>
+                              const card: CarouselItem = {
+                                type: item.type,
+                                image: imageUrl,
+                                location: item.name,
+                                description:
+                                  item.type === "park"
+                                    ? "공원"
+                                    : item.type === "mainstreet"
+                                    ? "길거리"
+                                    : "기타",
+                              };
+                              return card;
+                            }) || []
+                          }
+                        />
 					</View>
 					<CardSList
 						titleComponent={

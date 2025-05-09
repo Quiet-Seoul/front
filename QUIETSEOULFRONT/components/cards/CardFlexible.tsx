@@ -5,7 +5,7 @@ import TypeChip from "../chips/TypeChip";
 import FromUserChip from "../chips/FromUserChip";
 import { Body5, Heading4 } from "../text/Text";
 import { Colors } from "@/constants/Colors";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -25,6 +25,9 @@ const CardFlexible = ({
 		terrible: "😔 혼잡해요",
 		NaN: "❔ 평점없음",
 	};
+
+	const fallbackImage = process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER;
+	const validImageUrl = image && image.startsWith("http") ? image : fallbackImage;
 
 	return (
 		<Pressable
@@ -47,11 +50,7 @@ const CardFlexible = ({
 			>
 				<View>
 					<Image
-						source={{
-							uri:
-								image ||
-								process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER,
-						}}
+						source={{ uri: validImageUrl }}
 						style={{
 							width: (windowWidth - 40) / 2,
 							aspectRatio: 1 / 1,
@@ -88,9 +87,6 @@ const CardFlexible = ({
 						<View style={{ flex: 1 }}>
 							<Heading4 ellipsis>{text}</Heading4>
 						</View>
-						{/* <Body5 color={Colors.gray[700]}>
-							거리 {distance} km
-						</Body5> */}
 					</View>
 					<View
 						style={{
