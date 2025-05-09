@@ -86,7 +86,6 @@ const Detail = (props: Props) => {
 	React.useEffect(() => {
 		const getPlaceDetail = async () => {
 			if (isSuggestion) {
-				console.log("11111111");
 				await fetchSuggestionPlaceDetail(details as string)
 					.then((res) => {
 						setPlaceDetail(res);
@@ -95,7 +94,6 @@ const Detail = (props: Props) => {
 						alert("장소 정보를 불러오지 못했습니다.");
 					});
 			} else {
-				console.log("2222222");
 				await fetchPlaceDetail(details as string)
 					.then((res) => {
 						setPlaceDetail(res);
@@ -131,7 +129,6 @@ const Detail = (props: Props) => {
 		};
 
 		if (webViewRef.current) {
-			console.log(placeDetail);
 			webViewRef.current.postMessage(JSON.stringify(coords));
 		}
 	}, [placeDetail]);

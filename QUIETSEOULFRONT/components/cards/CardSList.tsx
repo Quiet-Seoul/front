@@ -21,7 +21,7 @@ const CardSList = ({ titleComponent, items, isFromUser = false }: Props) => {
 				reviews={item.reviews}
 				distance={item.distance}
 				isFromUser={isFromUser}
-				image={item.image || item.imageUrl}
+				image={item.image}
 			/>
 		),
 		[]

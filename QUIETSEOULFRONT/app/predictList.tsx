@@ -102,46 +102,4 @@ const styles = StyleSheet.create({
 		display: "flex",
 		flexDirection: "row",
 	},
-	filterButtonContainer: {
-		display: "flex",
-		flexDirection: "row",
-		columnGap: 8,
-	},
-	filterContainer: {
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "space-between",
-	},
-	filterHeaderContainer: {
-		display: "flex",
-		flexDirection: "row",
-		justifyContent: "center",
-		alignItems: "center",
-		padding: 10,
-		borderBottomWidth: 1,
-		borderBottomColor: Colors.gray[100],
-	},
-	filterContentContainer: {
-		paddingHorizontal: 16,
-		paddingVertical: 8,
-		display: "flex",
-		flexDirection: "column",
-	},
-	filterContentRow: {
-		display: "flex",
-		flexDirection: "row",
-		alignItems: "center",
-		columnGap: 32,
-		paddingVertical: 4,
-	},
-	filterContentRowButtons: {
-		width: "100%",
-		display: "flex",
-		flexDirection: "row",
-		columnGap: 8,
-	},
-	filterFooterContainer: {
-		paddingVertical: 8,
-		paddingHorizontal: 16,
-	},
 });

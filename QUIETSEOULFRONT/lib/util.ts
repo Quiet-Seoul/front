@@ -161,15 +161,6 @@ export const isSignUpDataValid = (data: SignUpValidationData) => {
 		checkGender = true;
 	}
 
-	console.log(
-		checkUsername,
-		checkPassword,
-		checkPhone,
-		checkName,
-		checkBirth,
-		checkGender
-	);
-
 	return (
 		checkUsername &&
 		checkPassword &&

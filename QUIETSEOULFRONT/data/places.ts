@@ -30,10 +30,6 @@ export const fetchPlacesNearby = async (
 	lat: number,
 	lng: number
 ): Promise<PlacesNearbyData> => {
-	console.log(
-		process.env.EXPO_PUBLIC_API_URL + `/places/nearby?lat=${lat}&lng=${lng}`
-	);
-
 	const response = await fetch(
 		process.env.EXPO_PUBLIC_API_URL +
 			`/places/nearby?lat=${lat}&lng=${lng}`,
@@ -43,10 +39,6 @@ export const fetchPlacesNearby = async (
 				"Content-Type": "application/json",
 			},
 		}
-	);
-
-	console.log(
-		process.env.EXPO_PUBLIC_API_URL + `/places/nearby?lat=${lat}&lng=${lng}`
 	);
 
 	if (response.status !== 200) {

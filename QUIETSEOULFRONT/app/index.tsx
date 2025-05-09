@@ -15,7 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import SquareCarousel from "@/components/carousel/SquareCarousel";
 import * as Location from "expo-location";
 import * as SplashScreen from "expo-splash-screen";
-import * as Font from 'expo-font';
+import * as Font from "expo-font";
 import Header from "@/components/header/Header";
 import { fetchPlacesNearby } from "@/data/places";
 import { PlaceDetailData, PlacesNearbyData } from "@/types/places";
@@ -82,8 +82,6 @@ export default function Index() {
 					"Pretendard-Regular": require("../assets/fonts/Pretendard-Regular.otf"),
 					"Pretendard-Medium": require("../assets/fonts/Pretendard-Medium.otf"),
 				});
-
-				await new Promise((resolve) => setTimeout(resolve, 5000));
 
 				console.log("Fonts loaded successfully!");
 			} catch (e) {
@@ -228,29 +226,31 @@ export default function Index() {
 					/>
 					<View>
 						<SquareCarousel
-                          items={
-                            predictQuietList?.map((item) => {
-                              const fallback = "https://quietseoul-review-images.s3.ap-northeast-2.amazonaws.com/defaults/park.png"; // ✅ 실제 URL을 명시적으로
-                              const imageUrl =
-                                item.imageUrl && item.imageUrl.startsWith("http")
-                                  ? item.imageUrl
-                                  : fallback;
+							items={
+								predictQuietList?.map((item) => {
+									const fallback =
+										"https://quietseoul-review-images.s3.ap-northeast-2.amazonaws.com/defaults/park.png"; // ✅ 실제 URL을 명시적으로
+									const imageUrl =
+										item.imageUrl &&
+										item.imageUrl.startsWith("http")
+											? item.imageUrl
+											: fallback;
 
-                              const card: CarouselItem = {
-                                type: item.type,
-                                image: imageUrl,
-                                location: item.name,
-                                description:
-                                  item.type === "park"
-                                    ? "공원"
-                                    : item.type === "mainstreet"
-                                    ? "길거리"
-                                    : "기타",
-                              };
-                              return card;
-                            }) || []
-                          }
-                        />
+									const card: CarouselItem = {
+										type: item.type,
+										image: imageUrl,
+										location: item.name,
+										description:
+											item.type === "park"
+												? "공원"
+												: item.type === "mainstreet"
+												? "길거리"
+												: "기타",
+									};
+									return card;
+								}) || []
+							}
+						/>
 					</View>
 					<CardSList
 						titleComponent={

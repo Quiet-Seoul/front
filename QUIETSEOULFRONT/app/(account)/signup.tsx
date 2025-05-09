@@ -87,7 +87,6 @@ const Signup = (props: Props) => {
 				})
 				.catch((err) => {
 					alert("회원가입에 실패했습니다.");
-					console.log(err);
 				});
 		}
 	};

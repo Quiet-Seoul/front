@@ -105,12 +105,10 @@ const Review = (props: Props) => {
 
 		await sendPlaceReview(placeDetail.id, reviewForm, jwt.current)
 			.then((res) => {
-				console.log(res);
 				alert("성공적으로 리뷰를 등록했습니다!");
 				router.back();
 			})
 			.catch((err) => {
-				console.log(err);
 				alert("리뷰 등록에 실패했습니다.");
 			});
 	};

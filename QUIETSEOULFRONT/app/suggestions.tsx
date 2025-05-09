@@ -107,8 +107,6 @@ const Suggestions = () => {
 		getSuggesitonPlaces();
 	}, []);
 
-	console.log(suggestionPlaces);
-
 	return (
 		<>
 			<Stack.Screen

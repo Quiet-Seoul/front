@@ -24,6 +24,7 @@ export interface CardSuggestionItem {
 	id: string;
 	text: string;
 	image?: string;
+	category: string;
 	avgRate: number;
 	reviews: number;
 	isFromUser?: boolean;

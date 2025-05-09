@@ -50,17 +50,17 @@ const Reviews = (props: Props) => {
 	});
 	const [reviews, setReviews] = React.useState<Array<ReviewItem>>([]);
 
-// const fallbackImage = process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER;
+	// const fallbackImage = process.env.EXPO_PUBLIC_IMAGE_PLACEHOLDER;
 
-const fallbackImage =
-	"https://quietseoul-review-images.s3.ap-northeast-2.amazonaws.com/defaults/restaurant.png";
+	const fallbackImage =
+		"https://quietseoul-review-images.s3.ap-northeast-2.amazonaws.com/defaults/restaurant.png";
 
-const isValidImage = (url?: string) =>
-	url && url.trim().startsWith("http") && !url.includes("defauls");
+	const isValidImage = (url?: string) =>
+		url && url.trim().startsWith("http") && !url.includes("defauls");
 
-const imageSrc = isValidImage(placeDetail.imageUrl)
-	? placeDetail.imageUrl!.trim()
-	: fallbackImage;
+	const imageSrc = isValidImage(placeDetail.imageUrl)
+		? placeDetail.imageUrl!.trim()
+		: fallbackImage;
 
 	const placeName = placeDetail.name;
 	const placeType = placeDetail.category;
@@ -105,8 +105,6 @@ const imageSrc = isValidImage(placeDetail.imageUrl)
 		getPlaceReviews();
 	}, []);
 
-	console.log(placeDetail);
-
 	const renderItems: ListRenderItem<ReviewItem> = React.useCallback(
 		({ item }) => (
 			<View style={styles.reviewListRowContainer}>
@@ -130,12 +128,12 @@ const imageSrc = isValidImage(placeDetail.imageUrl)
 		<View style={styles.headerContainer}>
 			<View style={styles.infoContainer}>
 				<Image
-                  source={{ uri: imageSrc }}
-                  style={{ width: 54, height: 54 }}
-                  onError={(e) => {
-                    console.log("🔥 이미지 로드 실패", e.nativeEvent);
-                  }}
-                />
+					source={{ uri: imageSrc }}
+					style={{ width: 54, height: 54 }}
+					onError={(e) => {
+						console.log("🔥 이미지 로드 실패", e.nativeEvent);
+					}}
+				/>
 
 				<View style={styles.infoTextContainer}>
 					<View style={styles.infoTextBox}>

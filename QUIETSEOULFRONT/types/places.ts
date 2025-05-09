@@ -27,6 +27,7 @@ export interface Places {
 	lng: number;
 	avgRating: number;
 	reviewCount: number;
+	imageUrl?: string;
 }
 
 export interface CategoriesStatusData {

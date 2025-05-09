@@ -7,22 +7,22 @@ import "react-native-reanimated";
 import { StatusBar } from "expo-status-bar";
 
 export default function RootLayout() {
-  return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <StatusBar style="light" />
-      <BottomSheetModalProvider>
-        <Stack
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: Colors.main[700],
-              height: 40,
-            },
-            contentStyle: {
-              backgroundColor: Colors.white,
-            },
-          }}
-        />
-      </BottomSheetModalProvider>
-    </GestureHandlerRootView>
-  );
+	return (
+		<GestureHandlerRootView style={{ flex: 1 }}>
+			<StatusBar style="light" />
+			<BottomSheetModalProvider>
+				<Stack
+					screenOptions={{
+						headerStyle: {
+							backgroundColor: Colors.main[700],
+						},
+						contentStyle: {
+							backgroundColor: Colors.white,
+							// height: 40,
+						},
+					}}
+				/>
+			</BottomSheetModalProvider>
+		</GestureHandlerRootView>
+	);
 }

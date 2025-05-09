@@ -40,7 +40,6 @@ export const sendPlaceReview = async (
 	);
 
 	if (response.status !== 200) {
-		console.log(response);
 		throw new Error("Failed to fetch data");
 	}
 

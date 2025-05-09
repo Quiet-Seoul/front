@@ -99,8 +99,6 @@ const Predict = () => {
 								frontColor: statusColor[elem.congestionLevel],
 							};
 
-							console.log(chartData);
-
 							return chartData;
 						})}
 						// width={Dimensions.get("window").width}
