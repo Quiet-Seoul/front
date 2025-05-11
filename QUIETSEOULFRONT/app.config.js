@@ -2,7 +2,7 @@ export default () => ({
   expo: {
     name: "한적서울",
     slug: "QUIETSEOULFRONT",
-    version: "1.0.0",
+    version: "1.0.3",
     orientation: "portrait",
     scheme: "myapp",
     userInterfaceStyle: "automatic",
@@ -14,7 +14,7 @@ export default () => ({
       image: "./assets/images/quietseoullogo.png",
       imageWidth: 200,
       resizeMode: "contain",
-      backgroundColor: "#3b8d55",
+      backgroundColor: "#FFFFFF",
     },
 
     assetBundlePatterns: ["**/*"],

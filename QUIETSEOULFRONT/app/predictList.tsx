@@ -57,9 +57,9 @@ const PredictList = () => {
 			<View style={styles.container}>
 				<View style={styles.titleContainer}>
 					<View style={styles.titleAlign}>
-						<Heading2 color={Colors.gray[900]}>사용자</Heading2>
-						<Heading2 color={Colors.main[700]}> 제보 </Heading2>
-						<Heading2 color={Colors.gray[900]}>기반 추천</Heading2>
+						<Heading2 color={Colors.gray[900]}> 가장 </Heading2>
+						<Heading2 color={Colors.main[700]}> 한적할 </Heading2>
+						<Heading2 color={Colors.gray[900]}>장소 추천</Heading2>
 					</View>
 				</View>
 				<FlatList
