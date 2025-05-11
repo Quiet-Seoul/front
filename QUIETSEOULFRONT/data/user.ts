@@ -15,7 +15,6 @@ export const fetchCreateUser = async (data: SignUpData) => {
 	if (!response.ok) {
 		// 백엔드 응답 본문을 로그로 출력
 		const errorResponse = await response.json().catch(() => null);
-		console.error("❌ 회원가입 실패 응답:", errorResponse);
 		throw new Error(errorResponse?.message || "회원가입 실패");
 	}
 
