@@ -108,7 +108,7 @@ const Signup = (props: Props) => {
 			/>
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 				<KeyboardAwareScrollView
-					contentContainerStyle={styles.contentcontainer}
+					contentContainerStyle={[styles.contentcontainer, { paddingBottom: 150 }]}
 				>
 					<View style={styles.titleContainer}>
 						<Heading1 color={Colors.main[700]}>회원가입</Heading1>
