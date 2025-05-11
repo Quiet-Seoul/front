@@ -28,7 +28,7 @@ export default () => ({
       package: "com.gunyange.QUIETSEOULFRONT",
       adaptiveIcon: {
         foregroundImage: "./assets/images/quietseoullogo.png",
-        backgroundColor: "#3b8d55",
+        backgroundColor: "#FFFFFF",
       },
     },
 
@@ -44,7 +44,7 @@ export default () => ({
       [
         "expo-splash-screen",
         {
-          backgroundColor: "#3b8d55",
+          backgroundColor: "#FFFFFF",
           image: "./assets/images/quietseoullogo.png",
           imageResizeMode: "contain",
           imageWidth: 200,
