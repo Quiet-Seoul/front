@@ -206,12 +206,13 @@ export default Signup;
 
 const styles = StyleSheet.create({
 	contentcontainer: {
-		height: "100%",
-		paddingTop: 32,
-		display: "flex",
-		flexDirection: "column",
-		rowGap: 24,
-		alignItems: "center",
+        flexGrow: 1,
+        paddingTop: 32,
+        paddingBottom: 150,
+        display: "flex",
+        flexDirection: "column",
+        rowGap: 24,
+        alignItems: "center",
 	},
 	titleContainer: {
 		display: "flex",
